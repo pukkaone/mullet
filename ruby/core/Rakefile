@@ -1,0 +1,122 @@
+require 'rake/clean'
+require 'rake/testtask'
+require 'rubygems'
+require 'rubygems/package_task'
+require 'yard'
+require 'yard/rake/yardoc_task'
+
+# module name as it appears in module statement
+MODULE_NAME = 'Mullet'
+
+# module path as it appears in require statement
+MODULE_PATH = MODULE_NAME.downcase()
+
+task :default => :test
+
+# Define a task named :test to run tests.
+Rake::TestTask.new do |t|
+  t.pattern = 'test/**/*_test.rb'
+end
+
+desc 'Get version'
+task :version do
+  tag = `git describe`
+  if tag !~ /^\d/
+    tag = '0.0.0'
+  end
+
+  VERSION = tag
+  puts "Version #{VERSION}"
+end
+
+desc 'Generate files based on configuration'
+task :configure => :version do
+  # Generate version.rb file.
+  rakefile_dir = File.dirname(__FILE__)
+  version_file = File.expand_path("lib/#{MODULE_PATH}/version.rb", rakefile_dir)
+  File.open(version_file, 'w') do |file|
+    file.write <<EOF
+module #{MODULE_NAME}
+  VERSION = '#{VERSION}'
+end
+EOF
+  end
+end
+
+# This builds the actual gem. For details of what all these options
+# mean, and other ones you can add, check the documentation here:
+#
+#   http://rubygems.org/read/chapter/20
+#
+task :gem_spec => :version do
+  spec = Gem::Specification.new do |s|
+    s.name              = MODULE_PATH
+    s.version           = VERSION
+    s.summary           = 'Logic-less HTML template engine'
+    s.description       = <<EOF
+It's like mustache but in HTML syntax.
+
+  * Extremely simple variable syntax is incapable of expressing logic in the
+    templates.
+  * Templates are clean HTML.  Your HTML authoring tool and browser will
+    correctly display the templates while you prototype your user interface.
+EOF
+    s.authors           = ['Chin Huang']
+    s.email             = 'pukkaone@gmail.com'
+    s.homepage          = "http://pukkaone.github.com/#{MODULE_PATH}/"
+
+    # Code commented for YARD instead.
+    s.has_rdoc          = false
+
+    s.files             = Dir.glob('{lib}/**/*')
+    s.require_paths     = ['lib']
+
+    s.required_ruby_version = '>= 1.9'
+
+    # If you want to depend on other gems, add them here, along with any
+    # relevant versions
+    s.add_runtime_dependency('nokogiri', '>= 1.5.0')
+
+    # If your tests use any gems, include them here
+    # s.add_development_dependency("mocha") # for example
+    s.add_development_dependency('yard')
+
+    # Silence WARNING: no rubyforge_project specified.  Someone registered an
+    # empty placeholder project on RubyForge with this name.
+    s.rubyforge_project = 'nowarning'
+  end
+
+  # Define a task named :package to generate the gem.
+  Gem::PackageTask.new(spec) do |p|
+    p.gem_spec = spec
+  end
+
+  Rake::Task[:package].invoke()
+end
+
+# This task actually builds the gem. We also regenerate a static
+# .gemspec file, which is useful if something (i.e. GitHub) will
+# be automatically building a gem for this project. If you're not
+# using GitHub, edit as appropriate.
+#
+# To publish your gem online, install the 'gemcutter' gem; Read more 
+# about that here: http://gemcutter.org/pages/gem_docs
+desc 'Generate gem'
+task :dist => [:configure, :gem_spec]
+
+# If you don't want to generate the .gemspec file, just remove this line.
+# Reasons why you might want to generate a gemspec:
+#  - using bundler with a git source
+#  - building the gem without rake (i.e. gem build blah.gemspec)
+#  - maybe others?
+#task :package => :gemspec
+
+# Generate documentation
+YARD::Rake::YardocTask.new do |t|
+  t.options = ['--markup', 'markdown']
+end
+
+# The :clobber_package task doesn't exist until the :gem_spec task executes.
+task :clobber_package => :gem_spec
+
+task :clobber => :clobber_package

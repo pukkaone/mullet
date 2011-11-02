@@ -1,0 +1,131 @@
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:oxm="http://www.springframework.org/schema/oxm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/oxm
+        http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+
+  <description>
+    DispatcherServlet application context for PetClinic's web tier.
+  </description>
+
+	<!--
+		- The controllers are autodetected POJOs labeled with the @Controller annotation.
+	-->
+	<context:component-scan base-package="org.springframework.samples.petclinic.web"/>
+
+  <!--
+    - Shortcut creates DefaultAnnotationHandlerMapping and
+    - AnnotationMethodHandlerAdapter.
+  -->
+  <mvc:annotation-driven/>
+
+  <!--
+    - Serves static resources.
+  -->
+  <mvc:resources mapping="/static/**" location="/static/"/>
+
+	<!--
+		- The form-based controllers within this application provide @RequestMapping 
+		- annotations at the type level for path mapping URLs and @RequestMapping 
+		- at the method level for request type mappings (e.g., GET and POST). 
+		- In contrast, ClinicController - which is not form-based - provides 
+		- @RequestMapping only at the method level for path mapping URLs.
+		-
+		- DefaultAnnotationHandlerMapping is driven by these annotations and is 
+		- enabled by default with Java 5+.
+	-->
+	
+	<!--
+		- Configures binding for the entire application.
+  -->
+	<bean class="org.springframework.samples.petclinic.util.AnnotationMethodHandlerAdapterConfigurer">
+		<property name="webBindingInitializer">
+			<bean class="org.springframework.samples.petclinic.web.ClinicBindingInitializer"/>
+		</property>
+	</bean>
+
+	<!--
+		- This bean resolves specific types of exceptions to corresponding logical 
+		- view names for error views. The default behaviour of DispatcherServlet 
+		- is to propagate all exceptions to the servlet container: this will happen 
+		- here with all other types of exceptions.
+	-->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.web.servlet.PageNotFound">pageNotFound</prop>
+				<prop key="org.springframework.dao.DataAccessException">dataAccessFailure</prop>
+				<prop key="org.springframework.transaction.TransactionException">dataAccessFailure</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!--
+		- This view resolver delegates to the InternalResourceViewResolver and BeanNameViewResolver,
+		- and uses the requested media type to pick a matching view. When the media type is 'text/html',
+		- it will delegate to the InternalResourceViewResolver's JstlView, otherwise to the
+		- BeanNameViewResolver. Note the use of the expression language to refer to the contentType
+		- property of the vets view bean, setting it to 'application/vnd.springsource.samples.petclinic+xml'.
+	-->
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="0"/>
+		<property name="mediaTypes">
+			<map>
+				<entry key="xml" value="#{vets.contentType}"/>
+				<entry key="atom" value="#{visits.contentType}"/>
+			</map>
+		</property>
+	</bean>
+	
+	<!--
+		- The BeanNameViewResolver is used to pick up the visits view name (below).
+	 -->
+  <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    <property name="order" value="1"/>
+  </bean>
+
+	<!--
+		- View that renders a template with layout.
+	-->
+  <bean class="com.github.pukkaone.mullet.spring.TemplateLayoutViewResolver">
+    <property name="order" value="2"/>
+    <property name="templateLoaderPath" value="/views"/>
+    <property name="suffix" value=".html"/>
+  </bean>
+
+	<!--
+		- The AtomView rendering a Atom feed of the visits
+	 -->
+	<bean id="visits" class="org.springframework.samples.petclinic.web.VisitsAtomView"/>
+
+	<bean id="vets" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<property name="contentType" value="application/vnd.springsource.samples.petclinic+xml"/>
+		<property name="marshaller" ref="marshaller"/>
+	</bean>
+
+	<oxm:jaxb2-marshaller id="marshaller">
+		<oxm:class-to-be-bound name="org.springframework.samples.petclinic.Vets"/>
+	</oxm:jaxb2-marshaller>
+
+	<!--
+		- Message source for this context, loaded from localized "messages_xx" files.
+		- Could also reside in the root application context, as it is generic,
+		- but is currently just used within PetClinic's web tier.
+	-->
+  <bean
+      id="messageSource"
+      class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basename" value="messages"/>
+  </bean>
+
+</beans>

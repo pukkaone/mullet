@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/htmlparser.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jcl-over-slf4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.springframework.beans.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.springframework.context.jar" sourcepath="/Users/cthuang/spring-framework-3.0.6.RELEASE/src/org.springframework.context-sources-3.0.6.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.springframework.core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.springframework.web.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.springframework.web.servlet.jar" sourcepath="/Users/cthuang/spring-framework-3.0.6.RELEASE/src/org.springframework.web.servlet-sources-3.0.6.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

@@ -1,0 +1,51 @@
+<body xmlns:v="http://pukkaone.github.com/mullet/1">
+  <form v:for="pet" v:action="saveUrl" method="POST">
+    <input name="id" v:value="id" type="hidden">
+    <h2><span v:if="new">New </span>Pet</h2>
+
+    <p v:for="owner">
+      <b>Owner:</b> <span v:text="firstName"></span> <span v:text="lastName"></span>
+    </p>
+
+  <table>
+    <tr>
+      <th>
+        Name: <form:errors path="name" cssClass="errors"/>
+        <br/>
+        <form:input path="name" size="30" maxlength="30"/>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        Birth Date: <form:errors path="birthDate" cssClass="errors"/>
+        <br/>
+        <form:input path="birthDate" size="10" maxlength="10"/> (yyyy-mm-dd)
+      </th>
+    </tr>
+    <tr>
+      <th>
+        Type: <form:errors path="type" cssClass="errors"/>
+        <br/>
+        <form:select path="type" items="${types}"/>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <c:choose>
+          <c:when test="${pet.new}">
+            <p class="submit"><input type="submit" value="Add Pet"/></p>
+          </c:when>
+          <c:otherwise>
+            <p class="submit"><input type="submit" value="Update Pet"/></p>
+          </c:otherwise>
+        </c:choose>
+      </td>
+    </tr>
+  </table>
+</form>
+
+  <form v:unless="new"  method="DELETE">
+    <p class="submit"><input type="submit" value="Delete Pet"/></p>
+  </form>
+
+</body>

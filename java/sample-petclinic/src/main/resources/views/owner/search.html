@@ -1,0 +1,21 @@
+<body xmlns:v="http://pukkaone.github.com/mullet/1">
+  <h2>Find Owners:</h2>
+
+  <form action="owner/list" method="GET">
+    <table>
+      <tr>
+        <th>
+          Last Name: <span v:for="allErrors" v:text="this" class="errors"></span>
+          <br> 
+          <input name="lastName" size="30" maxlength="80">
+        </th>
+      </tr>
+      <tr>
+        <td><p class="submit"><input type="submit" value="Find Owners"/></p></td>
+      </tr>
+    </table>
+  </form>
+
+  <br>
+  <a href="owner/new">Add Owner</a>
+</body>

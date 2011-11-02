@@ -1,0 +1,13 @@
+<configuration>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <layout>
+      <pattern>%d %-5p %c{40} %m%n</pattern>
+    </layout>
+  </appender>
+
+  <root level="DEBUG">
+    <appender-ref ref="CONSOLE" />
+  </root>
+  
+</configuration>

@@ -1,0 +1,47 @@
+<body xmlns:v="http://pukkaone.github.com/mullet/1">
+  <form v:for="owner" v:action="editUrl" method="POST">
+    <h2><span v:if="new">New <span>Owner:</h2>
+    <table>
+      <tr>
+        <th>
+          First Name: <span v:for="firstNameErrors" class="errors"></span>
+          <br>
+          <input name="firstName" v:value="firstName" type="text" size="30" maxlength="80">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Last Name: <span v:for="lastNameErrors" class="errors"></span>
+          <br>
+          <input name="lastName" v:value="lastName" type="text" size="30" maxlength="80">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Address: <span v:for="addressErrors" class="errors"></span>
+          <br>
+          <input name="address" v:value="address" type="text" size="30" maxlength="80">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          City: <span v:for="cityErrors" class="errors"></span>
+          <br>
+          <input name="city" v:value="city" type="text" size="30" maxlength="80">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Telephone: <span v:for="telephoneErrors" class="errors"></span>
+          <br>
+          <input name="telephone" v:value="telephone" type="text" size="20" maxlength="20">
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <p class="submit"><input type="submit" value="Save"></p>
+        </td>
+      </tr>
+    </table>
+  </form>
+</body>
