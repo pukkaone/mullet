@@ -39,10 +39,22 @@ Will render the output:
 
 ## Java build instructions
 
+
 ### Prerequisites
 
   * JDK 1.5 or better
   * Ant
+
+
+### Building
+
+Starting in the top distribution directory (where this README.md file is
+located), run the commands:
+
+    cd java/core
+    ant
+
+That created a JAR file in the `java/core/target` directory.
 
 
 ## Ruby build instructions
@@ -51,3 +63,12 @@ Will render the output:
 
   * Ruby 1.9 or better
   * YARD
+
+
+### Building
+
+Starting in the top distribution directory (where this README.md file is
+located), run the commands:
+
+    cd ruby/core
+    rake

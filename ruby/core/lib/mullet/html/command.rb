@@ -1,4 +1,4 @@
-module Mullet
+module Mullet; module HTML
 
   # Recognized template commands
   module Command
@@ -26,4 +26,4 @@ module Mullet
     VALUE_MESSAGE = 'value-message'
   end
 
-end
+end; end

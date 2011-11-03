@@ -1,5 +1,3 @@
-require 'cgi'
-
 module Mullet; module HTML
 
   # Maps attribute names to values.  Also renders attributes to HTML.
@@ -11,12 +9,13 @@ module Mullet; module HTML
 
     # Renders attributes to HTML syntax.
     #
-    # @param [@<<] output
-    #           where to write rendered output
-    def render(output)
+    # @return rendered HTML
+    def render()
+      output = ''
       each do |key, value|
         output << ' ' << key << '="' << escape_quote(value) << '"'
       end
+      return output
     end
   end
 

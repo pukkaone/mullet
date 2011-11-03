@@ -235,7 +235,7 @@ class TemplateBuilder extends DefaultHandler2 {
                 attributes, ordinaryAttributes, commandAttributes);
 
         Element element = new Element(
-                namespaceUri, localName, qualifiedName, ordinaryAttributes);
+                localName, qualifiedName, ordinaryAttributes);
         openElements.addFirst(element);
 
         if (foundCommand) {

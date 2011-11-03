@@ -38,7 +38,6 @@ class Element {
     boolean hasCommand;
 
     Element(
-            String namespaceUri,
             String localName,
             String qualifiedName,
             Attributes attributes)
