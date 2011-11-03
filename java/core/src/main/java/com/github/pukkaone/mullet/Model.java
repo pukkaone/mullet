@@ -25,21 +25,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.github.pukkaone.mullet;
 
 /**
- * Interface for resolving variable names to values. 
+ * Interface for resolving variable names to values.
  */
 public interface Model {
 
     /** special value indicating variable name was not found */
     static final Object NOT_FOUND = new Object();
-    
+
     /**
      * Resolves variable name to value.
-     * 
+     *
      * @param name
      *            Variable name to find. Must be an {@link String#intern
      *            interned String} to allow comparisions using the {@code ==}
      *            operator.
      * @return value
      */
-    Object getValue(String name);
+    Object getVariableValue(String name);
 }

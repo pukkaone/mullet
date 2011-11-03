@@ -50,7 +50,7 @@ class IfElementRenderer extends CommandElementRenderer {
      * @return {@code true} if element should be rendered.
      */
     protected boolean shouldRenderElement(RenderContext renderContext) {
-        Object value = renderContext.getValue(key);
+        Object value = renderContext.getVariableValue(key);
         if (value == Model.NOT_FOUND || value == null) {
             return false;
         }

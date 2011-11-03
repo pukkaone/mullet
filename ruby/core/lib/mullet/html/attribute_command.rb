@@ -1,6 +1,8 @@
-module Mullet
+module Mullet; module HTML
 
-  # Operation to set attribute value.
+  # Operation to set attribute value.  Classes including this module are
+  # expected to respond to the get_value method returning the attribute value
+  # to set.
   module AttributeCommand
 
     # Constructor
@@ -11,7 +13,7 @@ module Mullet
       @attribute_name = attribute_name
     end
 
-    # Sets attribute in the _attributecommand.
+    # Sets attribute in the _attributes_ collection.
     #
     # @param [RenderContext] render_context
     #           render context
@@ -29,4 +31,4 @@ module Mullet
     end
   end
 
-end
+end; end

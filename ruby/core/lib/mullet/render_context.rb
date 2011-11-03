@@ -1,26 +1,29 @@
+require 'cgi'
+require 'mullet/default_nested_model'
+
 module Mullet
 
   # Holds the rendering context to reduce the number of parameters passed to
   # render methods.
   class RenderContext
-    attr_accessor :escapeXmlEnabled
+    attr_accessor :escape_xml_enabled
 
     # Constructor.
     #
-    # @param [Model] model
+    # @param [Object] data
     #           provides data to render
     # @param [Proc] missingValueStrategy
     #           executed on attempt to render a variable that was not found 
     # @param [Proc] nilValueStrategy
     #           executed on attempt to render nil value
     # @param [#<<] output
-    #           where rendered output will be written
-    def initialize(model, missingValueStrategy, nilValueStrategy, output)
-      @model = model
+    #           IO stream where rendered output will be written
+    def initialize(data, missingValueStrategy, nilValueStrategy, output)
+      @model = data.is_a?(Model) ? data : DefaultNestedModel.new(data)
       @missingValueStrategy = missingValueStrategy
       @nilValueStrategy = nilValueStrategy
       @output = output
-      @escapeXmlEnabled = true
+      @escape_xml_enabled = true
     end
 
     # Escapes characters that could be interpreted as XML markup if enabled.
@@ -29,7 +32,7 @@ module Mullet
     #           input string
     # @return escaped string, or the input string if escaping is disabled.
     def escape_xml(key)
-      return @escapeXmlEnabled ? CGI.escape_html(input) : input
+      return @escape_xml_enabled ? CGI.escape_html(input) : input
     end
 
     # Resolves variable name to value.
@@ -59,6 +62,7 @@ module Mullet
     #
     # @param [Symbol] key
     #           variable name
+    # @return value
     def get_display_value(key)
       value = @model.fetch(key)
       if value == Model::NOT_FOUND

@@ -51,7 +51,7 @@ class ForElementRenderer extends CommandElementRenderer {
 
     @Override
     public void render(RenderContext renderContext) {
-        Object value = renderContext.getValue(key);
+        Object value = renderContext.getVariableValue(key);
         if (value == Model.NOT_FOUND || value == null) {
             return;
         }

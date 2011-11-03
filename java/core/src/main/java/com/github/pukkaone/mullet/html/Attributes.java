@@ -24,7 +24,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.html;
 
-import com.github.pukkaone.mullet.EscapeXml;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -34,20 +33,15 @@ import java.util.Map.Entry;
 class Attributes extends LinkedHashMap<String, String> {
     private static final long serialVersionUID = 1L;
 
-    Attributes() {
-    }
-
-    Attributes(Attributes from) {
-        for (Entry<String, String> entry : from.entrySet()) {
-            put(entry.getKey(), entry.getValue());
-        }
+    private String escapeQuote(String value) {
+        return (value.indexOf('"') < 0) ? value : value.replaceAll("\"", "&#034;");
     }
 
     void render(StringBuilder tag) {
         for (Entry<String, String> entry : entrySet()) {
             tag.append(' ').append(entry.getKey()).append('=')
                     .append('"')
-                    .append(EscapeXml.escape(entry.getValue()))
+                    .append(escapeQuote(entry.getValue()))
                     .append('"');
         }
     }

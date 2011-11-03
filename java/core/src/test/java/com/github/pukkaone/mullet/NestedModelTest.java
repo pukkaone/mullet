@@ -34,12 +34,12 @@ public class NestedModelTest {
     private static final String A_NAME = "a";
     private static final String A_VALUE_PARENT = "a-parent";
     private static final String A_VALUE_CHILD = "a-child";
-    
+
     private static final String B_NAME = "b";
     private static final String B_VALUE_PARENT = "b-parent";
-    
+
     private DefaultNestedModel model;
-    
+
     @Before
     @SuppressWarnings("unused")
     public void setUp() {
@@ -47,26 +47,26 @@ public class NestedModelTest {
             String a = A_VALUE_PARENT;
             String b = B_VALUE_PARENT;
         };
-        
+
         Object child = new Object() {
             String a = A_VALUE_CHILD;
         };
-        
-        model = new DefaultNestedModel(parent, child); 
+
+        model = new DefaultNestedModel(parent, child);
     }
-    
+
     @Test
     public void should_find_in_child() throws Exception {
-        assertEquals(A_VALUE_CHILD, model.getValue(A_NAME));
+        assertEquals(A_VALUE_CHILD, model.getVariableValue(A_NAME));
     }
-    
+
     @Test
     public void should_find_in_parent() throws Exception {
-        assertEquals(B_VALUE_PARENT, model.getValue(B_NAME));
+        assertEquals(B_VALUE_PARENT, model.getVariableValue(B_NAME));
     }
-    
+
     @Test
     public void should_return_not_found() throws Exception {
-        assertEquals(Model.NOT_FOUND, model.getValue("c"));
+        assertEquals(Model.NOT_FOUND, model.getVariableValue("c"));
     }
 }

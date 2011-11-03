@@ -34,6 +34,19 @@ import org.junit.Test;
 public class AttributeTest extends TemplateTests {
 
     @Test
+    public void should_escape_quote_in_attribute_value() throws Exception {
+        Template template = loader.load("attribute-quote.html");
+        template.render(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>\n" +
+                "  <p lang=\"&#034;&\"></p>\n" +
+                "  <p lang=\"'&\"></p>\n" +
+                "</body>\n";
+        assertEquals(EXPECTED_OUTPUT, writer.toString());
+    }
+
+    @Test
     public void default_prefix_attribute_command_should_set_attribute()
         throws Exception
     {

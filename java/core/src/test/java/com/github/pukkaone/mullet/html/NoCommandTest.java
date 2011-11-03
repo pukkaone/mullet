@@ -94,7 +94,7 @@ public class NoCommandTest extends TemplateTests {
     @Test
     public void comments_in_template_should_render() throws Exception {
         setModelValue("greeting", "Hello");
-        
+
         Template template = loader.load("comment.html");
         template.render(data, writer);
 
@@ -109,7 +109,7 @@ public class NoCommandTest extends TemplateTests {
             "<!-- d -->\n";
         assertEquals(EXPECTED_OUTPUT, writer.toString());
     }
-    
+
     @Test
     public void processing_instructions_in_template_should_render()
         throws Exception
@@ -130,7 +130,7 @@ public class NoCommandTest extends TemplateTests {
                 "<?php d ?>\n";
         assertEquals(EXPECTED_OUTPUT, writer.toString());
     }
-    
+
     @Test
     public void cdata_section_in_template_should_render() throws Exception {
         Template template = loader.load("cdata.html");

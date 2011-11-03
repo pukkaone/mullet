@@ -59,7 +59,7 @@ class ElementRenderer extends Container implements Renderer {
             String attributeName, String variableName)
     {
         attributeCommands.add(
-                new AttributeModelCommand(attributeName, variableName));
+                new ModelAttributeCommand(attributeName, variableName));
     }
 
     private void addAttributeCommands(String attributeAndVariablePairs) {
@@ -142,7 +142,7 @@ class ElementRenderer extends Container implements Renderer {
     private void addAttributeMessageCommand(String attributeName,
             String messageArguments) {
         attributeCommands.add(
-                new AttributeMessageCommand(
+                new MessageAttributeCommand(
                         attributeName, new Message(messageArguments)));
     }
 
@@ -257,7 +257,7 @@ class ElementRenderer extends Container implements Renderer {
 
         // Copy the original attributes.  The commands modify the copy to
         // produce the attributes to render.
-        Attributes renderAttributes = new Attributes(element.attributes);
+        Attributes renderAttributes = (Attributes) element.attributes.clone();
         for (AttributeCommand command : attributeCommands) {
             command.execute(renderContext, renderAttributes);
         }

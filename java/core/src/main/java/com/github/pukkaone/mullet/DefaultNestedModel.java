@@ -34,10 +34,10 @@ public class DefaultNestedModel implements NestedModel {
 
     // nested scopes in inner to outer order
     private LinkedList<Model> scopes = new LinkedList<Model>();
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param dataObjects
      *            scopes in outer to inner order
      */
@@ -46,10 +46,10 @@ public class DefaultNestedModel implements NestedModel {
             pushScope(data);
         }
     }
-    
-    public Object getValue(String key) {
+
+    public Object getVariableValue(String key) {
         for (Model scope : scopes) {
-            Object value = scope.getValue(key);
+            Object value = scope.getVariableValue(key);
             if (value != NOT_FOUND) {
                 return value;
             }

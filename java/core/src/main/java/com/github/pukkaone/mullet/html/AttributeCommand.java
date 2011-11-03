@@ -32,7 +32,8 @@ import com.github.pukkaone.mullet.RenderContext;
  */
 abstract class AttributeCommand {
 
-    protected String attributeName;
+    /** name of attribute this command sets */
+    private String attributeName;
 
     protected AttributeCommand(String attributeName) {
         this.attributeName = attributeName;
@@ -47,14 +48,22 @@ abstract class AttributeCommand {
      */
     protected abstract Object getValue(RenderContext renderContext);
 
+    /**
+     * Sets attribute in given attributes collection.
+     *
+     * @param renderContext
+     *            render content
+     * @param attributes
+     *            attributes to update
+     */
     void execute(RenderContext renderContext, Attributes attributes) {
         Object value = getValue(renderContext);
         if (value == Model.NOT_FOUND || value == null) {
             // Value not found.  Do not render the attribute.
             attributes.remove(attributeName);
         } else {
-            String sValue = renderContext.escapeXml(value.toString());
-            attributes.put(attributeName, sValue);
+            String escapedValue = renderContext.escapeXml(value.toString());
+            attributes.put(attributeName, escapedValue);
         }
     }
 }

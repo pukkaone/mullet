@@ -29,17 +29,17 @@ import com.github.pukkaone.mullet.RenderContext;
 /**
  * Operation to set attribute value from model.
  */
-class AttributeModelCommand extends AttributeCommand {
-    
-    private String key;
+class ModelAttributeCommand extends AttributeCommand {
 
-    AttributeModelCommand(String attributeName, String key) {
+    private String variableName;
+
+    ModelAttributeCommand(String attributeName, String variableName) {
         super(attributeName);
-        this.key = key.intern();
+        this.variableName = variableName.intern();
     }
-    
+
     @Override
     protected Object getValue(RenderContext renderContext) {
-        return renderContext.getValue(key);
+        return renderContext.getVariableValue(variableName);
     }
 }

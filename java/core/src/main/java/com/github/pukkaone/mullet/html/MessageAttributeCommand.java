@@ -29,11 +29,11 @@ import com.github.pukkaone.mullet.RenderContext;
 /**
  * Operation to set attribute value from resource.
  */
-class AttributeMessageCommand extends AttributeCommand {
+class MessageAttributeCommand extends AttributeCommand {
 
     private Message message;
     
-    AttributeMessageCommand(String attributeName, Message message) {
+    MessageAttributeCommand(String attributeName, Message message) {
         super(attributeName);
         this.message = message;
     }

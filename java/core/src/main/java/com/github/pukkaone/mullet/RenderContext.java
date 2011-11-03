@@ -45,7 +45,7 @@ public class RenderContext {
             Object data,
             ResourceBundle messages,
             FailedValueStrategy missingValueStrategy,
-            FailedValueStrategy nullValueStrategy, 
+            FailedValueStrategy nullValueStrategy,
             Writer writer)
     {
         this.model = (data instanceof NestedModel)
@@ -56,7 +56,7 @@ public class RenderContext {
         this.nullValueStrategy = nullValueStrategy;
         this.writer = writer;
     }
-    
+
     public boolean isEscapeXmlEnabled() {
         return escapeXmlEnabled;
     }
@@ -67,7 +67,7 @@ public class RenderContext {
 
     /**
      * Escapes characters that could be interpreted as XML markup if enabled.
-     * 
+     *
      * @param input
      *            input string
      * @return escaped string, or the input string if escaping is disabled.
@@ -75,57 +75,57 @@ public class RenderContext {
     public String escapeXml(String input) {
         return escapeXmlEnabled ? EscapeXml.escape(input) : input;
     }
-    
+
     /**
      * Resolves variable name to value.
-     * 
+     *
      * @param key
      *            variable name
      * @return value
      */
-    public Object getValue(String key) {
-        return model.getValue(key);
+    public Object getVariableValue(String key) {
+        return model.getVariableValue(key);
     }
 
     /**
      * Adds a nested scope to search in subsequent lookups.
-     * 
+     *
      * @param data
      *            data object
      */
     public void pushScope(Object data) {
         model.pushScope(data);
     }
-    
+
     /**
      * Removes innermost nested scope.
      */
     public void popScope() {
         model.popScope();
     }
-    
+
     /**
      * Gets model value that is intended for display in the rendered output.
      * Applies configured strategies for handling missing and null values.
-     * 
-     * @param modelKey
+     *
+     * @param variableName
      *            variable name
      * @return value
      */
-    public Object getDisplayValue(String modelKey) {
-        Object value = model.getValue(modelKey);
+    public Object getDisplayValue(String variableName) {
+        Object value = model.getVariableValue(variableName);
         if (value == Model.NOT_FOUND) {
-            value = missingValueStrategy.getValue(modelKey);
+            value = missingValueStrategy.getValue(variableName);
         }
         if (value == null) {
-            value = nullValueStrategy.getValue(modelKey);
+            value = nullValueStrategy.getValue(variableName);
         }
         return value;
     }
-    
+
     /**
      * Gets message pattern from resource bundle.
-     * 
+     *
      * @param messageKey
      *            message key
      * @return message pattern
@@ -138,10 +138,10 @@ public class RenderContext {
         }
         return messages.getString(messageKey);
     }
-    
+
     /**
      * Writes rendered output.
-     * 
+     *
      * @param str
      *            string to write
      * @return this object
@@ -152,7 +152,7 @@ public class RenderContext {
         } catch (IOException e) {
             throw new RuntimeException("append", e);
         }
-        
+
         return this;
     }
 }

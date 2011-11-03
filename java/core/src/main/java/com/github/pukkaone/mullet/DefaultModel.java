@@ -235,7 +235,7 @@ public class DefaultModel implements Model {
         }
     }
 
-    public Object getValue(String name) {
+    public Object getVariableValue(String name) {
         Object value = getValueImpl(name);
         if (value instanceof Callable<?>) {
             try {
