@@ -54,7 +54,7 @@ task :gem_spec => :version do
     s.version           = VERSION
     s.summary           = 'Logic-less HTML template engine'
     s.description       = <<EOF
-It's like mustache but in HTML syntax.
+It's like Mustache but you write the commands in HTML attributes.
 
   * Extremely simple variable syntax is incapable of expressing logic in the
     templates.
@@ -79,9 +79,9 @@ EOF
 
     # If your tests use any gems, include them here
     # s.add_development_dependency("mocha") # for example
-    s.add_development_dependency('yard')
+    s.add_development_dependency('yard', '>= 0.7.3')
 
-    # Silence WARNING: no rubyforge_project specified.  Someone registered an
+    # Silence 'WARNING: no rubyforge_project specified'.  Someone registered an
     # empty placeholder project on RubyForge with this name.
     s.rubyforge_project = 'nowarning'
   end

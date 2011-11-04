@@ -41,12 +41,23 @@ class ElementRenderer extends Container implements Renderer {
     private static final char ATTRIBUTE_NAME_SEPARATOR = '=';
     private static final String ATTRIBUTE_SYNTAX_ERROR =
             "expected '%s' in '%s'";
+    private static final String ATTRIBUTE_NAME_MISSING_ERROR =
+            "attribute name missing in '%s'";
+    private static final String[] CONVENIENT_ATTRIBUTE_COMMANDS =
+            new String[] {
+                Command.ACTION,
+                Command.ALT,
+                Command.HREF,
+                Command.SRC,
+                Command.TITLE,
+                Command.VALUE,
+            };
 
     private Element element;
     private ArrayList<AttributeCommand> attributeCommands =
             new ArrayList<AttributeCommand>();
     RemoveMode removeMode;
-    private String textKey;
+    private String textVariableName;
     private Message textMessage;
     private Template template;
     private Boolean escapeXml;
@@ -78,12 +89,14 @@ class ElementRenderer extends Container implements Renderer {
 
             String attributeName = commandText.substring(0, iColon).trim();
             if (attributeName.length() == 0) {
-                continue;
+                throw new TemplateException(String.format(
+                        ATTRIBUTE_NAME_MISSING_ERROR, commandText));
             }
 
             String variableName = commandText.substring(iColon + 1).trim();
             if (variableName.length() == 0) {
-                continue;
+                throw new TemplateException(String.format(
+                        "variable name missing in '%s'", commandText));
             }
 
             addAttributeCommand(attributeName, variableName);
@@ -91,24 +104,16 @@ class ElementRenderer extends Container implements Renderer {
     }
 
     private void configureAttributeCommands(Attributes commandAttributes) {
-        String value = commandAttributes.get(Command.ACTION);
-        if (value != null) {
-            addAttributeCommand(Command.ACTION, value);
-        }
-
-        value = commandAttributes.get(Command.ALT);
-        if (value != null) {
-            addAttributeCommand(Command.ALT, value);
-        }
-
-        value = commandAttributes.get(Command.ATTR);
+        String value = commandAttributes.get(Command.ATTR);
         if (value != null) {
             addAttributeCommands(value);
         }
 
-        value = commandAttributes.get(Command.HREF);
-        if (value != null) {
-            addAttributeCommand(Command.HREF, value);
+        for (String attributeName : CONVENIENT_ATTRIBUTE_COMMANDS) {
+            value = commandAttributes.get(attributeName);
+            if (value != null) {
+                addAttributeCommand(attributeName, value);
+            }
         }
 
         value = commandAttributes.get(Command.REMOVE);
@@ -121,21 +126,6 @@ class ElementRenderer extends Container implements Renderer {
                         String.format("invalid remove argument '%s'", value),
                         e);
             }
-        }
-
-        value = commandAttributes.get(Command.SRC);
-        if (value != null) {
-            addAttributeCommand(Command.SRC, value);
-        }
-
-        value = commandAttributes.get(Command.TITLE);
-        if (value != null) {
-            addAttributeCommand(Command.TITLE, value);
-        }
-
-        value = commandAttributes.get(Command.VALUE);
-        if (value != null) {
-            addAttributeCommand(Command.VALUE, value);
         }
     }
 
@@ -162,10 +152,15 @@ class ElementRenderer extends Container implements Renderer {
 
             String attributeName = commandText.substring(0, iColon).trim();
             if (attributeName.length() == 0) {
-                continue;
+                throw new TemplateException(String.format(
+                        ATTRIBUTE_NAME_MISSING_ERROR, commandText));
             }
 
-            String messageArguments = commandText.substring(iColon + 1);
+            String messageArguments = commandText.substring(iColon + 1).trim();
+            if (messageArguments.length() == 0) {
+                throw new TemplateException(String.format(
+                        "message arguments missing in '%s'", commandText));
+            }
 
             addAttributeMessageCommand(attributeName, messageArguments);
         }
@@ -196,9 +191,9 @@ class ElementRenderer extends Container implements Renderer {
     private void configureContent(
             Attributes commandAttributes, TemplateLoader loader)
     {
-        textKey = commandAttributes.get(Command.TEXT);
-        if (textKey != null) {
-            textKey = textKey.intern();
+        textVariableName = commandAttributes.get(Command.TEXT);
+        if (textVariableName != null) {
+            textVariableName = textVariableName.intern();
             return;
         }
 
@@ -245,7 +240,7 @@ class ElementRenderer extends Container implements Renderer {
      * Checks if the element content will be rendered by a command.
      */
     boolean hasDynamicContent() {
-        return textKey != null
+        return textVariableName != null
             || textMessage != null
             || template != null;
     }
@@ -287,8 +282,8 @@ class ElementRenderer extends Container implements Renderer {
 
     private void renderContent(RenderContext renderContext) {
         if (shouldRenderContent()) {
-            if (textKey != null) {
-                Object value = renderContext.getDisplayValue(textKey);
+            if (textVariableName != null) {
+                Object value = renderContext.getDisplayValue(textVariableName);
                 String text = renderContext.escapeXml(value.toString());
                 renderContext.write(text);
             } else if (textMessage != null) {
@@ -305,7 +300,7 @@ class ElementRenderer extends Container implements Renderer {
 
     public void render(RenderContext renderContext) {
         // Process the command to change the escaping mode.
-        boolean originalEscapeXml = renderContext.isEscapeXmlEnabled();
+        boolean originalEscapeXmlEnabled = renderContext.isEscapeXmlEnabled();
         if (escapeXml != null) {
             renderContext.setEscapeXmlEnabled(escapeXml);
         }
@@ -316,7 +311,7 @@ class ElementRenderer extends Container implements Renderer {
 
         // Restore the original escaping mode.
         if (escapeXml != null) {
-            renderContext.setEscapeXmlEnabled(originalEscapeXml);
+            renderContext.setEscapeXmlEnabled(originalEscapeXmlEnabled);
         }
     }
 }

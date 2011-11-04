@@ -12,16 +12,16 @@ module Mullet
     #
     # @param [Object] data
     #           provides data to render
-    # @param [Proc] missingValueStrategy
+    # @param [Proc] missing_value_strategy
     #           executed on attempt to render a variable that was not found 
-    # @param [Proc] nilValueStrategy
+    # @param [Proc] nil_value_strategy
     #           executed on attempt to render nil value
     # @param [#<<] output
-    #           IO stream where rendered output will be written
-    def initialize(data, missingValueStrategy, nilValueStrategy, output)
+    #           where to write rendered output
+    def initialize(data, missing_value_strategy, nil_value_strategy, output)
       @model = data.is_a?(Model) ? data : DefaultNestedModel.new(data)
-      @missingValueStrategy = missingValueStrategy
-      @nilValueStrategy = nilValueStrategy
+      @missing_value_strategy = missing_value_strategy
+      @nil_value_strategy = nil_value_strategy
       @output = output
       @escape_xml_enabled = true
     end
@@ -66,10 +66,10 @@ module Mullet
     def get_display_value(key)
       value = @model.fetch(key)
       if value == Model::NOT_FOUND
-        value = @missingValueStrategy.call(key)
+        value = @missing_value_strategy.call(key)
       end
       if value == nil
-        value = @nilValueStrategy.call(key)
+        value = @nil_value_strategy.call(key)
       end
       return value
     end

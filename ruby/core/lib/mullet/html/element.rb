@@ -3,7 +3,14 @@ module Mullet; module HTML
   # HTML element
   class Element
 
+    # attributes from template
     attr_reader :attributes
+
+    # true if element has any child element or text content
+    attr_accessor :has_content
+
+    # true if element has any template command
+    attr_accessor :has_command
 
     # Constructor
     #
@@ -16,6 +23,8 @@ module Mullet; module HTML
     def initialize(local_name, qualified_name, attributes)
       @name = qualified_name.empty?() ? local_name : qualified_name
       @attributes = attributes
+      @has_content = false
+      @has_command = false
     end
 
     # Renders start tag

@@ -15,15 +15,15 @@ class NestedModelTest < MiniTest::Unit::TestCase
     @model = Mullet::DefaultNestedModel.new(parent, child)
   end
 
-  def test_should_find_variable_in_child()
+  def test_find_variable_in_child()
     assert_equal A_VALUE_CHILD, @model.fetch(A_NAME)
   end
 
-  def test_should_find_variable_in_parent()
+  def test_find_variable_in_parent()
     assert_equal B_VALUE_PARENT, @model.fetch(B_NAME)
   end
 
-  def test_should_not_find_variable()
+  def test_return_not_found_when_variable_not_found()
     assert_equal Mullet::Model::NOT_FOUND, @model.fetch(:c)
   end
 end
