@@ -28,7 +28,8 @@ package com.github.pukkaone.mullet.html;
  * Recognized template commands
  */
 interface Command {
-    static final String PREFIX = "mullet:";
+    static final String DATA_PREFIX = "data-";
+    static final String NAMESPACE_PREFIX = "mullet:";
     static final String NAMESPACE_URI = "http://pukkaone.github.com/mullet/1";
 
     static final String ACTION = "action";

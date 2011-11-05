@@ -98,8 +98,15 @@ class TemplateBuilder extends DefaultHandler2 {
         for (int i = 0; i < inputAttributes.getLength(); ++i) {
             String value = inputAttributes.getValue(i);
 
-            if (Command.NAMESPACE_URI.equals(inputAttributes.getURI(i))
-             || inputAttributes.getQName(i).startsWith(Command.PREFIX))
+            if (inputAttributes.getQName(i).startsWith(Command.DATA_PREFIX)) {
+                String commandName = inputAttributes.getQName(i).substring(
+                        Command.DATA_PREFIX.length());
+                if (COMMANDS.contains(commandName)) {
+                    commandAttributes.put(commandName, value);
+                    foundCommand = true;
+                }
+            } else if (Command.NAMESPACE_URI.equals(inputAttributes.getURI(i))
+             || inputAttributes.getQName(i).startsWith(Command.NAMESPACE_PREFIX))
             {
                 String commandName = inputAttributes.getLocalName(i);
                 if (!COMMANDS.contains(commandName)) {

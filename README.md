@@ -10,9 +10,9 @@
 
 Given the template:
 
-    <ul xmlns:v="http://pukkaone.github.com/mullet/1">
-      <li v:for="repos">
-        <a v:href="url" v:text="description"></a>
+    <ul>
+      <li data-for="repos">
+        <a data-href="url" data-text="description"></a>
       </li>
     </ul>
 

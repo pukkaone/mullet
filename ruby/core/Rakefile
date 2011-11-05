@@ -79,6 +79,7 @@ EOF
 
     # If your tests use any gems, include them here
     # s.add_development_dependency("mocha") # for example
+    s.add_development_dependency('redcarpet', '>= 1.17.2')
     s.add_development_dependency('yard', '>= 0.7.3')
 
     # Silence 'WARNING: no rubyforge_project specified'.  Someone registered an
@@ -113,7 +114,7 @@ task :dist => [:configure, :gem_spec]
 
 # Generate documentation
 YARD::Rake::YardocTask.new do |t|
-  t.options = ['--markup', 'markdown']
+  t.options = ['--markup', 'markdown', '--markup-provider', 'redcarpet']
 end
 
 # The :clobber_package task doesn't exist until the :gem_spec task executes.

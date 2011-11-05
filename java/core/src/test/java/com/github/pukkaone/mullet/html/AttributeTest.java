@@ -47,6 +47,22 @@ public class AttributeTest extends TemplateTests {
     }
 
     @Test
+    public void namespace_prefix_attribute_command_should_set_attribute()
+        throws Exception
+    {
+        setModelValue("languageCode", "add");
+
+        Template template = loader.load("namespace-prefix-attribute.html");
+        template.render(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>" +
+                  "<p lang=\"add\"></p>" +
+                "</body>";
+        assertEquals(EXPECTED_OUTPUT, body());
+    }
+
+    @Test
     public void default_prefix_attribute_command_should_set_attribute()
         throws Exception
     {
@@ -57,8 +73,7 @@ public class AttributeTest extends TemplateTests {
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
-                  "<p lang=\"add\">" +
-                  "</p>" +
+                  "<p lang=\"add\"></p>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
     }

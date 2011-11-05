@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:v="http://pukkaone.github.com/mullet/1">
+<html>
   <head>
-    <title v:text-message="login.title">Login</title>
+    <title data-text-message="login.title">Login</title>
   </head>
   <body>
-    <h1 v:text-message="login.title">Login</h1>
-    <form method="POST" v:attr="action:loginUrl">
-      <label v:text-message="login.user">User</label>
-      <input name="user" type="text" v:attr="value:user"/>
+    <h1 data-text-message="login.title">Login</h1>
+    <form method="POST" data-attr="action:loginUrl">
+      <label data-text-message="login.user">User</label>
+      <input name="user" type="text" data-attr="value:user"/>
       <br/>
-      <label v:text-message="login.password">Password</label>
+      <label data-text-message="login.password">Password</label>
       <input name="password" type="password"/>
       <br/>
-      <input type="submit" value="Login" v:attr-message="value:login.submit"/>
+      <input type="submit" value="Login" data-attr-message="value:login.submit"/>
     </form>
   </body>
 </html>
