@@ -6,9 +6,9 @@ title: "logic-less HTML templates"
 
 Given the template:
 
-    <ul xmlns:v="http://pukkaone.github.com/mullet/1">
-      <li v:for="repos">
-        <a v:href="url" v:text="description"></a>
+    <ul>
+      <li data-for="repos">
+        <a data-href="url" data-text="description"></a>
       </li>
     </ul>
 
@@ -35,14 +35,14 @@ Will render the output:
 
 ## Credits
 
-* Inspired by
-  [ctemplate](http://code.google.com/p/google-ctemplate/),
-  [mustache](http://mustache.github.com/),
-  [Wicket](http://wicket.apache.org/),
-  [Cambridge](http://code.google.com/p/cambridge/) and
-  [Thymeleaf](http://www.thymeleaf.org/).
-* The Java code to parse templates uses the
-  [Validator.nu HTML Parser](http://about.validator.nu/htmlparser/)
-  patched to report CDATA sections.
-* The Java code to resolve variable values comes from
-  [JMustache](https://github.com/samskivert/jmustache).
+  * Inspired by
+    [ctemplate](http://code.google.com/p/google-ctemplate/),
+    [mustache](http://mustache.github.com/),
+    [Wicket](http://wicket.apache.org/),
+    [Cambridge](http://code.google.com/p/cambridge/) and
+    [Thymeleaf](http://www.thymeleaf.org/).
+  * The Java code to parse templates uses the
+    [Validator.nu HTML Parser](http://about.validator.nu/htmlparser/)
+    patched to report CDATA sections.
+  * The Java code to resolve variable values comes from
+    [JMustache](https://github.com/samskivert/jmustache).
