@@ -30,25 +30,25 @@ import org.xml.sax.ext.DefaultHandler2;
 
 /**
  * This is a proxy for a SAX event handler that forwards events only while the
- * parser is within an element identified by an {@code id} attribute. 
+ * parser is within an element identified by an {@code id} attribute.
  */
 class FilteredElementHandler extends DefaultHandler2 {
 
     private static final String ID = "id";
-    
+
     private DefaultHandler2 handler;
     private String id;
     private int depth;
-    
+
     FilteredElementHandler(DefaultHandler2 handler, String id) {
         this.handler = handler;
         this.id = id;
     }
-    
+
     private boolean shouldForward() {
         return depth > 0;
     }
-    
+
     @Override
     public void startDocument() throws SAXException {
         handler.startDocument();
@@ -58,7 +58,7 @@ class FilteredElementHandler extends DefaultHandler2 {
     public void endDocument() throws SAXException {
         handler.endDocument();
     }
-    
+
     @Override
     public void startElement(
             String namespaceUri,
@@ -73,14 +73,14 @@ class FilteredElementHandler extends DefaultHandler2 {
                     namespaceUri, localName, qualifiedName, attributes);
             return;
         }
-        
+
         String value = attributes.getValue(ID);
         if (id.equals(value)) {
             // Enable event forwarding.
             depth = 1;
         }
     }
-    
+
     @Override
     public void endElement(
             String namespaceUri, String localName, String qualifiedName)
@@ -92,7 +92,7 @@ class FilteredElementHandler extends DefaultHandler2 {
             }
         }
     }
-    
+
     @Override
     public void characters(char[] ch, int start, int length)
         throws SAXException
@@ -101,7 +101,7 @@ class FilteredElementHandler extends DefaultHandler2 {
             handler.characters(ch, start, length);
         }
     }
-    
+
     @Override
     public void ignorableWhitespace(char[] ch, int start, int length)
         throws SAXException
@@ -110,7 +110,21 @@ class FilteredElementHandler extends DefaultHandler2 {
             handler.ignorableWhitespace(ch, start, length);
         }
     }
-    
+
+    @Override
+    public void startCDATA() throws SAXException {
+        if (shouldForward()) {
+            handler.startCDATA();
+        }
+    }
+
+    @Override
+    public void endCDATA() throws SAXException {
+        if (shouldForward()) {
+            handler.endCDATA();
+        }
+    }
+
     @Override
     public void comment(char[] ch, int start, int length)
         throws SAXException
@@ -119,7 +133,7 @@ class FilteredElementHandler extends DefaultHandler2 {
             handler.comment(ch, start, length);
         }
     }
-    
+
     @Override
     public void processingInstruction(String target, String data)
         throws SAXException

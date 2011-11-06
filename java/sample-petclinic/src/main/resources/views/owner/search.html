@@ -1,11 +1,11 @@
-<body xmlns:v="http://pukkaone.github.com/mullet/1">
+<body>
   <h2>Find Owners:</h2>
 
   <form action="owner/list" method="GET">
     <table>
       <tr>
         <th>
-          Last Name: <span v:for="allErrors" v:text="this" class="errors"></span>
+          Last Name: <span data-for="allErrors" data-text="this" class="errors"></span>
           <br> 
           <input name="lastName" size="30" maxlength="80">
         </th>

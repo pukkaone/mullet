@@ -22,27 +22,27 @@ module Mullet
       @data = data
     end
 
-    def fetch_impl(key)
-      if key == :this
+    def fetch_impl(name)
+      if name == :this
         return @data
       end
 
       # Is the variable name a key in a Hash?
       if @data.respond_to?(:fetch)
         # Call the block if the key is not found.
-        return @data.fetch(key) {|k| @data.fetch(k.to_s(), NOT_FOUND) }
+        return @data.fetch(name) {|k| @data.fetch(k.to_s(), NOT_FOUND) }
       end
 
       # Does the variable name match a method name in the object?
-      if @data.respond_to?(key)
-        method = @data.method(key)
+      if @data.respond_to?(name)
+        method = @data.method(name)
         if method.arity == 0
           return method.call()
         end
       end
 
       # Does the variable name match an instance variable name in the object?
-      variable = :"@#{key}"
+      variable = :"@#{name}"
       if @data.instance_variable_defined?(variable)
         return @data.instance_variable_get(variable)
       end
@@ -52,11 +52,11 @@ module Mullet
 
     # Resolves variable name to value.
     # 
-    # @param [Symbol] key
+    # @param [Symbol] name
     #           variable name
     # @return variable value
-    def fetch(key)
-      value = fetch_impl(key)
+    def get_variable_value(name)
+      value = fetch_impl(name)
       if value.is_a?(Proc)
         value = value.call()
       end

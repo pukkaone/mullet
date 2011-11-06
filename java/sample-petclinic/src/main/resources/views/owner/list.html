@@ -1,4 +1,4 @@
-<body xmlns:v="http://pukkaone.github.com/mullet/1">
+<body>
   <h2>Owners:</h2>
 
   <table>
@@ -9,16 +9,16 @@
       <th>Telephone</th>
       <th>Pets</th>
     </thead>
-    <tr v:for="selections">
+    <tr data-for="selections">
       <td>
-        <a v:href="showUrl"><span v:text="firstName"></span> <span v:text="lastName"></span></a>
+        <a data-href="showUrl"><span data-text="firstName"></span> <span data-text="lastName"></span></a>
       </td>
-      <td v:text="address"></td>
-      <td v:text="city"></td>
-      <td v:text="telephone"></td>
+      <td data-text="address"></td>
+      <td data-text="city"></td>
+      <td data-text="telephone"></td>
       <td>
-        <span v:for="pets">
-          <span v:text="name"></span>&nbsp;
+        <span data-for="pets">
+          <span data-text="name"></span>&nbsp;
         </span>
       </td>
     </tr>

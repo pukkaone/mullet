@@ -37,11 +37,11 @@ module Mullet
 
     # Resolves variable name to value.
     #
-    # @param [Symbol] key
+    # @param [Symbol] name
     #           variable name
     # @return value
-    def fetch(key)
-      return @model.fetch(key)
+    def fetch(name)
+      return @model.fetch(name)
     end
 
     # Adds a nested scope to search in subsequent lookups.

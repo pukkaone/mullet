@@ -1,54 +1,54 @@
-<body xmlns:v="http://pukkaone.github.com/mullet/1">
-  <div v:for="owner">
+<body>
+  <div data-for="owner">
     <h2>Owner Information</h2>
     <table>
       <tr>
         <th>Name</th>
-        <td><span v:text="firstName"></span> <span v:text="lastName"></span></td>
+        <td><span data-text="firstName"></span> <span data-text="lastName"></span></td>
       </tr>
       <tr>
         <th>Address</th>
-        <td v:text="address"></td>
+        <td data-text="address"></td>
       </tr>
       <tr>
         <th>City</th>
-        <td v:text="city"></td>
+        <td data-text="city"></td>
       </tr>
       <tr>
         <th>Telephone</th>
-        <td v:text="telephone"></td>
+        <td data-text="telephone"></td>
       </tr>
     </table>
 
     <table class="table-buttons">
       <tr>
         <td colspan="2" align="center">
-          <a v:href="editUrl">Edit Owner</a>
+          <a data-href="editUrl">Edit Owner</a>
         </td>
         <td>
-          <a v:href="addPetUrl">Add New Pet</a>
+          <a data-href="addPetUrl">Add New Pet</a>
         </td>
       </tr>
     </table>
 
     <h2>Pets and Visits</h2>
 
-    <div v:for="pets">
+    <div data-for="pets">
       <table width="100%">
         <tr>
           <td valign="top">
             <table>
               <tr>
                 <th>Name</th>
-                <td v:text="name"></td>
+                <td data-text="name"></td>
               </tr>
               <tr>
                 <th>Birth Date</th>
-                <td v:text-message="date,birthDate"></td>
+                <td data-text-message="date,birthDate"></td>
               </tr>
               <tr>
                 <th>Type</th>
-                <td v:text="type"></td>
+                <td data-text="type"></td>
               </tr>
             </table>
           </td>
@@ -58,11 +58,11 @@
                 <th>Visit Date</th>
                 <th>Description</th>
               </thead>
-              <tr v:for="visits">
-                <td v:text-message="date,date"></td>
-                <td v:text="description"></td>
+              <tr data-for="visits">
+                <td data-text-message="date,date"></td>
+                <td data-text="description"></td>
               </tr>
-              <tr v:unless="visits">
+              <tr data-unless="visits">
                 <td colspan="2">No visits</td>
               </tr>
             </table>
@@ -97,7 +97,7 @@
         </tr>
       </table>
     </div>
-    <div v:unless="pets">
+    <div data-unless="pets">
       No pets
     </div>
   

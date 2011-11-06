@@ -1,10 +1,10 @@
-<body xmlns:v="http://pukkaone.github.com/mullet/1">
-  <form v:for="pet" v:action="saveUrl" method="POST">
-    <input name="id" v:value="id" type="hidden">
-    <h2><span v:if="new">New </span>Pet</h2>
+<body>
+  <form data-for="pet" data-action="saveUrl" method="POST">
+    <input name="id" data-value="id" type="hidden">
+    <h2><span data-if="new">New </span>Pet</h2>
 
-    <p v:for="owner">
-      <b>Owner:</b> <span v:text="firstName"></span> <span v:text="lastName"></span>
+    <p data-for="owner">
+      <b>Owner:</b> <span data-text="firstName"></span> <span data-text="lastName"></span>
     </p>
 
   <table>
@@ -44,7 +44,7 @@
   </table>
 </form>
 
-  <form v:unless="new"  method="DELETE">
+  <form data-unless="new"  method="DELETE">
     <p class="submit"><input type="submit" value="Delete Pet"/></p>
   </form>
 

@@ -34,11 +34,11 @@ import java.util.Iterator;
  */
 class ForElementRenderer extends CommandElementRenderer {
 
-    private String key;
+    private String variableName;
 
-    ForElementRenderer(Element element, String key) {
+    ForElementRenderer(Element element, String variableName) {
         super(element);
-        this.key = key.intern();
+        this.variableName = variableName.intern();
     }
 
     private void renderNestedModel(
@@ -51,15 +51,13 @@ class ForElementRenderer extends CommandElementRenderer {
 
     @Override
     public void render(RenderContext renderContext) {
-        Object value = renderContext.getVariableValue(key);
+        Object value = renderContext.getVariableValue(variableName);
         if (value == Model.NOT_FOUND || value == null) {
             return;
         }
 
-        if (value instanceof Boolean) {
-            if (!(Boolean) value) {
-                return;
-            }
+        if ((value instanceof Boolean) && !(Boolean) value) {
+            return;
         }
 
         if (value instanceof Iterable<?>) {

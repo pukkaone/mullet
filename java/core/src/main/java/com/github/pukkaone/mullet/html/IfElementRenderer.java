@@ -30,15 +30,15 @@ import java.lang.reflect.Array;
 import java.util.Iterator;
 
 /**
- * Renders an element if conditon is true.
+ * Renders an element if variable is true.
  */
 class IfElementRenderer extends CommandElementRenderer {
 
-    private String key;
+    private String variableName;
 
-    IfElementRenderer(Element element, String key) {
+    IfElementRenderer(Element element, String variableName) {
         super(element);
-        this.key = key.intern();
+        this.variableName = variableName.intern();
     }
 
     /**
@@ -50,7 +50,7 @@ class IfElementRenderer extends CommandElementRenderer {
      * @return {@code true} if element should be rendered.
      */
     protected boolean shouldRenderElement(RenderContext renderContext) {
-        Object value = renderContext.getVariableValue(key);
+        Object value = renderContext.getVariableValue(variableName);
         if (value == Model.NOT_FOUND || value == null) {
             return false;
         }

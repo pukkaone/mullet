@@ -18,18 +18,18 @@ module Mullet
 
     # Resolves variable name to value.
     # 
-    # @param [Symbol] key
+    # @param [Symbol] name
     #           variable name
     # @return variable value
-    def fetch(key)
+    def get_variable_value(name)
       @scopes.reverse_each do |scope|
-        value = scope.fetch(key)
-        if value != Model::NOT_FOUND
+        value = scope.get_variable_value(name)
+        if value != NOT_FOUND
           return value
         end
       end
 
-      return Model::NOT_FOUND
+      return NOT_FOUND
     end
 
     # Adds a nested scope to search in subsequent lookups.
@@ -37,7 +37,8 @@ module Mullet
     # @param data
     #           data object
     def push_scope(data)
-      @scopes.push(data.is_a?(Model) ? data : DefaultModel.new(data))
+      @scopes.push(
+          data.respond_to?(:get_variable_value) ? data : DefaultModel.new(data))
     end
 
     # Removes innermost nested scope.

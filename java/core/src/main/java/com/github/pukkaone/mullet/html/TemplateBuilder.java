@@ -218,11 +218,7 @@ class TemplateBuilder extends DefaultHandler2 {
             renderer = new ElementRenderer(element);
         }
 
-        if (!(renderer instanceof IncludeElementRenderer)) {
-            // The include command replaces the entire element, so we don't have
-            // handle other commands in the element.
-            renderer.configureCommands(commandAttributes, loader);
-        }
+        renderer.configureCommands(commandAttributes, loader);
         return renderer;
     }
 

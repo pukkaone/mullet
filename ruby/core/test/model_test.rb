@@ -8,13 +8,13 @@ class ModelTest < MiniTest::Unit::TestCase
   def test_return_this_object()
     data = VARIABLE_VALUE
     model = Mullet::DefaultModel.new(data)
-    assert_equal VARIABLE_VALUE, model.fetch(:this)
+    assert_equal VARIABLE_VALUE, model.get_variable_value(:this)
   end
 
   def test_return_value_from_hash()
     data = { VARIABLE_NAME => VARIABLE_VALUE }
     model = Mullet::DefaultModel.new(data)
-    assert_equal VARIABLE_VALUE, model.fetch(VARIABLE_NAME)
+    assert_equal VARIABLE_VALUE, model.get_variable_value(VARIABLE_NAME)
   end
 
   Struct.new('Person', VARIABLE_NAME)
@@ -22,7 +22,7 @@ class ModelTest < MiniTest::Unit::TestCase
   def test_return_method_return_value()
     data = Struct::Person.new(VARIABLE_VALUE)
     model = Mullet::DefaultModel.new(data)
-    assert_equal VARIABLE_VALUE, model.fetch(VARIABLE_NAME)
+    assert_equal VARIABLE_VALUE, model.get_variable_value(VARIABLE_NAME)
   end
 
   class Person
@@ -34,13 +34,13 @@ class ModelTest < MiniTest::Unit::TestCase
   def test_return_instance_variable_value()
     data = Person.new(VARIABLE_VALUE)
     model = Mullet::DefaultModel.new(data)
-    assert_equal VARIABLE_VALUE, model.fetch(VARIABLE_NAME)
+    assert_equal VARIABLE_VALUE, model.get_variable_value(VARIABLE_NAME)
   end
 
   def test_return_proc_return_value()
     variable_proc = Proc.new { VARIABLE_VALUE }
     data = Person.new(variable_proc)
     model = Mullet::DefaultModel.new(data)
-    assert_equal VARIABLE_VALUE, model.fetch(VARIABLE_NAME)
+    assert_equal VARIABLE_VALUE, model.get_variable_value(VARIABLE_NAME)
   end
 end
