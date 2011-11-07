@@ -40,7 +40,7 @@ public class EscapeXmlTest extends TemplateTests {
         setModelValue("greeting", "<b>");
         
         Template template = loader.load("escape-xml.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>\n" +

@@ -40,8 +40,8 @@ module Mullet
     # @param [Symbol] name
     #           variable name
     # @return value
-    def fetch(name)
-      return @model.fetch(name)
+    def get_variable_value(name)
+      return @model.get_variable_value(name)
     end
 
     # Adds a nested scope to search in subsequent lookups.

@@ -38,7 +38,7 @@ public class RemoveTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("remove-element.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<ul>" +
@@ -55,7 +55,7 @@ public class RemoveTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("remove-tag.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -71,7 +71,7 @@ public class RemoveTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("remove-content.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +

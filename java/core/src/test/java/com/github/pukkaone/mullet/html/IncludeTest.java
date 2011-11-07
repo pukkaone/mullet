@@ -38,7 +38,7 @@ public class IncludeTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("include.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -52,7 +52,7 @@ public class IncludeTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("include-id.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -66,7 +66,7 @@ public class IncludeTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("include-remove-tag.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -80,7 +80,7 @@ public class IncludeTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("include-id-remove-tag.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +

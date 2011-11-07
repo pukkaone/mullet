@@ -36,7 +36,7 @@ public class AttributeTest extends TemplateTests {
     @Test
     public void should_escape_quote_in_attribute_value() throws Exception {
         Template template = loader.load("attribute-quote.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>\n" +
@@ -53,7 +53,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("languageCode", "add");
 
         Template template = loader.load("namespace-prefix-attribute.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -69,7 +69,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("languageCode", "add");
 
         Template template = loader.load("default-prefix-attribute.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -85,7 +85,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("languageCode", "add");
 
         Template template = loader.load("attribute-add.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -100,7 +100,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("languageCode", "replace");
 
         Template template = loader.load("attribute-replace.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -117,7 +117,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "replace");
 
         Template template = loader.load("attribute-multiple.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -132,7 +132,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "replace");
 
         Template template = loader.load("attribute-multiple.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -148,7 +148,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "replace");
 
         Template template = loader.load("attribute-multiple.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -163,7 +163,7 @@ public class AttributeTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("attribute-message.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -178,7 +178,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "add");
 
         Template template = loader.load("action.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -193,7 +193,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "add");
 
         Template template = loader.load("alt.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -205,7 +205,7 @@ public class AttributeTest extends TemplateTests {
     @Test
     public void alt_message_command_should_set_alt_attribute() throws Exception {
         Template template = loader.load("alt-message.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -220,7 +220,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "add");
 
         Template template = loader.load("href.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -234,7 +234,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "add");
 
         Template template = loader.load("src.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -248,7 +248,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "add");
 
         Template template = loader.load("title.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -263,7 +263,7 @@ public class AttributeTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("title-message.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -278,7 +278,7 @@ public class AttributeTest extends TemplateTests {
         setModelValue("greeting", "add");
 
         Template template = loader.load("value.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -292,7 +292,7 @@ public class AttributeTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("value-message.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +

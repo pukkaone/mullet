@@ -23,7 +23,7 @@ module Mullet; module HTML
     #           render context
     # @return attribute value
     def get_value(render_context)
-      return render_context.fetch(@variable_name)
+      return render_context.get_variable_value(@variable_name)
     end
   end
 

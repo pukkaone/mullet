@@ -40,7 +40,7 @@ public class TextTest extends TemplateTests {
         setModelValue("greeting", "Hello");
         
         Template template = loader.load("text.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -61,7 +61,7 @@ public class TextTest extends TemplateTests {
         });
         
         Template template = loader.load("text.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -75,7 +75,7 @@ public class TextTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("text-message.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +

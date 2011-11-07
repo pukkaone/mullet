@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'mullet/html/command'
+require 'mullet/template_error'
 require 'set'
 
 module Mullet; module HTML
@@ -8,32 +9,30 @@ module Mullet; module HTML
   class TemplateBuilder < Nokogiri::XML::SAX::Document
     include Command
 
-    XMLNS_ATTRIBUTE_PREFIX = "xmlns:"
-    COMMANDS = [
-        ATTRIBUTE,
-        ATTRIBUTE_MESSAGE,
-        CONTENT,
+    COMMANDS = Set[
+        ACTION,
+        ALT,
+        ALT_MESSAGE,
+        ATTR,
+        ATTR_MESSAGE,
         ESCAPE_XML,
         FOR,
+        HREF,
         IF,
         INCLUDE,
+        REMOVE,
+        SRC,
         TEXT,
         TEXT_MESSAGE,
-        UNLESS].to_set
-    START_CDATA = "<![CDATA["
-    END_CDATA = "]]>"
+        TITLE,
+        TITLE_MESSAGE,
+        UNLESS,
+        VALUE,
+        VALUE_MESSAGE]
+    START_CDATA = '<![CDATA['
+    END_CDATA = ']]>'
 
     @loader = nil
-
-    # This is a stack of elements where this handler has seen the start tag and
-    # not yet seen the end tag.
-    @openElements = []
-
-    # stack of current containers to add renderers to
-    @containers = []
-    
-    @staticText = ""
-    @template = nil
     
     # Constructor
     #
@@ -41,6 +40,16 @@ module Mullet; module HTML
     #           template loader to use to load included template files
     def initialize(loader)
       @loader = loader
+
+      # Stack of elements where this handler has seen the start tag and not yet
+      # seen the end tag.
+      @openElements = []
+
+      # stack of current containers to add renderers to
+      @containers = []
+    
+      @static_text = ''
+      @template = nil
     end
 
     # Adds renderer to current container.
@@ -48,7 +57,7 @@ module Mullet; module HTML
     # @param [#render] renderer
     #           renderer to add
     def add_child(renderer)
-      @containers.last.add_child(renderer)
+      @containers.last().add_child(renderer)
     end
 
     # Deletes renderer from current container.
@@ -56,7 +65,7 @@ module Mullet; module HTML
     # @param [#render] renderer
     #           renderer to delete
     def delete_child(renderer)
-      @containers.last.delete_child(renderer)
+      @containers.last().delete_child(renderer)
     end
 
     # Partitions the attributes into ordinary and command attributes.
@@ -65,35 +74,41 @@ module Mullet; module HTML
     #           input attributes
     # @param [Hash] ns
     #           hash of namespace prefix to uri mappings
-    # @param [#store] ordinaryAttributes
+    # @param [#store] ordinary_attributes
     #           hash will receive name to value mappings for ordinary attributes
-    # @param [#store] commandAttributes
+    # @param [#store] command_attributes
     #           hash will receive name to value mappings for command attributes
     # @return [Boolean] true if any command attribute found
-    def find_commands(attributes, ns, ordinaryAttributes, commandAttributes)
-      foundCommand = false
+    def find_commands(attributes, ns, ordinary_attributes, command_attributes)
+      found_command = false
       attributes.each do |attr|
-        if attr.uri == NAMESPACE_URI
-          commandName = attr.localname
-          if !COMMANDS.contains(commandName)
-            raise TemplateException("invalid command '#{commandName}'")
+        if attr.local_name().start_with(DATA_PREFIX)
+          command_name = attr.localname().substring(DATA_PREFIX.length())
+          if COMMANDS.include?(command_name)
+            command_attributes.store(command_name, attr.value)
+            found_command = true
           end
-          commandAttributes.store(commandName, attr.value)
-          foundCommand = true
+        elsif attr.uri == NAMESPACE_URI
+          command_name = attr.localname()
+          if !COMMANDS.include?(command_name)
+            raise TemplateError("invalid command '#{command_name}'")
+          end
+          command_attributes.store(command_name, attr.value)
+          found_command = true
         else
-          attributeName = [attr.prefix, attr.localname].compact.join(':')
-          ordinaryAttributes.store(attributeName, attr.value)
+          attribute_name = [attr.prefix, attr.localname].compact.join(':')
+          ordinary_attributes.store(attribute_name, attr.value)
         end
       end
 
       ns.each do |prefix, uri|
         if uri != NAMESPACE_URI
-          attributeName = ['xmlns', prefix].compact.join(':')
-          ordinaryAttributes.store(attributeName, uri)
+          attribute_name = ['xmlns', prefix].compact.join(':')
+          ordinary_attributes.store(attribute_name, uri)
         end
       end
 
-      return foundCommand
+      return found_command
     end
 
     def render_start_tag(name, attributes, prefix, uri, namespaceDecls)

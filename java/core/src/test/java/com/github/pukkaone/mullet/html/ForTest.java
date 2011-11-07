@@ -60,7 +60,7 @@ public class ForTest extends TemplateTests {
         setModelValue("name-is-not-posts", null);
 
         Template template = loader.load("for.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(EMPTY_LIST_OUTPUT, ul());
     }
@@ -70,7 +70,7 @@ public class ForTest extends TemplateTests {
         setModelValue("posts", null);
 
         Template template = loader.load("for.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(EMPTY_LIST_OUTPUT, ul());
     }
@@ -80,7 +80,7 @@ public class ForTest extends TemplateTests {
         setModelValue("posts", new int[0]);
 
         Template template = loader.load("for.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(EMPTY_LIST_OUTPUT, ul());
     }
@@ -90,7 +90,7 @@ public class ForTest extends TemplateTests {
         setModelValue("posts", Collections.EMPTY_LIST);
 
         Template template = loader.load("for.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(EMPTY_LIST_OUTPUT, ul());
     }
@@ -98,7 +98,7 @@ public class ForTest extends TemplateTests {
     @Test
     public void nonempty_array_should_render_elements() throws Exception {
         Template template = loader.load("for.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(NON_EMPTY_LIST_OUTPUT, ul());
     }
@@ -108,7 +108,7 @@ public class ForTest extends TemplateTests {
         setModelValue("posts", Arrays.asList(POSTS));
 
         Template template = loader.load("for.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(NON_EMPTY_LIST_OUTPUT, ul());
     }
@@ -118,7 +118,7 @@ public class ForTest extends TemplateTests {
         setModelValue("posts", POSTS[0]);
 
         Template template = loader.load("for.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<ul>" +
@@ -137,7 +137,7 @@ public class ForTest extends TemplateTests {
         setModelValue("colors", COLORS);
 
         Template template = loader.load("this.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<ul>" +
@@ -153,7 +153,7 @@ public class ForTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("for-remove-tag.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
             "<table>" +
@@ -172,7 +172,7 @@ public class ForTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("for-remove-content.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
             "<ul>" +

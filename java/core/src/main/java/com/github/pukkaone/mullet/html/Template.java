@@ -92,7 +92,7 @@ public class Template extends Container {
      * @param writer
      *            where rendered output will be written
      */
-    public void render(
+    public void execute(
             Object data, ResourceBundle messages, Writer writer)
     {
         if (messages == null) {
@@ -121,9 +121,9 @@ public class Template extends Container {
      * @param data
      *            provides data to render
      * @param writer
-     *            where rendered output will be written
+     *            where to write rendered output
      */
-    public void render(Object data, Writer writer) {
-        render(data, null, writer);
+    public void execute(Object data, Writer writer) {
+        execute(data, null, writer);
     }
 }

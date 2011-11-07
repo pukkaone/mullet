@@ -46,7 +46,7 @@ public class UnlessTest extends TemplateTests {
     @Test
     public void missing_value_should_render_element() throws Exception {
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(FALSE_OUTPUT, body());
     }
@@ -56,7 +56,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", null);
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(FALSE_OUTPUT, body());
     }
@@ -66,7 +66,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", false);
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(FALSE_OUTPUT, body());
     }
@@ -76,7 +76,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", new int[0]);
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(FALSE_OUTPUT, body());
     }
@@ -86,7 +86,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", Collections.EMPTY_LIST);
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(FALSE_OUTPUT, body());
     }
@@ -96,7 +96,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", true);
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(TRUE_OUTPUT, body());
     }
@@ -106,7 +106,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", new int[1]);
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(TRUE_OUTPUT, body());
     }
@@ -116,7 +116,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", Collections.singletonList(1));
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(TRUE_OUTPUT, body());
     }
@@ -126,7 +126,7 @@ public class UnlessTest extends TemplateTests {
         setModelValue("condition", "a");
         
         Template template = loader.load("unless.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         assertEquals(TRUE_OUTPUT, body());
     }

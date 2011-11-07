@@ -1,3 +1,5 @@
+require 'mullet/model'
+
 module Mullet; module HTML
 
   # Operation to set attribute value.  Classes including this module are

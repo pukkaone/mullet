@@ -30,38 +30,48 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+/**
+ * Holds the resource key and variable names that need to be resolved to format
+ * a localized message.
+ */
 class Message {
-    
+
     private static final String ARGUMENT_SEPARATOR = ",";
-    private static final String MESSAGE_SYNTAX_ERROR =
-            "message syntax is incorrect: ";
 
     private String messageKey;
     private ArrayList<String> argumentKeys;
-    
+
     Message(String messageArguments) {
         StringTokenizer iArgument = new StringTokenizer(
                 messageArguments, ARGUMENT_SEPARATOR);
-
         if (!iArgument.hasMoreTokens()) {
             throw new TemplateException(
-                    MESSAGE_SYNTAX_ERROR + messageArguments);
+                    "incorrect syntax in message " + messageArguments);
         }
-        messageKey = iArgument.nextToken().trim().intern();
-        
+
+        messageKey = iArgument.nextToken().trim();
+        if (messageKey.length() == 0) {
+            throw new TemplateException(
+                    "empty message key in message " + messageArguments);
+        }
+
         argumentKeys = new ArrayList<String>();
         while (iArgument.hasMoreTokens()) {
             String argumentKey = iArgument.nextToken().trim();
-            argumentKeys.add(argumentKey);
+            if (argumentKey.length() == 0) {
+                throw new TemplateException(
+                        "empty argument key in message " + messageArguments);
+            }
+            argumentKeys.add(argumentKey.intern());
         }
     }
-        
+
     String format(RenderContext renderContext) {
         String message = renderContext.getMessage(messageKey);
         if (argumentKeys.isEmpty()) {
             return message;
         }
-        
+
         Object[] arguments = new Object[argumentKeys.size()];
         int i = 0;
         for (String argumentKey : argumentKeys) {

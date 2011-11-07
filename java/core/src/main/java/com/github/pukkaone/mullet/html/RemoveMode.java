@@ -29,12 +29,12 @@ package com.github.pukkaone.mullet.html;
  */
 enum RemoveMode {
 
-    /** remove tag and children of element */
-    ELEMENT,
-
     /** remove tag, and preserve children of element */
     TAG,
 
     /** preserve tag, and remove children of element */
-    CONTENT;
+    CONTENT,
+
+    /** remove tag and children of element */
+    ELEMENT;
 }

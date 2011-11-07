@@ -99,19 +99,19 @@ public class TemplateView extends AbstractTemplateView {
         Template template = templateLoader.load(getUrl());
         if (layout == null) {
             // When there's no layout, render the page directly to the response.
-            template.render(model, messages, response.getWriter());
+            template.execute(model, messages, response.getWriter());
             return;
         }
 
         // Render template then extract data from rendered page.
         StringWriter pageHtml = new StringWriter();
-        template.render(model, messages, pageHtml);
+        template.execute(model, messages, pageHtml);
 
         Page page = parsePage(pageHtml.toString());
         page.baseURL = request.getContextPath() + "/";
         page.requestContextPath = request.getContextPath();
 
         // Render page data in a layout.
-        layout.render(page, messages, response.getWriter());
+        layout.execute(page, messages, response.getWriter());
     }
 }

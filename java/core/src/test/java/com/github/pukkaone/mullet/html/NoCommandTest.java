@@ -36,7 +36,7 @@ public class NoCommandTest extends TemplateTests {
     @Test
     public void no_command_should_render_template() throws Exception {
         Template template = loader.load("no-command.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
@@ -48,7 +48,7 @@ public class NoCommandTest extends TemplateTests {
     @Test
     public void implicit_end_tag_should_not_render() throws Exception {
         Template template = loader.load("implicit-end-tag.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>\n" +
@@ -63,7 +63,7 @@ public class NoCommandTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("empty-content-model.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>\n" +
@@ -80,7 +80,7 @@ public class NoCommandTest extends TemplateTests {
         throws Exception
     {
         Template template = loader.load("non-empty-content-model.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>\n" +
@@ -96,7 +96,7 @@ public class NoCommandTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("comment.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
             "<!-- a -->\n" +
@@ -117,7 +117,7 @@ public class NoCommandTest extends TemplateTests {
         setModelValue("greeting", "Hello");
 
         Template template = loader.load("processing-instruction.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<?php a ?>\n" +
@@ -134,7 +134,7 @@ public class NoCommandTest extends TemplateTests {
     @Test
     public void cdata_section_in_template_should_render() throws Exception {
         Template template = loader.load("cdata.html");
-        template.render(data, writer);
+        template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>\n" +
