@@ -93,7 +93,7 @@ public class NoCommandTest extends TemplateTests {
 
     @Test
     public void comments_in_template_should_render() throws Exception {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("comment.html");
         template.execute(data, writer);
@@ -114,7 +114,7 @@ public class NoCommandTest extends TemplateTests {
     public void processing_instructions_in_template_should_render()
         throws Exception
     {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("processing-instruction.html");
         template.execute(data, writer);

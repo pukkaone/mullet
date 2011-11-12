@@ -37,7 +37,7 @@ public class EscapeXmlTest extends TemplateTests {
     public void should_disable_then_enable_escaping() 
         throws Exception
     {
-        setModelValue("greeting", "<b>");
+        setVariable("greeting", "<b>");
         
         Template template = loader.load("escape-xml.html");
         template.execute(data, writer);

@@ -39,8 +39,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * By default, templates render an empty string when a variable is not found or
  * its value is null. Call the {@link #onMissing} and {@link #onNull} methods to
  * configure how templates loaded by this loader should handle missing and null
- * values. For convenience, {@link FailedValueStrategy} provides these actions
- * you can set.
+ * values respectively. For convenience, {@link FailedValueStrategy} provides
+ * these actions you can set:
  * <ul>
  * <li>{@link FailedValueStrategy#RETURN_NULL},
  * <li>{@link FailedValueStrategy#RETURN_EMPTY_STRING}, and
@@ -60,7 +60,7 @@ public class TemplateLoader {
 
     /**
      * Constructor.
-     * 
+     *
      * @param templatePath
      *            path to search for template files
      */
@@ -73,10 +73,10 @@ public class TemplateLoader {
         }
         this.templatePath = templatePath;
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param templatePath
      *            path to search for template files is set to the package
      *            directory of the class
@@ -84,10 +84,10 @@ public class TemplateLoader {
     public TemplateLoader(Class<?> templatePath) {
         this(templatePath.getPackage().getName().replace('.', '/'));
     }
-    
+
     /**
      * Sets action to perform when a variable name is not found.
-     * 
+     *
      * @param strategy
      *            action to perform
      * @return template loader
@@ -96,10 +96,10 @@ public class TemplateLoader {
         missingValueStrategy = strategy;
         return this;
     }
-    
+
     /**
      * Sets action to perform when a value is null.
-     * 
+     *
      * @param strategy
      *            action to perform
      * @return template loader
@@ -108,7 +108,7 @@ public class TemplateLoader {
         nullValueStrategy = strategy;
         return this;
     }
-    
+
     private String getCacheKey(String fileName, String id) {
         String cacheKey = templatePath + fileName;
         if (id != null) {
@@ -135,7 +135,7 @@ public class TemplateLoader {
         if (filePath.startsWith("/")) {
             filePath = filePath.substring(1);
         }
-        
+
         // Try to load default resource bundle.
         try {
             template.setMessages(ResourceBundle.getBundle(filePath));
@@ -145,15 +145,15 @@ public class TemplateLoader {
             // messages.
             // TODO: Log resource bundle was not found.
         }
-        
+
         template.onMissing(missingValueStrategy).onNull(nullValueStrategy);
         return template;
     }
-    
+
     /**
      * Gets the template from cache if it's already there, otherwise loads it
      * from the file and caches it.
-     * 
+     *
      * @param fileName
      *            file name
      * @param id
@@ -175,7 +175,7 @@ public class TemplateLoader {
 
     /**
      * Loads named template.
-     * 
+     *
      * @param uri
      *            file name optionally followed by {@code #}<i>id</i>
      * @return template
@@ -189,7 +189,7 @@ public class TemplateLoader {
             id = uri.substring(iHash + 1);
             uri = uri.substring(0, iHash);
         }
-        
+
         return load(uri, id);
     }
 }

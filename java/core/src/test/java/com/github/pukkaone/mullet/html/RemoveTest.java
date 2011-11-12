@@ -52,7 +52,7 @@ public class RemoveTest extends TemplateTests {
     public void remove_tag_should_remove_tag_and_preserve_content()
         throws Exception
     {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("remove-tag.html");
         template.execute(data, writer);
@@ -68,7 +68,7 @@ public class RemoveTest extends TemplateTests {
     public void remove_content_should_preserve_tag_and_remove_content()
         throws Exception
     {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("remove-content.html");
         template.execute(data, writer);

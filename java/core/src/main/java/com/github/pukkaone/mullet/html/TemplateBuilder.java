@@ -195,22 +195,22 @@ class TemplateBuilder extends DefaultHandler2 {
     {
         ElementRenderer renderer = null;
 
-        String value = commandAttributes.get(Command.IF);
-        if (value != null) {
-            renderer = new IfElementRenderer(element, value);
+        String variableName = commandAttributes.get(Command.IF);
+        if (variableName != null) {
+            renderer = new IfElementRenderer(element, variableName);
         }
 
         if (renderer == null) {
-            value = commandAttributes.get(Command.UNLESS);
-            if (value != null) {
-                renderer = new UnlessElementRenderer(element, value);
+            variableName = commandAttributes.get(Command.UNLESS);
+            if (variableName != null) {
+                renderer = new UnlessElementRenderer(element, variableName);
             }
         }
 
         if (renderer == null) {
-            value = commandAttributes.get(Command.FOR);
-            if (value != null) {
-                renderer = new ForElementRenderer(element, value);
+            variableName = commandAttributes.get(Command.FOR);
+            if (variableName != null) {
+                renderer = new ForElementRenderer(element, variableName);
             }
         }
 
@@ -263,11 +263,6 @@ class TemplateBuilder extends DefaultHandler2 {
         }
 
         switch (renderer.removeMode) {
-        case ELEMENT:
-            // Discard element and all its content.
-            removeChild(renderer);
-            break;
-
         case TAG:
             if (!renderer.hasCommand() && !renderer.hasDynamicContent()) {
                 // Discard tag, but preserve the children.
@@ -286,6 +281,11 @@ class TemplateBuilder extends DefaultHandler2 {
                 appendStaticText(element.renderStartTag(element.attributes));
                 appendStaticText(element.renderEndTag());
             }
+            break;
+
+        case ELEMENT:
+            // Discard element and all its content.
+            removeChild(renderer);
             break;
         }
     }

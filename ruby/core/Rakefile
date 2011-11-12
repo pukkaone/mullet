@@ -15,6 +15,7 @@ task :default => :test
 
 # Define a task named :test to run tests.
 Rake::TestTask.new do |t|
+  t.libs << 'test'
   t.pattern = 'test/**/*_test.rb'
 end
 

@@ -50,7 +50,7 @@ public class AttributeTest extends TemplateTests {
     public void namespace_prefix_attribute_command_should_set_attribute()
         throws Exception
     {
-        setModelValue("languageCode", "add");
+        setVariable("languageCode", "add");
 
         Template template = loader.load("namespace-prefix-attribute.html");
         template.execute(data, writer);
@@ -66,7 +66,7 @@ public class AttributeTest extends TemplateTests {
     public void default_prefix_attribute_command_should_set_attribute()
         throws Exception
     {
-        setModelValue("languageCode", "add");
+        setVariable("languageCode", "add");
 
         Template template = loader.load("default-prefix-attribute.html");
         template.execute(data, writer);
@@ -82,39 +82,36 @@ public class AttributeTest extends TemplateTests {
     public void should_set_attribute_when_attribute_does_not_exist()
         throws Exception
     {
-        setModelValue("languageCode", "add");
+        setVariable("languageCode", "add");
 
         Template template = loader.load("attribute-add.html");
         template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
-                  "<p lang=\"add\">" +
-                  "</p>" +
+                  "<p lang=\"add\"></p>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
     }
 
     @Test
     public void should_replace_existing_attribute() throws Exception {
-        setModelValue("languageCode", "replace");
+        setVariable("languageCode", "replace");
 
         Template template = loader.load("attribute-replace.html");
         template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
-                  "<p lang=\"replace\">" +
-                    "Hello" +
-                  "</p>" +
+                  "<p lang=\"replace\"></p>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
     }
 
     @Test
     public void should_set_multiple_attributes() throws Exception {
-        setModelValue("languageCode", "add");
-        setModelValue("greeting", "replace");
+        setVariable("languageCode", "add");
+        setVariable("greeting", "replace");
 
         Template template = loader.load("attribute-multiple.html");
         template.execute(data, writer);
@@ -129,7 +126,7 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void missing_value_should_remove_attribute() throws Exception {
-        setModelValue("greeting", "replace");
+        setVariable("greeting", "replace");
 
         Template template = loader.load("attribute-multiple.html");
         template.execute(data, writer);
@@ -144,8 +141,8 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void null_value_should_remove_attribute() throws Exception {
-        setModelValue("languageCode", null);
-        setModelValue("greeting", "replace");
+        setVariable("languageCode", null);
+        setVariable("greeting", "replace");
 
         Template template = loader.load("attribute-multiple.html");
         template.execute(data, writer);
@@ -175,7 +172,7 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void action_command_should_set_action_attribute() throws Exception {
-        setModelValue("greeting", "add");
+        setVariable("greeting", "add");
 
         Template template = loader.load("action.html");
         template.execute(data, writer);
@@ -190,7 +187,7 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void alt_command_should_set_alt_attribute() throws Exception {
-        setModelValue("greeting", "add");
+        setVariable("greeting", "add");
 
         Template template = loader.load("alt.html");
         template.execute(data, writer);
@@ -217,7 +214,7 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void href_command_should_set_href_attribute() throws Exception {
-        setModelValue("greeting", "add");
+        setVariable("greeting", "add");
 
         Template template = loader.load("href.html");
         template.execute(data, writer);
@@ -231,7 +228,7 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void src_command_should_set_src_attribute() throws Exception {
-        setModelValue("greeting", "add");
+        setVariable("greeting", "add");
 
         Template template = loader.load("src.html");
         template.execute(data, writer);
@@ -245,7 +242,7 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void title_command_should_set_title_attribute() throws Exception {
-        setModelValue("greeting", "add");
+        setVariable("greeting", "add");
 
         Template template = loader.load("title.html");
         template.execute(data, writer);
@@ -275,7 +272,7 @@ public class AttributeTest extends TemplateTests {
 
     @Test
     public void value_command_should_set_value_attribute() throws Exception {
-        setModelValue("greeting", "add");
+        setVariable("greeting", "add");
 
         Template template = loader.load("value.html");
         template.execute(data, writer);

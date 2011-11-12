@@ -1,4 +1,5 @@
 require 'mullet/container'
+require 'mullet/render_context'
 
 module Mullet; module HTML
 
@@ -6,20 +7,13 @@ module Mullet; module HTML
   class Template
     include Container
 
-    RETURN_EMPTY_STRING = Proc.new { '' }
-
-    def initialize()
-      @missing_value_strategy = RETURN_EMPTY_STRING
-      @nil_value_strategy = RETURN_EMPTY_STRING
-    end
-
     def on_missing(strategy)
-      @missing_value_strategy = strategy
+      @on_missing = strategy
       return self
     end
 
     def on_nil(strategy)
-      @nil_value_strategy = strategy
+      @on_nil = strategy
       return self
     end
 
@@ -34,7 +28,7 @@ module Mullet; module HTML
     # @param [#<<] output
     #           where to write rendered output
     def execute(data, output)
-      render_context = RenderContext.new(data, output)
+      render_context = RenderContext.new(data, @on_missing, @on_nil, output)
       render(render_context)
     end
   end

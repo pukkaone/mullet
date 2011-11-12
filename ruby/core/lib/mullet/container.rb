@@ -8,11 +8,15 @@ module Mullet
     end
 
     def add_child(child)
-      @children << child
+      @children.push(child)
     end
 
     def delete_child(child)
       @children.delete(child);
+    end
+
+    def children()
+      return @children
     end
 
     def clear_children()
@@ -21,11 +25,11 @@ module Mullet
 
     # Renders children in order they were added.
     # 
-    # @param [RenderContext] renderContext
+    # @param [RenderContext] render_context
     #           render context
-    def render_children(renderContext)
+    def render_children(render_context)
       @children.each do |child|
-        child.render(renderContext)
+        child.render(render_context)
       end
     end
   end

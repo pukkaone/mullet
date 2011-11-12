@@ -57,7 +57,7 @@ public class ForTest extends TemplateTests {
 
     @Test
     public void missing_value_should_not_render_element() throws Exception {
-        setModelValue("name-is-not-posts", null);
+        setVariable("name-is-not-posts", null);
 
         Template template = loader.load("for.html");
         template.execute(data, writer);
@@ -67,7 +67,7 @@ public class ForTest extends TemplateTests {
 
     @Test
     public void null_value_should_not_render_element() throws Exception {
-        setModelValue("posts", null);
+        setVariable("posts", null);
 
         Template template = loader.load("for.html");
         template.execute(data, writer);
@@ -77,7 +77,7 @@ public class ForTest extends TemplateTests {
 
     @Test
     public void empty_array_should_not_render_element() throws Exception {
-        setModelValue("posts", new int[0]);
+        setVariable("posts", new int[0]);
 
         Template template = loader.load("for.html");
         template.execute(data, writer);
@@ -87,7 +87,7 @@ public class ForTest extends TemplateTests {
 
     @Test
     public void empty_list_should_not_render_element() throws Exception {
-        setModelValue("posts", Collections.EMPTY_LIST);
+        setVariable("posts", Collections.EMPTY_LIST);
 
         Template template = loader.load("for.html");
         template.execute(data, writer);
@@ -105,7 +105,7 @@ public class ForTest extends TemplateTests {
 
     @Test
     public void nonempty_list_should_render_elements() throws Exception {
-        setModelValue("posts", Arrays.asList(POSTS));
+        setVariable("posts", Arrays.asList(POSTS));
 
         Template template = loader.load("for.html");
         template.execute(data, writer);
@@ -115,7 +115,7 @@ public class ForTest extends TemplateTests {
 
     @Test
     public void object_should_render_element() throws Exception {
-        setModelValue("posts", POSTS[0]);
+        setVariable("posts", POSTS[0]);
 
         Template template = loader.load("for.html");
         template.execute(data, writer);
@@ -134,7 +134,7 @@ public class ForTest extends TemplateTests {
         final String[] COLORS = new String[] {
             "red", "green", "blue"
         };
-        setModelValue("colors", COLORS);
+        setVariable("colors", COLORS);
 
         Template template = loader.load("this.html");
         template.execute(data, writer);

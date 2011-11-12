@@ -1,3 +1,4 @@
+require 'mullet/html/element_renderer'
 require 'mullet/model'
 
 module Mullet; module HTML

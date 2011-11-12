@@ -6,6 +6,7 @@ module Mullet
   # Holds the rendering context to reduce the number of parameters passed to
   # render methods.
   class RenderContext
+
     attr_accessor :escape_xml_enabled
 
     # Constructor.
@@ -19,9 +20,10 @@ module Mullet
     # @param [#<<] output
     #           where to write rendered output
     def initialize(data, missing_value_strategy, nil_value_strategy, output)
-      @model = data.is_a?(Model) ? data : DefaultNestedModel.new(data)
-      @missing_value_strategy = missing_value_strategy
-      @nil_value_strategy = nil_value_strategy
+      @model = data.is_a?(DefaultNestedModel) ?
+          data : DefaultNestedModel.new(data)
+      @on_missing = missing_value_strategy
+      @on_nil = nil_value_strategy
       @output = output
       @escape_xml_enabled = true
     end
@@ -31,7 +33,7 @@ module Mullet
     # @param [String] input
     #           input string
     # @return escaped string, or the input string if escaping is disabled.
-    def escape_xml(key)
+    def escape_xml(input)
       return @escape_xml_enabled ? CGI.escape_html(input) : input
     end
 
@@ -66,10 +68,10 @@ module Mullet
     def get_display_value(key)
       value = @model.fetch(key)
       if value == Model::NOT_FOUND
-        value = @missing_value_strategy.call(key)
+        value = @on_missing.call(key)
       end
       if value == nil
-        value = @nil_value_strategy.call(key)
+        value = @on_nil.call(key)
       end
       return value
     end

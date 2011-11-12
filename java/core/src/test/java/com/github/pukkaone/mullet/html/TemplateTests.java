@@ -91,13 +91,13 @@ public abstract class TemplateTests {
         writer = new StringWriter();
     }
     
-    protected void setModelValue(String key, Object value) {
+    protected void setVariable(String variableName, Object value) {
         if (modelMap == null) {
             modelMap = new HashMap<String, Object>();
             data = new DefaultNestedModel(modelMap);
         }
         
-        modelMap.put(key, value);
+        modelMap.put(variableName, value);
     }
     
     protected static String stripNewlines(String input) {

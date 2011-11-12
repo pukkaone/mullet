@@ -53,7 +53,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void null_value_should_render_element() throws Exception {
-        setModelValue("condition", null);
+        setVariable("condition", null);
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);
@@ -63,7 +63,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void false_should_render_element() throws Exception {
-        setModelValue("condition", false);
+        setVariable("condition", false);
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);
@@ -73,7 +73,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void empty_array_should_render_element() throws Exception {
-        setModelValue("condition", new int[0]);
+        setVariable("condition", new int[0]);
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);
@@ -83,7 +83,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void empty_list_should_render_element() throws Exception {
-        setModelValue("condition", Collections.EMPTY_LIST);
+        setVariable("condition", Collections.EMPTY_LIST);
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);
@@ -93,7 +93,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void true_should_not_render_element() throws Exception {
-        setModelValue("condition", true);
+        setVariable("condition", true);
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);
@@ -103,7 +103,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void nonempty_array_should_not_render_element() throws Exception {
-        setModelValue("condition", new int[1]);
+        setVariable("condition", new int[1]);
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);
@@ -113,7 +113,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void nonempty_list_should_not_render_element() throws Exception {
-        setModelValue("condition", Collections.singletonList(1));
+        setVariable("condition", Collections.singletonList(1));
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);
@@ -123,7 +123,7 @@ public class UnlessTest extends TemplateTests {
     
     @Test
     public void object_should_not_render_element() throws Exception {
-        setModelValue("condition", "a");
+        setVariable("condition", "a");
         
         Template template = loader.load("unless.html");
         template.execute(data, writer);

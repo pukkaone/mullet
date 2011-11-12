@@ -14,14 +14,12 @@ module Mullet; module HTML
 
     # Constructor
     #
-    # @param [String] local_name
-    #           tag name without namespace prefix
     # @param [String] qualified_name
     #           tag name with namespace prefix
     # @param [Attributes] attributes
     #           attributes from template
-    def initialize(local_name, qualified_name, attributes)
-      @name = qualified_name.empty?() ? local_name : qualified_name
+    def initialize(qualified_name, attributes)
+      @name = qualified_name
       @attributes = attributes
       @has_content = false
       @has_command = false

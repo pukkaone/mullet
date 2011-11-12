@@ -1,55 +1,88 @@
-require 'nokogiri'
+require 'mullet/html/template_parser'
 
-module Mullet
+module Mullet; module HTML
 
-class TemplateDocument < Nokogiri::XML::SAX::Document
-  TEMPLATE_NAMESPACE_URI = "http://pukkaone.github.com/mullet/1"
+  # Loads templates from files, and caches them for fast retrieval of already
+  # loaded templates.
+  #
+  # By default, templates render an empty string when a variable is not found
+  # or its value is null. Call the `on_missing` and `on_nil` methods to
+  # configure how templates loaded by this loader should handle missing and nil
+  # values respectively.
+  class TemplateLoader
 
-  def render_start_tag(name, attributes, prefix, uri, namespaceDecls)
-    tag = "<"
-    if prefix
-      tag << prefix << ":"
+    RETURN_EMPTY_STRING = Proc.new { '' }
+    
+    def initialize(template_path)
+      @template_path = template_path
+      @template_cache = Hash.new()
+      @parser = TemplateParser.new(self)
+      @on_missing = RETURN_EMPTY_STRING
+      @on_nil = RETURN_EMPTY_STRING
     end
-    tag << name
+    
+    # Sets block to execute on attempt to render a variable that was not found.
+    #
+    # @param [Proc] strategy
+    #           The value returned from block will be rendered.
+    # @return [TemplateLoader] this object to allow method call chaining
+    def on_missing(strategy)
+      @on_missing = strategy
+      return self
+    end
 
-    attributes.each do |attribute|
-      tag << " "
-      if attribute.prefix
-        tag << attribute.prefix << ":"
+    # Sets block to execute on attempt to render a nil value.
+    #
+    # @param [Proc] strategy
+    #           The value returned from block will be rendered.
+    # @return [TemplateLoader] this object to allow method call chaining
+    def on_nil(strategy)
+      @on_nil = strategy
+      return self
+    end
+
+    # Loads named template.
+    #
+    # @param [String] uri
+    #           file name optionally followed by `#`_id_
+    def load(uri)
+      id = nil
+      hash_index = uri.index('#')
+      if hash_index
+        id = uri[(hash_index + 1)..-1]
+        uri = uri[0...hash_index]
       end
-      tag = attribute.localname << '="' << attribute.value << '"'
+
+      return load_file(uri, id)
     end
 
-    namespaceDecls.each do |namespaceDecl|
-      uri = namespaceDecl[1] 
-      if uri != TEMPLATE_NAMESPACE_URI
-        tag << " xmlns:" << namespaceDecl[0] << '="' << uri << '"'
+    private
+
+    def get_cache_key(file_name, id)
+      cache_key = File.join(@template_path, file_name)
+      if id != nil
+        cache_key << '#' << id
       end
+      return cache_key
     end
 
-    tag << ">"
-    return tag
-  end
+    def parse(file_name, id)
+      template_file = File.join(@template_path, file_name)
+      template = @parser.parse(template_file, id)
 
-  def start_element_namespace(name, attributes, prefix, uri, ns)
-    puts "start element #{name} #{attributes} #{prefix} #{uri} #{ns}"
-    templateAttributes = attributes.select do |attribute|
-      attribute.uri == TEMPLATE_NAMESPACE_URI
+      template.on_missing(@on_missing).on_nil(@on_nil)
+      return template
     end
-    if templateAttributes.empty?
-      puts render_start_tag(name, attributes, prefix, uri, ns)
-    else
-      puts "attributes #{templateAttributes}"
+
+    def load_file(file_name, id)
+      cache_key = get_cache_key(file_name, id)
+      template = @template_cache.fetch(cache_key, nil)
+      if template == nil
+        template = parse(file_name, id)
+        @template_cache.store(cache_key, template)
+      end
+      return template
     end
   end
 
-  def end_document
-    puts "the document has ended"
-  end
-end
-
-parser = Nokogiri::HTML::SAX::Parser.new(TemplateDocument.new)
-f = File.open("login.html")
-parser.parse(f)
-f.close
-end
+end; end

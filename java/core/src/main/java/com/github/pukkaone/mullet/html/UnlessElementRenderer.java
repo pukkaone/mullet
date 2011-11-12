@@ -31,8 +31,8 @@ import com.github.pukkaone.mullet.RenderContext;
  */
 class UnlessElementRenderer extends IfElementRenderer {
 
-    UnlessElementRenderer(Element element, String key) {
-        super(element, key);
+    UnlessElementRenderer(Element element, String variableName) {
+        super(element, variableName);
     }
 
     @Override

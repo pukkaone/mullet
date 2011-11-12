@@ -37,7 +37,7 @@ public class TextTest extends TemplateTests {
 
     @Test
     public void should_set_text() throws Exception {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
         
         Template template = loader.load("text.html");
         template.execute(data, writer);

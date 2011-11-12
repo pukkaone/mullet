@@ -1,11 +1,16 @@
+require 'mullet/container'
 require 'mullet/template_error'
 require 'mullet/html/command'
 require 'mullet/html/message'
+require 'mullet/html/message_attribute_command'
+require 'mullet/html/model_attribute_command'
 
 module Mullet; module HTML
 
   # Renders an HTML element.
   class ElementRenderer
+    include Container
+
     ATTRIBUTE_SEPARATOR = ';'
     ATTRIBUTE_NAME_SEPARATOR = '='
     ATTRIBUTE_SYNTAX_ERROR = "expected '%s' in '%s'"
@@ -18,11 +23,15 @@ module Mullet; module HTML
         Command::TITLE,
         Command::VALUE ]
 
+    attr_reader :remove_mode
+
     # Constructor
     #
     # @param [Element] element
     #           element to render
     def initialize(element)
+      super()
+
       @element = element
       @attribute_commands = []
       @remove_mode = nil
@@ -185,7 +194,7 @@ module Mullet; module HTML
 
       # Copy the original attributes.  The commands modify the copy to
       # produce the attributes to render.
-      render_attributes = element.attributes().dup()
+      render_attributes = @element.attributes().dup()
       @attribute_commands.each do |command|
         command.execute(render_context, render_attributes)
       end

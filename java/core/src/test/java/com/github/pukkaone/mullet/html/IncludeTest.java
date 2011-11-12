@@ -35,7 +35,7 @@ public class IncludeTest extends TemplateTests {
 
     @Test
     public void should_set_content_to_file() throws Exception {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("include.html");
         template.execute(data, writer);
@@ -49,7 +49,7 @@ public class IncludeTest extends TemplateTests {
 
     @Test
     public void should_set_content_to_fragment() throws Exception {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("include-id.html");
         template.execute(data, writer);
@@ -63,7 +63,7 @@ public class IncludeTest extends TemplateTests {
 
     @Test
     public void should_replace_element_with_file() throws Exception {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("include-remove-tag.html");
         template.execute(data, writer);
@@ -77,7 +77,7 @@ public class IncludeTest extends TemplateTests {
 
     @Test
     public void should_replace_element_with_fragment() throws Exception {
-        setModelValue("greeting", "Hello");
+        setVariable("greeting", "Hello");
 
         Template template = loader.load("include-id-remove-tag.html");
         template.execute(data, writer);

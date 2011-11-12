@@ -36,11 +36,8 @@ import java.util.ResourceBundle;
 public class Template extends Container {
 
     private ResourceBundle messages;
-
-    private FailedValueStrategy missingValueStrategy =
-            FailedValueStrategy.RETURN_EMPTY_STRING;
-    private FailedValueStrategy nullValueStrategy =
-            FailedValueStrategy.RETURN_EMPTY_STRING;
+    private FailedValueStrategy missingValueStrategy;
+    private FailedValueStrategy nullValueStrategy;
 
     /**
      * Sets resource bundle to resolve messages from.

@@ -1,6 +1,16 @@
-require 'nokogiri'
+require 'mullet/html/attributes'
 require 'mullet/html/command'
+require 'mullet/html/element'
+require 'mullet/html/element_renderer'
+require 'mullet/html/for_element_renderer'
+require 'mullet/html/if_element_renderer'
+require 'mullet/html/remove_mode'
+require 'mullet/html/simple_parser'
+require 'mullet/html/static_text_renderer'
+require 'mullet/html/template'
+require 'mullet/html/unless_element_renderer'
 require 'mullet/template_error'
+require 'nokogiri'
 require 'set'
 
 module Mullet; module HTML
@@ -32,8 +42,8 @@ module Mullet; module HTML
     START_CDATA = '<![CDATA['
     END_CDATA = ']]>'
 
-    @loader = nil
-    
+    attr_reader :template
+
     # Constructor
     #
     # @param [TemplateLoader] loader
@@ -43,7 +53,7 @@ module Mullet; module HTML
 
       # Stack of elements where this handler has seen the start tag and not yet
       # seen the end tag.
-      @openElements = []
+      @open_elements = []
 
       # stack of current containers to add renderers to
       @containers = []
@@ -82,28 +92,28 @@ module Mullet; module HTML
     def find_commands(attributes, ns, ordinary_attributes, command_attributes)
       found_command = false
       attributes.each do |attr|
-        if attr.local_name().start_with(DATA_PREFIX)
-          command_name = attr.localname().substring(DATA_PREFIX.length())
+        if attr.localname.start_with?(DATA_PREFIX)
+          command_name = attr.localname.slice(DATA_PREFIX.length()..-1)
           if COMMANDS.include?(command_name)
             command_attributes.store(command_name, attr.value)
             found_command = true
           end
         elsif attr.uri == NAMESPACE_URI
-          command_name = attr.localname()
+          command_name = attr.localname
           if !COMMANDS.include?(command_name)
             raise TemplateError("invalid command '#{command_name}'")
           end
           command_attributes.store(command_name, attr.value)
           found_command = true
         else
-          attribute_name = [attr.prefix, attr.localname].compact.join(':')
+          attribute_name = [attr.prefix, attr.localname].compact().join(':')
           ordinary_attributes.store(attribute_name, attr.value)
         end
       end
 
       ns.each do |prefix, uri|
         if uri != NAMESPACE_URI
-          attribute_name = ['xmlns', prefix].compact.join(':')
+          attribute_name = ['xmlns', prefix].compact().join(':')
           ordinary_attributes.store(attribute_name, uri)
         end
       end
@@ -111,46 +121,148 @@ module Mullet; module HTML
       return found_command
     end
 
-    def render_start_tag(name, attributes, prefix, uri, namespaceDecls)
-      tag = "<"
-      if prefix
-        tag << prefix << ":"
-      end
-      tag << name
+    def append_static_text(data)
+      @static_text << data
+    end
 
-      attributes.each do |attribute|
-        tag << " "
-        if attribute.prefix
-          tag << attribute.prefix << ":"
+    def end_static_text()
+      if !@static_text.empty?()
+        add_child(StaticTextRenderer.new(@static_text))
+        @static_text = ''
+      end
+    end
+
+    # Marks the most deeply nested open element as having content.
+    def set_has_content()
+      if !@open_elements.empty?()
+        @open_elements.last().has_content = true
+      end
+    end
+
+    def start_document()
+      @template = Template.new()
+      @containers.push(@template)
+    end
+
+    def end_document()
+      end_static_text()
+    end
+
+    # TODO: Have something call this method.
+    def doctype(name, public_id, system_id)
+    end
+
+    def create_element_renderer(element, command_attributes)
+      renderer = nil
+
+      variable_name = command_attributes.fetch(IF, nil)
+      if variable_name != nil
+        renderer = IfElementRenderer.new(element, variable_name)
+      end
+
+      if renderer == nil
+        variable_name = command_attributes.fetch(UNLESS, nil)
+        if variable_name != nil
+          renderer = UnlessElementRenderer.new(element, variable_name)
         end
-        tag = attribute.localname << '="' << attribute.value << '"'
       end
 
-      namespaceDecls.each do |namespaceDecl|
-        uri = namespaceDecl[1] 
-        if uri != TEMPLATE_NAMESPACE_URI
-          tag << " xmlns:" << namespaceDecl[0] << '="' << uri << '"'
+      if renderer == nil
+        variable_name = command_attributes.fetch(FOR, nil)
+        if variable_name != nil
+          renderer = ForElementRenderer.new(element, variable_name)
         end
       end
 
-      tag << ">"
-      return tag
+      if renderer == nil
+        renderer = ElementRenderer.new(element)
+      end
+
+      renderer.configure_commands(command_attributes, @loader)
+      return renderer
     end
 
     def start_element_namespace(name, attributes, prefix, uri, ns)
-      puts "start element #{name} #{attributes} #{prefix} #{uri} #{ns}"
-      templateAttributes = attributes.select do |attribute|
-        attribute.uri == TEMPLATE_NAMESPACE_URI
-      end
-      if templateAttributes.empty?
-        puts render_start_tag(name, attributes, prefix, uri, ns)
+      set_has_content()
+
+      ordinary_attributes = Attributes.new()
+      command_attributes = Attributes.new()
+      found_command = find_commands(
+          attributes, ns, ordinary_attributes, command_attributes)
+
+      element = Element.new(name, ordinary_attributes)
+      @open_elements.push(element)
+
+      if found_command
+        end_static_text()
+
+        element.has_command = true
+        renderer = create_element_renderer(element, command_attributes)
+        add_child(renderer)
+
+        @containers.push(renderer)
       else
-        puts "attributes #{templateAttributes}"
+        append_static_text(element.render_start_tag(element.attributes))
       end
     end
 
-    def end_document
-      puts "the document has ended"
+    def configure_remove_command(element, renderer)
+      case renderer.remove_mode
+      when RemoveMode::TAG
+        if !renderer.has_command && !renderer.has_dynamic_content
+          # Discard tag, but preserve the children.
+          remove_child(renderer)
+          renderer.children.each do |child|
+            add_child(child)
+          end
+        end
+      when RemoveMode::CONTENT
+        if !renderer.has_command
+          # Discard children. Statically render the tag.
+          remove_child(renderer)
+
+          append_static_text(element.render_start_tag(element.attributes))
+          append_static_text(element.render_end_tag())
+        end
+      when RemoveMode::ELEMENT
+        # Discard element and all its content.
+        remove_child(renderer)
+      end
+    end
+
+    def end_element_namespace(name, prefix, uri)
+      element = @open_elements.pop()
+      if element.has_command
+        end_static_text()
+
+        renderer = @containers.pop()
+        if renderer.has_dynamic_content
+          # Discard children because the content will be replaced at render
+          # time.
+          renderer.clear_children()
+        end
+
+        configure_remove_command(element, renderer)
+      elsif uri != SimpleParser::IMPLICIT_END_TAG_NS_URI
+        append_static_text(element.render_end_tag())
+      end
+    end
+
+    def characters(data)
+      set_has_content()
+      append_static_text(data)
+    end
+
+    def cdata_block(data)
+      append_static_text(START_CDATA)
+      characters(data)
+      append_static_text(END_CDATA)
+    end
+
+    def comment(data)
+      append_static_text('<!--')
+      characters(data)
+      append_static_text('-->')
     end
   end
 
