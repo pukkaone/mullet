@@ -100,7 +100,7 @@ module Mullet; module HTML
     def add_attribute_message_commands(attribute_message_pairs)
       attribute_message_pairs.split(ATTRIBUTE_SEPARATOR).each do |command_text|
         command_parts = command_text.split(ATTRIBUTE_NAME_SEPARATOR, 2)
-        if parts.length() < 2
+        if command_parts.length() < 2
           raise TemplateError.new(
               ATTRIBUTE_SYNTAX_ERROR % [ATTRIBUTE_NAME_SEPARATOR, command_text])
         end

@@ -91,17 +91,17 @@ class OpenElement {
         return (iColon > 0) ? qualifiedName.substring(iColon + 1) : qualifiedName;
     }
 
-    private String resolvePrefixToNamespaceUri(String prefix) {
+    private String resolvePrefixToUri(String prefix) {
         String uri = namespaceDeclarations.get(prefix);
         if (uri == null && parent != null) {
-            return parent.resolvePrefixToNamespaceUri(prefix);
+            return parent.resolvePrefixToUri(prefix);
         }
         return uri;
     }
     
     private String resolveQualifiedNameToNamespaceUri(String qualifiedName) {
         String prefix = extractNamespacePrefix(qualifiedName);
-        String uri = resolvePrefixToNamespaceUri(prefix);
+        String uri = resolvePrefixToUri(prefix);
         return (uri == null) ? XMLConstants.NULL_NS_URI : uri;
     }
     

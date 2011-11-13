@@ -45,11 +45,11 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
- * SAX parser that only announces start element, end element, and character
- * events.
+ * SAX parser that reports elements in the order they appear in the input.  Does
+ * not move elements to another parent.
  */
 public class SimpleParser implements TokenHandler, XMLReader {
-    
+
     /** identifier for accessing lexical handler property of SAX parser */
     public static final String LEXICAL_HANDLER =
             "http://xml.org/sax/properties/lexical-handler";
@@ -92,17 +92,19 @@ public class SimpleParser implements TokenHandler, XMLReader {
         OpenElement element = new OpenElement(
                 openElement, elementName.name, attributes);
         openElement = element;
-        
+
         contentHandler.startElement(
                 element.uri,
                 element.localName,
                 element.qualifiedName,
                 element.attributes);
     }
-    
+
     private OpenElement popOpenElement() {
         OpenElement element = openElement;
-        openElement = openElement.parent;
+        if (openElement != null) {
+            openElement = openElement.parent;
+        }
         return element;
     }
 
@@ -112,13 +114,13 @@ public class SimpleParser implements TokenHandler, XMLReader {
         throw new SAXParseException(
                 "End tag </" + tagName + "> has no matching start tag", null);
     }
-    
+
     public void endTag(ElementName elementName) throws SAXException {
         OpenElement element = popOpenElement();
         if (element == null) {
             throwMismatchedEndTag(elementName.name);
         }
-        
+
         // Generate implicit end tags up to this element.
         while (!element.qualifiedName.equals(elementName.name)) {
             // KLUDGE: Indicate a generated implicit end tag by passing a
@@ -127,13 +129,13 @@ public class SimpleParser implements TokenHandler, XMLReader {
                     SimpleParser.IMPLICIT_END_TAG_NS_URI,
                     element.localName,
                     element.qualifiedName);
-            
+
             element = popOpenElement();
             if (element == null) {
                 throwMismatchedEndTag(elementName.name);
             }
         }
-        
+
         contentHandler.endElement(
                 element.uri, element.localName, element.qualifiedName);
     }
@@ -171,11 +173,11 @@ public class SimpleParser implements TokenHandler, XMLReader {
         if (instruction.endsWith("?")) {
             instruction = instruction.substring(0, instruction.length() - 1);
         }
-        
+
         String[] parts = instruction.split("\\s", 2);
         contentHandler.processingInstruction(parts[0], parts[1]);
     }
-    
+
     public void comment(char[] data, int start, int length)
         throws SAXException
     {
@@ -245,7 +247,7 @@ public class SimpleParser implements TokenHandler, XMLReader {
     public void setLexicalHandler(LexicalHandler lexicalHandler) {
         this.lexicalHandler = lexicalHandler;
     }
-    
+
     public void setProperty(String name, Object value)
         throws SAXNotRecognizedException, SAXNotSupportedException
     {
@@ -272,7 +274,7 @@ public class SimpleParser implements TokenHandler, XMLReader {
                     bufr.adjust(lastWasCR);
                     lastWasCR = false;
                     if (bufr.hasMore()) {
-                        lastWasCR = tokenizer.tokenizeBuffer(bufr);                    
+                        lastWasCR = tokenizer.tokenizeBuffer(bufr);
                     }
                 }
             }
@@ -286,7 +288,7 @@ public class SimpleParser implements TokenHandler, XMLReader {
                     bufr.adjust(lastWasCR);
                     lastWasCR = false;
                     if (bufr.hasMore()) {
-                        lastWasCR = tokenizer.tokenizeBuffer(bufr);                    
+                        lastWasCR = tokenizer.tokenizeBuffer(bufr);
                     }
                 }
                 streamOffset += len;
@@ -299,13 +301,13 @@ public class SimpleParser implements TokenHandler, XMLReader {
         tokenizer = new Tokenizer(this);
         tokenizer.start();
         tokenizer.initLocation(is.getPublicId(), is.getSystemId());
-        
+
         reader = is.getCharacterStream();
         if (reader == null) {
             reader = new InputStreamReader(is.getByteStream(), "UTF-8");
         }
         runStates();
-    
+
         tokenizer.end();
     }
 

@@ -4,8 +4,8 @@ require 'mullet/html/element'
 require 'mullet/html/element_renderer'
 require 'mullet/html/for_element_renderer'
 require 'mullet/html/if_element_renderer'
+require 'mullet/html/parser/simple_parser'
 require 'mullet/html/remove_mode'
-require 'mullet/html/simple_parser'
 require 'mullet/html/static_text_renderer'
 require 'mullet/html/template'
 require 'mullet/html/unless_element_renderer'
@@ -98,7 +98,7 @@ module Mullet; module HTML
             command_attributes.store(command_name, attr.value)
             found_command = true
           end
-        elsif attr.uri == NAMESPACE_URI
+        elsif attr.uri == NAMESPACE_URI || attr.prefix == NAMESPACE_PREFIX
           command_name = attr.localname
           if !COMMANDS.include?(command_name)
             raise TemplateError("invalid command '#{command_name}'")
@@ -211,7 +211,7 @@ module Mullet; module HTML
       when RemoveMode::TAG
         if !renderer.has_command && !renderer.has_dynamic_content
           # Discard tag, but preserve the children.
-          remove_child(renderer)
+          delete_child(renderer)
           renderer.children.each do |child|
             add_child(child)
           end
@@ -219,14 +219,14 @@ module Mullet; module HTML
       when RemoveMode::CONTENT
         if !renderer.has_command
           # Discard children. Statically render the tag.
-          remove_child(renderer)
+          delete_child(renderer)
 
           append_static_text(element.render_start_tag(element.attributes))
           append_static_text(element.render_end_tag())
         end
       when RemoveMode::ELEMENT
         # Discard element and all its content.
-        remove_child(renderer)
+        delete_child(renderer)
       end
     end
 
@@ -243,7 +243,7 @@ module Mullet; module HTML
         end
 
         configure_remove_command(element, renderer)
-      elsif uri != SimpleParser::IMPLICIT_END_TAG_NS_URI
+      elsif uri != Parser::SimpleParser::IMPLICIT_END_TAG_NS_URI
         append_static_text(element.render_end_tag())
       end
     end

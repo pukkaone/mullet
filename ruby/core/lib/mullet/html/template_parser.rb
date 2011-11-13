@@ -1,3 +1,4 @@
+require 'mullet/html/filtered_element_handler'
 require 'mullet/html/template_builder'
 require 'nokogiri'
 
@@ -9,15 +10,24 @@ module Mullet; module HTML
       @loader = loader
     end
 
+    # Read template from file.
+    #
+    # @param [String] file_name
+    #           name of file containing template
+    # @param [String] id
+    #           If `nil`, then the template is the entire file, otherwise the
+    #           template is the content of the element having an `id` attribute
+    #           value equal to this argument.
+    # @return [Template] template
     def parse(file_name, id)
       template_builder = TemplateBuilder.new(@loader)
       handler = (id == nil) ?
           template_builder : FilteredElementHandler.new(template_builder, id)
 
       parser = Nokogiri::HTML::SAX::Parser.new(handler)
-      file = File.open(file_name)
-      parser.parse(file)
-      file.close()
+      File.open(file_name) do |file|
+        parser.parse(file)
+      end
 
       return template_builder.template
     end

@@ -17,13 +17,13 @@ module Mullet; module HTML
       @message = message
     end
 
-    # Gets attribute value by formatting the message.
+    # Gets attribute value by formatting localized message.
     #
     # @param [RenderContext] render_context
     #           render context
     # @return attribute value
     def get_value(render_context)
-      return @message.format(render_context)
+      return @message.translate(render_context)
     end
   end
 

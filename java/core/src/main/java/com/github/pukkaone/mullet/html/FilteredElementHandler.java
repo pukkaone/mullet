@@ -24,6 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.html;
 
+import com.github.pukkaone.mullet.TemplateException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.DefaultHandler2;
@@ -39,6 +40,7 @@ class FilteredElementHandler extends DefaultHandler2 {
     private DefaultHandler2 handler;
     private String id;
     private int depth;
+    private boolean foundId;
 
     FilteredElementHandler(DefaultHandler2 handler, String id) {
         this.handler = handler;
@@ -57,6 +59,11 @@ class FilteredElementHandler extends DefaultHandler2 {
     @Override
     public void endDocument() throws SAXException {
         handler.endDocument();
+
+        if (!foundId) {
+            throw new TemplateException(
+                    "element with attribute id='" + id + "' not found");
+        }
     }
 
     @Override
@@ -78,6 +85,7 @@ class FilteredElementHandler extends DefaultHandler2 {
         if (id.equals(value)) {
             // Enable event forwarding.
             depth = 1;
+            foundId = true;
         }
     }
 

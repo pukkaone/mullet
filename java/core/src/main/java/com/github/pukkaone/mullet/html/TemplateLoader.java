@@ -157,8 +157,9 @@ public class TemplateLoader {
      * @param fileName
      *            file name
      * @param id
-     *            ID of element content to include, or {@code null} to include
-     *            entire document
+     *            If {@code null}, then the template is the entire file,
+     *            otherwise the template is the content of the element having an
+     *            {@code id} attribute value equal to this argument.
      * @return template
      * @throws FileNotFoundException
      *             if the named template was not found.

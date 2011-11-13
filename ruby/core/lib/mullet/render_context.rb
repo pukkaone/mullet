@@ -66,7 +66,7 @@ module Mullet
     #           variable name
     # @return value
     def get_display_value(key)
-      value = @model.fetch(key)
+      value = @model.get_variable_value(key)
       if value == Model::NOT_FOUND
         value = @on_missing.call(key)
       end

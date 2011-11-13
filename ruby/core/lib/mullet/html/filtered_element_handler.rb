@@ -1,5 +1,6 @@
-require 'nokogiri'
 require 'mullet/html/command'
+require 'mullet/template_error'
+require 'nokogiri'
 require 'set'
 
 module Mullet; module HTML
@@ -15,10 +16,11 @@ module Mullet; module HTML
     #           event handler to forward events to
     # @param [String] id
     #           id attribute value
-    def initialize(handler)
+    def initialize(handler, id)
       @handler = handler
       @id = id
       @depth = 0
+      @found_id = false
     end
 
     def should_forward()
@@ -31,6 +33,10 @@ module Mullet; module HTML
 
     def end_document()
       @handler.end_document()
+
+      if !@found_id
+        raise TemplateError.new("element with attribute id='#{@id}' not found")
+      end
     end
 
     def start_element_namespace(name, attributes, prefix, uri, namespaces)
@@ -45,15 +51,16 @@ module Mullet; module HTML
         if qualified_name == ID && attr.value == @id
           # Enable event forwarding.
           @depth = 1
+          @found_id = true
         end
       end
     end
 
-    def end_element(name)
+    def end_element_namespace(name, prefix, uri)
       if should_forward()
         @depth -= 1
         if @depth > 0
-          @handler.end_element(name)
+          @handler.end_element_namespace(name, prefix, uri)
         end
       end
     end

@@ -40,11 +40,13 @@ public class AttributeTest extends TemplateTests {
 
         final String EXPECTED_OUTPUT =
                 "<body>\n" +
-                "  <p lang=\"&#034;&\"></p>\n" +
-                "  <p lang=\"'&\"></p>\n" +
+                "  <p lang=\"&#34;\"></p>\n" +
+                "  <p lang=\"'\"></p>\n" +
                 "</body>\n";
         assertEquals(EXPECTED_OUTPUT, writer.toString());
     }
+
+    // TODO: Test escaping of & in attribute value.
 
     @Test
     public void namespace_prefix_attribute_command_should_set_attribute()
@@ -164,8 +166,7 @@ public class AttributeTest extends TemplateTests {
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
-                  "<p title=\"Subject subject 1 Date 2011-12-01\">" +
-                  "</p>" +
+                  "<p title=\"Subject subject 1 Date 2011-12-01\"></p>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
     }
@@ -249,8 +250,7 @@ public class AttributeTest extends TemplateTests {
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
-                  "<p title=\"add\">" +
-                  "</p>" +
+                  "<p title=\"add\"></p>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
     }
@@ -264,8 +264,7 @@ public class AttributeTest extends TemplateTests {
 
         final String EXPECTED_OUTPUT =
                 "<body>" +
-                  "<p title=\"Subject subject 1 Date 2011-12-01\">" +
-                  "</p>" +
+                  "<p title=\"Subject subject 1 Date 2011-12-01\"></p>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
     }

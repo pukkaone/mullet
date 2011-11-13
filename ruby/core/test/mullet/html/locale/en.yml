@@ -1,0 +1,3 @@
+en:
+  post:
+    summary: "Subject %{subject} Date %{date}"

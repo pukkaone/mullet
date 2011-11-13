@@ -3,7 +3,7 @@ module Mullet; module HTML
   # Recognized template commands
   module Command
     DATA_PREFIX = 'data-'
-    NAMESPACE_PREFIX = 'mullet:'
+    NAMESPACE_PREFIX = 'mullet'
     NAMESPACE_URI = 'http://pukkaone.github.com/mullet/1'
 
     ACTION = 'action'

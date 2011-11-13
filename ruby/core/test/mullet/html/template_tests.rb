@@ -13,9 +13,10 @@ module Mullet; module HTML
   end
 
   module TemplateTests
-    TOP_DIR = File.expand_path('../../../../..', File.dirname(__FILE__))
-    TEST_DIR = File.join(TOP_DIR, 'java/core/src/test/java')
-    TEMPLATE_PATH = File.join(TEST_DIR, 'com/github/pukkaone/mullet/html')
+    CURRENT_DIR = File.dirname(__FILE__)
+    TOP_DIR = File.expand_path('../../../../..', CURRENT_DIR)
+    TEST_JAVA_DIR = File.join(TOP_DIR, 'java/core/src/test/java')
+    TEMPLATE_PATH = File.join(TEST_JAVA_DIR, 'com/github/pukkaone/mullet/html')
 
     POSTS = [
       Post.new('subject 1', '2011-12-01'),
@@ -25,6 +26,7 @@ module Mullet; module HTML
     def setup()
       @loader = Mullet::HTML::TemplateLoader.new(TEMPLATE_PATH)
       @data = { posts: POSTS, post: POSTS[0] }
+      I18n.load_path += Dir.glob(File.join(CURRENT_DIR, 'locale', '*.{rb,yml}'))
       @output = ''
     end
 
@@ -37,8 +39,12 @@ module Mullet; module HTML
       @model_map.store(variable_name, value)
     end
 
+    def self.strip_new_lines(input)
+      return input.gsub(/\n\s*/, '').strip()
+    end
+
     def strip_new_lines(input)
-      return input.gsub(/\n\s*/, '')
+      return TemplateTests.strip_new_lines(input)
     end
 
     def element_to_string(tag_name)

@@ -1,9 +1,10 @@
+require 'mullet/html/command_element_renderer'
 require 'mullet/model'
 
 module Mullet; module HTML
 
   # Renders an element for each item in a collection.
-  class ForElementRenderer < ElementRenderer
+  class ForElementRenderer < CommandElementRenderer
 
     # Constructor
     #

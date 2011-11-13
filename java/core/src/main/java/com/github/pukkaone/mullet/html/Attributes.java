@@ -34,7 +34,7 @@ class Attributes extends LinkedHashMap<String, String> {
     private static final long serialVersionUID = 1L;
 
     private String escapeQuote(String value) {
-        return (value.indexOf('"') < 0) ? value : value.replaceAll("\"", "&#034;");
+        return (value.indexOf('"') < 0) ? value : value.replaceAll("\"", "&#34;");
     }
 
     void render(StringBuilder tag) {

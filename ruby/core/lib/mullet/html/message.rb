@@ -41,7 +41,7 @@ module Mullet; module HTML
     # @param [RenderContext] render_context
     #           render context
     # @return localized message
-    def get_value(render_context)
+    def translate(render_context)
       arguments = Hash.new()
       @argument_keys.each do |argument_key|
         arguments.store(

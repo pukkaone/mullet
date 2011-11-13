@@ -4,7 +4,7 @@ module Mullet; module HTML
   class Attributes < Hash
 
     def escape_quote(value)
-      return value.include?('"') ? value.gsub(/"/, '&#034;') : value
+      return value.include?('"') ? value.gsub(/"/, '&#34;') : value
     end
 
     # Renders attributes to HTML syntax.

@@ -1,10 +1,10 @@
-require 'mullet/html/element_renderer'
+require 'mullet/html/command_element_renderer'
 require 'mullet/model'
 
 module Mullet; module HTML
 
   # Renders an element if variable is true.
-  class IfElementRenderer < ElementRenderer
+  class IfElementRenderer < CommandElementRenderer
 
     # Constructor
     #
@@ -23,7 +23,7 @@ module Mullet; module HTML
         return false
       end
 
-      if value.is_a?(Boolean)
+      if value.is_a?(FalseClass) || value.is_a?(TrueClass)
         return value
       end
 
@@ -37,7 +37,7 @@ module Mullet; module HTML
     alias :super_render :render
 
     def render(render_context)
-      if should_render_element()
+      if should_render_element(render_context)
         super_render(render_context)
       end
     end
