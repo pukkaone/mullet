@@ -10,11 +10,12 @@ module Mullet; module HTML
       template = @loader.load('attribute-quote.html')
       template.execute(@data, @output)
 
-      expected_output =
-%q{<body>
+      expected_output = <<EOF
+<body>
   <p lang="&#34;"></p>
   <p lang="'"></p>
-</body>}
+</body>
+EOF
       assert_equal expected_output, @output
     end
 

@@ -10,10 +10,9 @@ module Mullet; module HTML; module Parser
 
     XMLNS_ATTRIBUTE = 'xmlns'
     XMLNS_ATTRIBUTE_PREFIX = XMLNS_ATTRIBUTE + ':'
-    DEFAULT_NS_PREFIX = ''
 
     attr_reader :parent, :qualified_name, :prefix, :local_name, :uri
-    attr_reader :attributes
+    attr_reader :attributes, :namespace_declarations
 
     def initialize(parent, qualified_name, raw_attributes)
       # namespace prefix to URI map
@@ -21,7 +20,7 @@ module Mullet; module HTML; module Parser
 
       @parent = parent
 
-      processNamespaceDeclarations(raw_attributes)
+      process_namespace_declarations(raw_attributes)
       @qualified_name = qualified_name
       @prefix, @local_name = extract_prefix_and_local_name(qualified_name)
       @uri = resolve_prefix_to_uri(@prefix)
@@ -43,7 +42,7 @@ module Mullet; module HTML; module Parser
       if raw_attribute_name.start_with?(XMLNS_ATTRIBUTE_PREFIX)
         prefix = raw_attribute_name[XMLNS_ATTRIBUTE_PREFIX.length()..-1]
       else
-        prefix = DEFAULT_NS_PREFIX
+        prefix = nil
       end
       @namespace_declarations.store(prefix, uri)
     end
@@ -58,15 +57,9 @@ module Mullet; module HTML; module Parser
 
     def extract_prefix_and_local_name(qualified_name)
       name_parts = qualified_name.split(':', 2)
-      prefix = (name_parts.size() > 1) ? name_parts[0] : DEFAULT_NS_PREFIX
+      prefix = (name_parts.size() > 1) ? name_parts[0] : nil
       local_name = (name_parts.size() > 1) ? name_parts[1] : qualified_name
       return [prefix, local_name]
-    end
-
-    def extract_namespace_prefix(qualified_name)
-      colon_index = qualified_name.index(':')
-      return (colon_index != nil) ?
-          qualified_name[0...colon_index] : DEFAULT_NS_PREFIX;
     end
 
     def to_namespace_aware_attributes(raw_attributes)

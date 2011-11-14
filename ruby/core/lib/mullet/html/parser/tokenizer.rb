@@ -1068,6 +1068,7 @@ module Mullet; module HTML; module Parser
           @state = :data_state
         else
           @stream.unget(char_stack)
+          @current_token[:data] += data
         end
       elsif data == :EOF
         @token_queue << {:type => :ParseError, :data => "eof-in-cdata"}

@@ -34,8 +34,10 @@ module Mullet; module HTML; module Parser
           end_tag(token[:name])
         when :Characters, :SpaceCharacters
           characters(token[:data])
-        when :CDATA,
+        when :CDATA
           cdata(token[:data])
+        when :Comment
+          comment(token[:data])
         end
       end
 
@@ -54,7 +56,11 @@ module Mullet; module HTML; module Parser
       @open_element = element
 
       @handler.start_element_namespace(
-          element.qualified_name, element.attributes, nil, nil, nil)
+          element.local_name,
+          element.attributes,
+          element.prefix,
+          element.uri,
+          element.namespace_declarations)
     end
 
     def pop_open_element()
@@ -95,14 +101,10 @@ module Mullet; module HTML; module Parser
     end
 
     def cdata(data)
-      @handler.cdata(data)
+      @handler.cdata_block(data)
     end
 
     def processing_instruction(data)
-      if data.end_with?('?')
-        data = data[0...-1]
-      end
-
       @handler.processing_instruction(data)
     end
 
@@ -112,7 +114,11 @@ module Mullet; module HTML; module Parser
       # instruction.  The problem is any legitimate comment beginning with ?
       # will also be turned into a processing instruction.
       if data.start_with?('?')
-        processing_instruction(data)
+        last_index = data.length() - 1
+        if last_index > 0 && data[last_index] == '?'
+          last_index -= 1
+        end
+        processing_instruction(data[1..last_index])
       else
         @handler.comment(data)
       end

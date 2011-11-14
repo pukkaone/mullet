@@ -92,6 +92,18 @@ public class NoCommandTest extends TemplateTests {
     }
 
     @Test
+    public void cdata_section_in_template_should_render() throws Exception {
+        Template template = loader.load("cdata.html");
+        template.execute(data, writer);
+    
+        final String EXPECTED_OUTPUT =
+                "<body>\n" +
+                "  <p><![CDATA[<&]]></p>\n" +
+                "</body>\n";
+        assertEquals(EXPECTED_OUTPUT, writer.toString());
+    }
+
+    @Test
     public void comments_in_template_should_render() throws Exception {
         setVariable("greeting", "Hello");
 
@@ -128,18 +140,6 @@ public class NoCommandTest extends TemplateTests {
                 "  <body>Hello</body>\n" +
                 "</html>\n" +
                 "<?php d ?>\n";
-        assertEquals(EXPECTED_OUTPUT, writer.toString());
-    }
-
-    @Test
-    public void cdata_section_in_template_should_render() throws Exception {
-        Template template = loader.load("cdata.html");
-        template.execute(data, writer);
-
-        final String EXPECTED_OUTPUT =
-                "<body>\n" +
-                "  <p><![CDATA[<&]]></p>\n" +
-                "</body>\n";
         assertEquals(EXPECTED_OUTPUT, writer.toString());
     }
 }

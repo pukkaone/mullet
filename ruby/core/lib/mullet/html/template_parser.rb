@@ -1,6 +1,6 @@
 require 'mullet/html/filtered_element_handler'
+require 'mullet/html/parser/simple_parser'
 require 'mullet/html/template_builder'
-require 'nokogiri'
 
 module Mullet; module HTML
 
@@ -24,7 +24,7 @@ module Mullet; module HTML
       handler = (id == nil) ?
           template_builder : FilteredElementHandler.new(template_builder, id)
 
-      parser = Nokogiri::HTML::SAX::Parser.new(handler)
+      parser = Parser::SimpleParser.new(handler)
       File.open(file_name) do |file|
         parser.parse(file)
       end

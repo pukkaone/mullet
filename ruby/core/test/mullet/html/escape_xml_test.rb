@@ -12,13 +12,14 @@ module Mullet; module HTML
       template = @loader.load('escape-xml.html')
       template.execute(@data, @output)
 
-      expected_output =
-%q{<body>
+      expected_output = <<EOF
+<body>
   <p><b></p>
   <div>
     <p>&lt;b&gt;</p>
   </div>
-</body>}
+</body>
+EOF
       assert_equal expected_output, @output
     end
   end

@@ -229,7 +229,7 @@ module Mullet; module HTML
           text = render_context.escape_xml(value.to_s())
           render_context << text
         elsif @text_message != nil
-          text = @text_message.format(render_context)
+          text = @text_message.translate(render_context)
           text = render_context.escape_xml(text)
           render_context << text
         elsif @template != nil

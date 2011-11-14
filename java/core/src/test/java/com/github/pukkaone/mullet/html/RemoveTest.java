@@ -34,21 +34,6 @@ import org.junit.Test;
 public class RemoveTest extends TemplateTests {
 
     @Test
-    public void remove_element_should_remove_tag_and_content()
-        throws Exception
-    {
-        Template template = loader.load("remove-element.html");
-        template.execute(data, writer);
-
-        final String EXPECTED_OUTPUT =
-                "<ul>" +
-                  "<li>subject 1</li>" +
-                  "<li>subject 2</li>" +
-                "</ul>";
-        assertEquals(EXPECTED_OUTPUT, elementToString("ul"));
-    }
-
-    @Test
     public void remove_tag_should_remove_tag_and_preserve_content()
         throws Exception
     {
@@ -80,5 +65,20 @@ public class RemoveTest extends TemplateTests {
                   "<p></p>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
+    }
+
+    @Test
+    public void remove_element_should_remove_tag_and_content()
+        throws Exception
+    {
+        Template template = loader.load("remove-element.html");
+        template.execute(data, writer);
+    
+        final String EXPECTED_OUTPUT =
+                "<ul>" +
+                  "<li>subject 1</li>" +
+                  "<li>subject 2</li>" +
+                "</ul>";
+        assertEquals(EXPECTED_OUTPUT, elementToString("ul"));
     }
 }

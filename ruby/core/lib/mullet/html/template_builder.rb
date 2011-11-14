@@ -148,8 +148,19 @@ module Mullet; module HTML
       end_static_text()
     end
 
-    # TODO: Have something call this method.
     def doctype(name, public_id, system_id)
+      text = "<!DOCTYPE #{name}"
+
+      if public_id
+        text << %( PUBLIC "#{public_id}")
+      end
+
+      if system_id
+        text << %( "#{system_id}")
+      end
+
+      text << '>'
+      append_static_text(text)
     end
 
     def create_element_renderer(element, command_attributes)
@@ -263,6 +274,12 @@ module Mullet; module HTML
       append_static_text('<!--')
       characters(data)
       append_static_text('-->')
+    end
+
+    def processing_instruction(data)
+      append_static_text('<?')
+      characters(data)
+      append_static_text('?>')
     end
   end
 
