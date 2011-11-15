@@ -201,7 +201,8 @@ module Mullet; module HTML
       found_command = find_commands(
           attributes, ns, ordinary_attributes, command_attributes)
 
-      element = Element.new(name, ordinary_attributes)
+      qualified_name = [prefix, name].compact().join(':')
+      element = Element.new(qualified_name, ordinary_attributes)
       @open_elements.push(element)
 
       if found_command

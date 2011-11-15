@@ -46,6 +46,34 @@ public class NoCommandTest extends TemplateTests {
     }
 
     @Test
+    public void unknown_namespace_prefix_element_should_render()
+            throws Exception
+    {
+        Template template = loader.load("unknown-prefix-element.html");
+        template.execute(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>\n" +
+                "  <unknown:p>Hello</unknown:p>\n" +
+                "</body>\n";
+        assertEquals(EXPECTED_OUTPUT, writer.toString());
+    }
+
+    @Test
+    public void unknown_namespace_prefix_attribute_should_render()
+            throws Exception
+    {
+        Template template = loader.load("unknown-prefix-attribute.html");
+        template.execute(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>\n" +
+                "  <p unknown:lang=\"en\">Hello</p>\n" +
+                "</body>\n";
+        assertEquals(EXPECTED_OUTPUT, writer.toString());
+    }
+
+    @Test
     public void implicit_end_tag_should_not_render() throws Exception {
         Template template = loader.load("implicit-end-tag.html");
         template.execute(data, writer);
@@ -95,7 +123,7 @@ public class NoCommandTest extends TemplateTests {
     public void cdata_section_in_template_should_render() throws Exception {
         Template template = loader.load("cdata.html");
         template.execute(data, writer);
-    
+
         final String EXPECTED_OUTPUT =
                 "<body>\n" +
                 "  <p><![CDATA[<&]]></p>\n" +

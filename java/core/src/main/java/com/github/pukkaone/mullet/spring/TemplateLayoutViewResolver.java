@@ -25,7 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.github.pukkaone.mullet.spring;
 
 import com.github.pukkaone.mullet.TemplateException;
-import com.github.pukkaone.mullet.html.Template;
+import com.github.pukkaone.mullet.html.Layout;
 import com.github.pukkaone.mullet.html.TemplateLoader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -51,7 +51,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  * <dd>content of the {@code body} element from the page
  * </dl>
  * The {@code body} variable typically contains HTML markup, so the layout must
- * use the {@code v:escape-xml="false"} command to prevent markup characters
+ * use the {@code data-escape-xml="false"} command to prevent markup characters
  * being escaped when rendering the variable.
  * <p>
  * The simplest way to use this class is to set the {@code templateLoaderPath}
@@ -67,19 +67,19 @@ public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
     implements MessageSourceAware
 {
     private static final String DEFAULT_LAYOUT = "layout";
-    
+
     private TemplateLoader templateLoader;
     private ResourceBundle messages;
     private String layoutName = DEFAULT_LAYOUT;
-    
+
     public TemplateLayoutViewResolver() {
         setViewClass(requiredViewClass());
-        
+
         // TODO: Maybe the content type should be derived from the template file
         // encoding.
         setContentType("text/html; charset=UTF-8");
     }
-    
+
     public void setTemplateLoaderPath(String templatePath) {
         templateLoader = new TemplateLoader(templatePath);
     }
@@ -88,11 +88,11 @@ public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
         messages = new MessageSourceResourceBundle(
                 messageSource, LocaleContextHolder.getLocale());
     }
-    
+
     public void setLayout(String layoutName) {
         this.layoutName = layoutName;
     }
-    
+
     /**
      * Sets the view type of this resolver to {@link TemplateView}.
      */
@@ -100,12 +100,12 @@ public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
     protected Class<?> requiredViewClass() {
        return TemplateView.class;
     }
-    
-    private Template getLayout() {
-        Template layout;
+
+    private Layout getLayout() {
+        Layout layout;
         try {
             String url = getPrefix() + layoutName + getSuffix();
-            layout = templateLoader.load(url);
+            layout = new Layout(templateLoader.load(url));
         } catch (FileNotFoundException e) {
             layout = null;
         } catch (IOException e) {
@@ -113,7 +113,7 @@ public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
         }
         return layout;
     }
-    
+
     @Override
     protected AbstractUrlBasedView buildView(String viewName) throws Exception {
         TemplateView view = (TemplateView) super.buildView(viewName);

@@ -19,6 +19,30 @@ module Mullet; module HTML
       assert_equal expected_output, body()
     end
 
+    def test_unknown_namespace_prefix_element_should_render()
+      template = @loader.load('unknown-prefix-element.html')
+      template.execute(@data, @output)
+
+      expected_output = <<EOF
+<body>
+  <unknown:p>Hello</unknown:p>
+</body>
+EOF
+      assert_equal expected_output, @output
+    end
+
+    def test_unknown_namespace_prefix_attribute_should_render()
+      template = @loader.load('unknown-prefix-attribute.html')
+      template.execute(@data, @output)
+
+      expected_output = <<EOF
+<body>
+  <p unknown:lang="en">Hello</p>
+</body>
+EOF
+      assert_equal expected_output, @output
+    end
+
     def test_implicit_end_tag_should_not_render()
       template = @loader.load('implicit-end-tag.html')
       template.execute(@data, @output)

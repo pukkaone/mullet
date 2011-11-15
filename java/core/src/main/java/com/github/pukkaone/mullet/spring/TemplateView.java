@@ -24,12 +24,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.spring;
 
-import com.github.pukkaone.mullet.TemplateException;
+import com.github.pukkaone.mullet.html.Layout;
 import com.github.pukkaone.mullet.html.Template;
 import com.github.pukkaone.mullet.html.TemplateLoader;
-import com.github.pukkaone.mullet.html.parser.SimpleParser;
 import java.io.FileNotFoundException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
@@ -37,7 +35,6 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.AbstractTemplateView;
-import org.xml.sax.InputSource;
 
 /**
  * View that renders output from a template.
@@ -46,7 +43,7 @@ public class TemplateView extends AbstractTemplateView {
 
     private TemplateLoader templateLoader;
     private ResourceBundle messages;
-    private Template layout;
+    private Layout layout;
 
     public void setTemplateLoader(TemplateLoader templateLoader) {
         this.templateLoader = templateLoader;
@@ -56,7 +53,7 @@ public class TemplateView extends AbstractTemplateView {
         this.messages = messages;
     }
 
-    public void setLayout(Template layout) {
+    public void setLayout(Layout layout) {
         this.layout = layout;
     }
 
@@ -73,20 +70,6 @@ public class TemplateView extends AbstractTemplateView {
             return false;
         }
         return true;
-    }
-
-    private Page parsePage(String pageHtml) {
-        StringReader reader = new StringReader(pageHtml);
-        PageBuilder handler = new PageBuilder();
-        try {
-            SimpleParser parser = new SimpleParser();
-            parser.setContentHandler(handler);
-            parser.setProperty(SimpleParser.LEXICAL_HANDLER, handler);
-            parser.parse(new InputSource(reader));
-        } catch (Exception e) {
-            throw new TemplateException("parse", e);
-        }
-        return handler.getPage();
     }
 
     @Override
@@ -107,11 +90,8 @@ public class TemplateView extends AbstractTemplateView {
         StringWriter pageHtml = new StringWriter();
         template.execute(model, messages, pageHtml);
 
-        Page page = parsePage(pageHtml.toString());
-        page.baseURL = request.getContextPath() + "/";
-        page.requestContextPath = request.getContextPath();
-
         // Render page data in a layout.
-        layout.execute(page, messages, response.getWriter());
+        layout.execute(
+                request, pageHtml.toString(), messages, response.getWriter());
     }
 }
