@@ -22,37 +22,42 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package com.github.pukkaone.mullet;
+package com.github.pukkaone.mullet.html;
 
-import com.github.pukkaone.mullet.html.AttributeTest;
-import com.github.pukkaone.mullet.html.EscapeXmlTest;
-import com.github.pukkaone.mullet.html.ForTest;
-import com.github.pukkaone.mullet.html.IfTest;
-import com.github.pukkaone.mullet.html.IncludeTest;
-import com.github.pukkaone.mullet.html.LayoutTest;
-import com.github.pukkaone.mullet.html.NoCommandTest;
-import com.github.pukkaone.mullet.html.RemoveTest;
-import com.github.pukkaone.mullet.html.TextTest;
-import com.github.pukkaone.mullet.html.UnlessTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
- * Runs all tests.
+ * Tests templates having no commands.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-    AttributeTest.class,
-    EscapeXmlTest.class,
-    ForTest.class,
-    IfTest.class,
-    IncludeTest.class,
-    LayoutTest.class,
-    NestedModelTest.class,
-    NoCommandTest.class,
-    RemoveTest.class,
-    TextTest.class,
-    UnlessTest.class
-})
-public class AllSuite {
+public class LayoutTest extends TemplateTests {
+
+    @Test
+    public void should_render_page_in_layout() throws Exception {
+        Template template = loader.load("layout.html");
+        Layout layout = new Layout(template);
+
+        final String PAGE_HTML =
+                "<html>" +
+                "<head>" +
+                  "<title>Title</title>" +
+                "</head>" +
+                "<body>" +
+                  "<br>" +
+                "</body>" +
+                "</html>";
+        layout.execute(PAGE_HTML, null, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<html>\n" +
+                "<head>\n" +
+                "  <title>Title</title>\n" +
+                "</head>\n" +
+                "<body>" +
+                  "<br>" +
+                "</body>\n" +
+                "</html>\n";
+        assertEquals(EXPECTED_OUTPUT, writer.toString());
+    }
 }

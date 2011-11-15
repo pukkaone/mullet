@@ -4,19 +4,19 @@ require 'mullet/html/element'
 require 'mullet/html/element_renderer'
 require 'mullet/html/for_element_renderer'
 require 'mullet/html/if_element_renderer'
+require 'mullet/html/parser/default_handler'
 require 'mullet/html/parser/simple_parser'
 require 'mullet/html/remove_mode'
 require 'mullet/html/static_text_renderer'
 require 'mullet/html/template'
 require 'mullet/html/unless_element_renderer'
 require 'mullet/template_error'
-require 'nokogiri'
 require 'set'
 
 module Mullet; module HTML
 
   # Handles SAX events to build a template.
-  class TemplateBuilder < Nokogiri::XML::SAX::Document
+  class TemplateBuilder < Parser::DefaultHandler
     include Command
 
     COMMANDS = Set[

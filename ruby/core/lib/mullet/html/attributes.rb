@@ -13,7 +13,7 @@ module Mullet; module HTML
     def render()
       output = ''
       each do |key, value|
-        output << ' ' << key << '="' << escape_quote(value) << '"'
+        output << %( #{key}="#{escape_quote(value)}")
       end
       return output
     end

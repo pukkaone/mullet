@@ -24,7 +24,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.html;
 
-import com.github.pukkaone.mullet.EscapeXml;
 import com.github.pukkaone.mullet.html.parser.SimpleParser;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -39,10 +38,10 @@ class PageBuilder extends DefaultHandler2 {
     private static final String BODY = "body";
     private static final char[] START_CDATA = "<![CDATA[".toCharArray();
     private static final char[] END_CDATA = "]]>".toCharArray();
-    
+
     // number of open head elements
     private int headCount;
-    
+
     // Count of nested open elements where this handler is extracting their
     // inner HTML.
     private int innerDepth;
@@ -52,43 +51,47 @@ class PageBuilder extends DefaultHandler2 {
     private boolean isExtractingInnerHtml() {
         return innerDepth > 0;
     }
-    
+
     private void startExtractingInnerHtml() {
         innerDepth = 1;
         innerHtml = new StringBuilder();
     }
-    
+
     private void append(char[] data, int start, int length) {
         innerHtml.append(data, start, length);
     }
-    
+
     private PageBuilder append(char data) {
         innerHtml.append(data);
         return this;
     }
-    
+
     private PageBuilder append(String data) {
         innerHtml.append(data);
         return this;
     }
-    
+
     private String getInnerHtml() {
         return innerHtml.toString();
     }
-    
+
+    private String escapeQuote(String value) {
+        return (value.indexOf('"') < 0) ? value : value.replaceAll("\"", "&#34;");
+    }
+
     private void renderStartTag(String qualifiedName, Attributes attributes) {
         append('<').append(qualifiedName);
 
         for (int i = 0; i < attributes.getLength(); ++i) {
             append(' ').append(attributes.getQName(i)).append('=')
                     .append('"')
-                    .append(EscapeXml.escape(attributes.getValue(i)))
+                    .append(escapeQuote(attributes.getValue(i)))
                     .append('"');
         }
-        
+
         append('>');
     }
-    
+
     @Override
     public void startElement(
             String namespaceUri,
@@ -100,27 +103,27 @@ class PageBuilder extends DefaultHandler2 {
         if (HEAD.equals(qualifiedName)) {
             ++headCount;
         }
-        
+
         if (isExtractingInnerHtml()) {
             ++innerDepth;
             renderStartTag(qualifiedName, attributes);
             return;
         }
-        
+
         if (headCount > 0 && TITLE.equals(qualifiedName)) {
             startExtractingInnerHtml();
             return;
         }
-        
+
         if (BODY.equals(qualifiedName)) {
             startExtractingInnerHtml();
         }
     }
-    
+
     private void renderEndTag(String qualifiedName) {
         append("</").append(qualifiedName).append('>');
     }
-    
+
     @Override
     public void endElement(
             String namespaceUri, String localName, String qualifiedName)
@@ -129,7 +132,7 @@ class PageBuilder extends DefaultHandler2 {
         if (HEAD.equals(qualifiedName)) {
             --headCount;
         }
-        
+
         if (isExtractingInnerHtml()) {
             --innerDepth;
             if (isExtractingInnerHtml()
@@ -142,12 +145,12 @@ class PageBuilder extends DefaultHandler2 {
             page.title = getInnerHtml();
             return;
         }
-        
+
         if (BODY.equals(qualifiedName)) {
             page.body = getInnerHtml();
         }
     }
-    
+
     @Override
     public void characters(char[] ch, int start, int length)
         throws SAXException
@@ -156,24 +159,24 @@ class PageBuilder extends DefaultHandler2 {
             append(ch, start, length);
         }
     }
-    
+
     @Override
     public void startCDATA() throws SAXException {
         characters(START_CDATA, 0, START_CDATA.length);
     }
-    
+
     @Override
     public void endCDATA() throws SAXException {
         characters(END_CDATA, 0, END_CDATA.length);
     }
-    
+
     @Override
     public void ignorableWhitespace(char[] ch, int start, int length)
         throws SAXException
     {
         characters(ch, start, length);
     }
-    
+
     @Override
     public void comment(char[] ch, int start, int length)
         throws SAXException
@@ -184,7 +187,7 @@ class PageBuilder extends DefaultHandler2 {
             append("-->");
         }
     }
-    
+
     @Override
     public void processingInstruction(String target, String data)
         throws SAXException
@@ -197,7 +200,7 @@ class PageBuilder extends DefaultHandler2 {
             append("?>");
         }
     }
-    
+
     Page getPage() {
         return page;
     }

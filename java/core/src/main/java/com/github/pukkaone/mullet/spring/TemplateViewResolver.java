@@ -32,7 +32,7 @@ package com.github.pukkaone.mullet.spring;
  * The simplest way to use this class is to set the {@code templateLoaderPath}
  * and {@code suffix} properties:
  * <pre>
- * &lt;bean class="com.github.pukkaone.mullet.spring.view.TemplateViewResolver"&gt;
+ * &lt;bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver"&gt;
  *   &lt;property name="templateLoaderPath" value="/views"/&gt;
  *   &lt;property name="suffix" value=".html"/&gt;
  * &lt;/bean&gt;

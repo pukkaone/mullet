@@ -33,7 +33,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.xml.sax.InputSource;
 
 /**
- * Renders the body content of an HTML page in a template.
+ * Extracts content from an HTML page and renders it in a layout.  The layout
+ * is a template given these variables:
+ * <dl>
+ * <dt>baseURL
+ * <dd>request context path with '/' appended to the end
+ * <dt>title
+ * <dd>content of the {@code title} element from the page
+ * <dt>body
+ * <dd>content of the {@code body} element from the page
+ * </dl>
+ * The {@code body} variable typically contains HTML markup, so the layout must
+ * use the {@code data-escape-xml="false"} command to prevent markup characters
+ * being escaped when rendering the variable.
  */
 public class Layout {
 
@@ -55,6 +67,25 @@ public class Layout {
             throw new TemplateException("parse", e);
         }
         return handler.getPage();
+    }
+
+    /**
+     * Renders page data in a layout.
+     *
+     * @param pageHtml
+     *            content from this HTML page will be rendered in the layout
+     * @param messages
+     *            resource bundle to resolve messages from
+     * @param writer
+     *            where rendered output will be written
+     */
+    public void execute(
+            String pageHtml,
+            ResourceBundle messages,
+            Writer writer)
+    {
+        Page page = parsePage(pageHtml);
+        template.execute(page, messages, writer);
     }
 
     /**

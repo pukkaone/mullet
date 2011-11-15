@@ -40,24 +40,12 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 /**
  * Resolves view name to a view that renders a page from a template then passes
  * the page to a layout. The default layout is a template named {@code layout},
- * but this can be configured by the layout property. The following variables
- * are available to the layout:
- * <dl>
- * <dt>baseURL
- * <dd>request context path with '/' appended to the end
- * <dt>title
- * <dd>content of the {@code title} element from the page
- * <dt>body
- * <dd>content of the {@code body} element from the page
- * </dl>
- * The {@code body} variable typically contains HTML markup, so the layout must
- * use the {@code data-escape-xml="false"} command to prevent markup characters
- * being escaped when rendering the variable.
+ * but this can be configured by the layout property.
  * <p>
  * The simplest way to use this class is to set the {@code templateLoaderPath}
  * and {@code suffix} properties:
  * <pre>
- * &lt;bean class="com.github.pukkaone.mullet.spring.view.TemplateLayoutViewResolver"&gt;
+ * &lt;bean class="com.github.pukkaone.mullet.spring.TemplateLayoutViewResolver"&gt;
  *   &lt;property name="templateLoaderPath" value="/views"/&gt;
  *   &lt;property name="suffix" value=".html"/&gt;
  * &lt;/bean&gt;
