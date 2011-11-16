@@ -10,7 +10,19 @@ module Mullet; module HTML
       @loader = loader
     end
 
-    # Read template from file.
+    # Parses template from string.
+    #
+    # @param [String] source
+    #           string to parse
+    # @return [Template] template
+    def parse(source)
+      template_builder = TemplateBuilder.new(@loader)
+      parser = Parser::SimpleParser.new(template_builder)
+      parser.parse(source)
+      return template_builder.template
+    end
+
+    # Parses template from file.
     #
     # @param [String] file_name
     #           name of file containing template
@@ -19,7 +31,7 @@ module Mullet; module HTML
     #           template is the content of the element having an `id` attribute
     #           value equal to this argument.
     # @return [Template] template
-    def parse(file_name, id)
+    def parse_file(file_name, id)
       template_builder = TemplateBuilder.new(@loader)
       handler = (id == nil) ?
           template_builder : FilteredElementHandler.new(template_builder, id)

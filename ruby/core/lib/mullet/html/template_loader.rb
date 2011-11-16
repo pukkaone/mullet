@@ -1,3 +1,4 @@
+require 'mullet/html/template'
 require 'mullet/html/template_parser'
 
 module Mullet; module HTML
@@ -10,15 +11,19 @@ module Mullet; module HTML
   # configure how templates loaded by this loader should handle missing and nil
   # values respectively.
   class TemplateLoader
-
-    RETURN_EMPTY_STRING = Proc.new { '' }
     
+    attr_accessor :template_path
+
+    # Constructor
+    #
+    # @param [String] template_path
+    #           name of directory to load templates from
     def initialize(template_path)
       @template_path = template_path
       @template_cache = Hash.new()
       @parser = TemplateParser.new(self)
-      @on_missing = RETURN_EMPTY_STRING
-      @on_nil = RETURN_EMPTY_STRING
+      @on_missing = Template::RETURN_EMPTY_STRING
+      @on_nil = Template::RETURN_EMPTY_STRING
     end
     
     # Sets block to execute on attempt to render a variable that was not found.
@@ -66,9 +71,9 @@ module Mullet; module HTML
       return cache_key
     end
 
-    def parse(file_name, id)
+    def parse_file(file_name, id)
       template_file = File.join(@template_path, file_name)
-      template = @parser.parse(template_file, id)
+      template = @parser.parse_file(template_file, id)
 
       template.on_missing(@on_missing).on_nil(@on_nil)
       return template
@@ -78,7 +83,7 @@ module Mullet; module HTML
       cache_key = get_cache_key(file_name, id)
       template = @template_cache.fetch(cache_key, nil)
       if template == nil
-        template = parse(file_name, id)
+        template = parse_file(file_name, id)
         @template_cache.store(cache_key, template)
       end
       return template

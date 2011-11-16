@@ -7,6 +7,14 @@ module Mullet; module HTML
   class Template
     include Container
 
+    RETURN_EMPTY_STRING = Proc.new { '' }
+
+    def initialize()
+      super
+      @on_missing = RETURN_EMPTY_STRING
+      @on_nil = RETURN_EMPTY_STRING
+    end
+
     def on_missing(strategy)
       @on_missing = strategy
       return self

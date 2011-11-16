@@ -62,6 +62,7 @@ That created a JAR file in the `java/core/target` directory.
 ### Prerequisites
 
   * Ruby 1.9 or better
+  * I18n
   * Nokogiri
   * Redcarpet
   * YARD
