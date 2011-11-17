@@ -24,13 +24,26 @@ module Mullet; module HTML
     START_CDATA = '<![CDATA['
     END_CDATA = ']]>'
 
+    # In HTML5, void elements do not have content and do not have end tags.
     # TODO: Write an alternative implementation where we don't have to know
-    # which HTML elements have an empty content model.
-    EMPTY_CONTENT_ELEMENTS = Set[
+    # the void elements when deciding if we should render an end tag.
+    VOID_ELEMENTS = Set[
+        'area',
+        'base',
         'br',
+        'col',
+        'command',
+        'embed',
         'hr',
         'img',
-        'input']
+        'input',
+        'keygen',
+        'link',
+        'meta',
+        'param',
+        'source',
+        'track',
+        'wbr']
 
     attr_reader :page
 
@@ -73,7 +86,7 @@ module Mullet; module HTML
 
       if extracting_inner_html?()
         @inner_depth -= 1
-        if extracting_inner_html?() && !EMPTY_CONTENT_ELEMENTS.include?(name)
+        if extracting_inner_html?() && !VOID_ELEMENTS.include?(name)
           render_end_tag(name)
         end
  
