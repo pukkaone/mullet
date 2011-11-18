@@ -2,6 +2,7 @@
 layout: home
 title: "logic-less HTML templates"
 ---
+
 ## Example
 
 Given the template:
@@ -46,3 +47,6 @@ Will render the output:
     patched to report CDATA sections.
   * The Java code to resolve variable values comes from
     [JMustache](https://github.com/samskivert/jmustache).
+  * The Ruby code to parse templates uses
+    [html5lib](http://code.google.com/p/html5lib/)
+    patched to report CDATA sections.
