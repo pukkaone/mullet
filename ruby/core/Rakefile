@@ -21,7 +21,7 @@ end
 
 desc 'Get version'
 task :version do
-  tag = `git describe`
+  tag = `git describe`.chomp()
   if tag !~ /^\d/
     tag = '0.0.0'
   end

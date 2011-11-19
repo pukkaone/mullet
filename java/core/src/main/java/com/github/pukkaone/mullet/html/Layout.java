@@ -36,7 +36,7 @@ import org.xml.sax.InputSource;
  * Extracts content from an HTML page and renders it in a layout.  The layout
  * is a template given these variables:
  * <dl>
- * <dt>baseURL
+ * <dt>contextPathURL
  * <dd>request context path with '/' appended to the end
  * <dt>title
  * <dd>content of the {@code title} element from the page
@@ -107,7 +107,7 @@ public class Layout {
             Writer writer)
     {
         Page page = parsePage(pageHtml);
-        page.baseURL = request.getContextPath() + "/";
+        page.contextPathURL = request.getContextPath() + "/";
         page.requestContextPath = request.getContextPath();
 
         template.execute(page, messages, writer);

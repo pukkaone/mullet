@@ -12,19 +12,20 @@ This application is modified to use Mullet templates to render the views.
 
 ## Application resource URLs
 
-The original JSP files use the `spring:url` tag to generate URLs to resources
-served by the application.  The `spring:url` tag (and the JSTL `c:url` tag)
-necessarily prepends the context path to the generated URL because the context
-path is decided when the application is deployed.  The developer cannot
-assume the application will run under a specific context path.
+The context path affects the URL where the browser should send requests for
+application resources, such as where to post form submissions.  The context
+path is decided when the application is deployed, so the developer can't assume
+the application will run under a specific context path.  The `spring:url` tag
+(and the JSTL `c:url` tag) takes a relative URL and generates a URL the browser
+can use by prepending the context path.
 
-Replacing each `spring:url` tag with a variable is an onerous task when a page
-has a lot of links because you must set those variables in the model passed to
-the template.  I chose instead to use the `base` HTML element, which specifies
-a base URL to prepend to relative URLs found in the document.  I set the base
-URL to the application content path. and refer to application resources using
-relative URLs.  The template view makes a variable named `baseURL` available to
-the template.  Its value is the context path with a trailing '/' character.
+I could replace each `spring:url` tag with a variable, but that's an onerous
+task because I would have to set a variable for each link I want to render.  I
+chose a solution requiring only one variable.  The `base` HTML element sets the
+base URL of resources specified by a relative URL.  The view implicitly sets a
+variable named `contextPathURL` to the value of the context path.  The template
+renders that variable in the `base` element, and I changed the links specified
+by `spring:url` to plain relative URLs.
 
 
 ## Add URL properties to model classes

@@ -28,7 +28,7 @@ package com.github.pukkaone.mullet.html;
  * Page data to render in a layout.
  */
 class Page {
-    String baseURL;
+    String contextPathURL;
     String requestContextPath;
     String title;
     String body;

@@ -74,7 +74,7 @@ Starting in the top distribution directory (where this README.md file is
 located), run the commands:
 
     cd ruby/core
-    rake
+    rake dist
 
 
 ## Project
