@@ -222,6 +222,7 @@
 	</dependencies>
 	<repositories>
 		<repository>
+			<id>local-repository</id>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -229,7 +230,6 @@
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
       </snapshots>
-			<id>local-repository</id>
 			<url>file://${project.basedir}/../core/target/repository</url>
 		</repository>
 		<repository>

@@ -23,7 +23,7 @@
     <exec
         osfamily="unix"
         executable="git"
-        outputproperty="PRISTINE_VERSION"
+        outputproperty="MULLET_VERSION"
         failifexecutionfails="false">
       <arg value="describe"/>
     </exec>
@@ -31,7 +31,7 @@
     <exec
         osfamily="windows"
         executable="cmd"
-        outputproperty="PRISTINE_VERSION"
+        outputproperty="MULLET_VERSION"
         failifexecutionfails="false">
       <arg value="/c"/>
       <arg value="git"/>
@@ -39,8 +39,8 @@
     </exec>
 
     <!-- Set property if the execution failed. -->
-    <property name="PRISTINE_VERSION" value="UNKNOWN"/>
-    <echo message="Version ${PRISTINE_VERSION}"/>
+    <property name="MULLET_VERSION" value="UNKNOWN"/>
+    <echo message="Version ${MULLET_VERSION}"/>
 
     <!-- Get build number. -->
     <exec
@@ -91,7 +91,7 @@
     <copy todir="${classes.dir}" overwrite="true">
       <fileset dir="${template.dir}"/>
       <filterset>
-        <filter token="PRISTINE_VERSION" value="${PRISTINE_VERSION}"/>
+        <filter token="MULLET_VERSION" value="${MULLET_VERSION}"/>
         <filter token="BUILD_NUMBER" value="${BUILD_NUMBER}"/> 
       </filterset>
     </copy>
@@ -162,13 +162,13 @@
   <target name="jar" depends="configure, compile">
     <property
         name="jar.file"
-        value="${target.dir}/${ant.project.name}-${PRISTINE_VERSION}.${BUILD_NUMBER}.jar"/>
+        value="${target.dir}/${ant.project.name}-${MULLET_VERSION}.${BUILD_NUMBER}.jar"/>
 
     <jar jarfile="${jar.file}" basedir="${classes.dir}">
       <manifest>
         <attribute
             name="Implementation-Version"
-            value="${PRISTINE_VERSION}.${BUILD_NUMBER}"/>
+            value="${MULLET_VERSION}.${BUILD_NUMBER}"/>
       </manifest>
     </jar>
 

@@ -55,7 +55,7 @@ task :gem_spec => :version do
     s.version           = VERSION
     s.summary           = 'Logic-less HTML template engine'
     s.description       = <<EOF
-It's like Mustache but you write the commands in HTML attributes.
+It's like Mustache but the variables are in HTML attributes.
 
   * Extremely simple variable syntax is incapable of expressing logic in the
     templates.

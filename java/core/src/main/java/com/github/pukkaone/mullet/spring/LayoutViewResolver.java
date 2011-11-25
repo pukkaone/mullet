@@ -39,11 +39,13 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
  * Resolves view name to a view that renders a page from a template then passes
- * the page to a layout. The default layout is a template named {@code layout},
- * but this can be configured by the layout property.
+ * the page to a layout. By default, the layout is a template resolved from the
+ * view name {@code "layout"}, but it can be changed by setting the
+ * {@code layout} property to another name.
  * <p>
  * The simplest way to use this class is to set the {@code templateLoaderPath}
  * and {@code suffix} properties:
+ *
  * <pre>
  * &lt;bean class="com.github.pukkaone.mullet.spring.TemplateLayoutViewResolver"&gt;
  *   &lt;property name="templateLoaderPath" value="/views"/&gt;
@@ -51,7 +53,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  * &lt;/bean&gt;
  * </pre>
  */
-public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
+public class LayoutViewResolver extends AbstractTemplateViewResolver
     implements MessageSourceAware
 {
     private static final String DEFAULT_LAYOUT = "layout";
@@ -60,7 +62,7 @@ public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
     private ResourceBundle messages;
     private String layoutName = DEFAULT_LAYOUT;
 
-    public TemplateLayoutViewResolver() {
+    public LayoutViewResolver() {
         setViewClass(requiredViewClass());
 
         // TODO: Maybe the content type should be derived from the template file
@@ -68,6 +70,12 @@ public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
         setContentType("text/html; charset=UTF-8");
     }
 
+    /**
+     * Sets the class path folder where templates will be loaded.
+     *
+     * @param templatePath
+     *            base template folder
+     */
     public void setTemplateLoaderPath(String templatePath) {
         templateLoader = new TemplateLoader(templatePath);
     }
@@ -77,6 +85,12 @@ public class TemplateLayoutViewResolver extends AbstractTemplateViewResolver
                 messageSource, LocaleContextHolder.getLocale());
     }
 
+    /**
+     * Sets name of template to use for layout.
+     *
+     * @param layoutName
+     *            layout template name
+     */
     public void setLayout(String layoutName) {
         this.layoutName = layoutName;
     }

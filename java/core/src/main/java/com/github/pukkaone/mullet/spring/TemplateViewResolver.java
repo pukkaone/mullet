@@ -38,7 +38,7 @@ package com.github.pukkaone.mullet.spring;
  * &lt;/bean&gt;
  * </pre>
  */
-public class TemplateViewResolver extends TemplateLayoutViewResolver {
+public class TemplateViewResolver extends LayoutViewResolver {
 
     public TemplateViewResolver() {
         setLayout(null);
