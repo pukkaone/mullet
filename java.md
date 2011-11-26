@@ -32,12 +32,13 @@ specified by the `templateLoaderPath` property.
 
 If the same elements, such as headings and navigation bars, appears on every
 page in your application, a layout offers a simple way to render those common
-elements.  Consider [SiteMesh](https://github.com/sitemesh/sitemesh2) for
-handling more complicated page composition.
+elements.  For more complicated page composition needs,
+[SiteMesh](https://github.com/sitemesh/sitemesh2) might be a more appropriate
+solution.
 
-Define a `LayoutViewResolver` (instead of a `TemplateViewResolver`) to render
-templates with a layout.  This view resolver provides a view that processes the
-output from a template through a layout template.
+To render templates with a layout, define a `LayoutViewResolver` (instead of a
+`TemplateViewResolver`).  It resolves a view name to a view that renders a
+template, then processes the template output through a layout template.
 
     <bean class="com.github.pukkaone.mullet.spring.LayoutViewResolver">
       <property name="templateLoaderPath" value="/views"/>

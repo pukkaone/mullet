@@ -29,6 +29,27 @@ This example renders the template in `./views/index.html`:
     end
 
 
+### Layout
+
+Each time a template is rendered, the output is processed through a layout by
+default.  The default layout is the template in `./views/layout.html`.  In
+addition to the variables from the context and locals, the layout template can
+also read the `content` variable to get the original template output.  The
+`content` variable typically contains HTML markup, so the layout must use the
+`data-escape-xml="false"` command to prevent markup characters being escaped
+when rendering the variable.
+
+You can individually disable layouts by passing `layout: false`:
+
+    get '/' do
+      mullet :index, layout: false
+    end
+
+Or disable them by default with:
+
+    set :html, layout: false
+
+
 ## Ruby API
 
 Create a `TemplateLoader` instance:
