@@ -36,18 +36,18 @@ elements.  For more complicated page composition needs,
 [SiteMesh](https://github.com/sitemesh/sitemesh2) might be a more appropriate
 solution.
 
-To render templates with a layout, define a `LayoutViewResolver` (instead of a
-`TemplateViewResolver`).  It resolves a view name to a view that renders a
-template, then processes the template output through a layout template.
+To enable a layout, configure the `layout` property.  The `layout` property is
+the view name to resolve to the layout template.
 
-    <bean class="com.github.pukkaone.mullet.spring.LayoutViewResolver">
+    <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
       <property name="templateLoaderPath" value="/views"/>
       <property name="suffix" value=".html"/>
+      <property name="layout" value="layout"/>
     </bean>
 
-By default, it loads the layout template by resolving the view name `"layout"`,
-but you can change the layout by setting the `layout` property to another name.
-The following variables are available to the layout template:
+The view renders the page from a template, then processes the output through
+the layout template.  The following variables are available to the layout
+template:
 
 `contextPathURL`: request context path
 
