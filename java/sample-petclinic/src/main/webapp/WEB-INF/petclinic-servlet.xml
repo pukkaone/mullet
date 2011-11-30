@@ -97,10 +97,11 @@
 	<!--
 		- View that renders a template with layout.
 	-->
-  <bean class="com.github.pukkaone.mullet.spring.LayoutViewResolver">
+  <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
     <property name="order" value="2"/>
     <property name="templateLoaderPath" value="/views"/>
     <property name="suffix" value=".html"/>
+    <property name="layout" value="layout"/>
   </bean>
 
 	<!--

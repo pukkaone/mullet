@@ -46,18 +46,24 @@ Will render the output:
   * Ant
 
 
-### Building
+### Run tests
 
 Starting in the top distribution directory (where this README.md file is
 located), run the commands:
 
     cd java/core
-    ant
+    ant test
 
-That created a JAR file in the `java/core/target` directory.
+
+### Create JAR file
+
+Run the command:
+
+    ant
 
 
 ## Ruby build instructions
+
 
 ### Prerequisites
 
@@ -68,12 +74,19 @@ That created a JAR file in the `java/core/target` directory.
   * YARD
 
 
-### Building
+### Run tests
 
 Starting in the top distribution directory (where this README.md file is
 located), run the commands:
 
     cd ruby/core
+    rake test
+
+
+### Create GEM
+
+Run the command:
+
     rake dist
 
 

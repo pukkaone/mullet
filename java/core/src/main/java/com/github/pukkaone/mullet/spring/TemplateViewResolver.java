@@ -51,14 +51,14 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  * &lt;/bean&gt;
  * </pre>
  */
-public class LayoutViewResolver extends AbstractTemplateViewResolver
+public class TemplateViewResolver extends AbstractTemplateViewResolver
     implements MessageSourceAware
 {
     private TemplateLoader templateLoader;
     private ResourceBundle messages;
     private String layoutName;
 
-    public LayoutViewResolver() {
+    public TemplateViewResolver() {
         setViewClass(requiredViewClass());
 
         // TODO: Maybe the content type should be derived from the template file
