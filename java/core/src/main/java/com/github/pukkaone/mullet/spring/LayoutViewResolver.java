@@ -38,10 +38,8 @@ import org.springframework.web.servlet.view.AbstractTemplateViewResolver;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
- * Resolves view name to a view that renders a page from a template then passes
- * the page to a layout. By default, the layout is a template resolved from the
- * view name {@code "layout"}, but it can be changed by setting the
- * {@code layout} property to another name.
+ * Resolves view name to a view that renders a page from a template. If a layout
+ * is configured (the default is no layout), then passes the page to a layout.
  * <p>
  * The simplest way to use this class is to set the {@code templateLoaderPath}
  * and {@code suffix} properties:
@@ -56,11 +54,9 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 public class LayoutViewResolver extends AbstractTemplateViewResolver
     implements MessageSourceAware
 {
-    private static final String DEFAULT_LAYOUT = "layout";
-
     private TemplateLoader templateLoader;
     private ResourceBundle messages;
-    private String layoutName = DEFAULT_LAYOUT;
+    private String layoutName;
 
     public LayoutViewResolver() {
         setViewClass(requiredViewClass());
@@ -86,10 +82,10 @@ public class LayoutViewResolver extends AbstractTemplateViewResolver
     }
 
     /**
-     * Sets name of template to use for layout.
+     * Sets template to use for layout. Default is no layout.
      *
      * @param layoutName
-     *            layout template name
+     *            view name to resolve to layout template
      */
     public void setLayout(String layoutName) {
         this.layoutName = layoutName;
@@ -104,6 +100,10 @@ public class LayoutViewResolver extends AbstractTemplateViewResolver
     }
 
     private Layout getLayout() {
+        if (layoutName == null || layoutName.length() == 0) {
+            return null;
+        }
+
         Layout layout;
         try {
             String url = getPrefix() + layoutName + getSuffix();
