@@ -1,10 +1,10 @@
 require 'mullet'
 require 'tilt'
 
-# Registers the Mullet template engine in Tilt to handle file names with the
-# `html` extension.
 module Mullet; module Tilt
 
+  # Registers the Mullet template engine in Tilt to handle file names with the
+  # `html` extension.
   class MulletTemplate < ::Tilt::Template
 
     def initialize_engine
