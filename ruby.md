@@ -72,3 +72,12 @@ Render the template:
     template.execute(data, output)
 
     # output contains the rendered output.
+
+
+### Localization
+
+Messages are resolved using [I18n](https://github.com/svenfuchs/i18n).  If
+you're using I18n outside Rails, you need to tell it where to find the
+translation files.
+
+    I18n.load_path += Dir.glob(File.join(app.root, 'locale', '*.{rb,yml}'))

@@ -19,11 +19,11 @@ attributes have names starting with the
 Alternatively, you can write commands in attributes belonging to a specific
 namespace, typically declared as:
 
-    xmlns:d="http://pukkaone.github.com/mullet/1"
+    xmlns:v="http://pukkaone.github.com/mullet/1"
 
 The examples in this reference use the `data-` prefix, but assuming there's a
 namespace declared as above, the examples also work by replacing the `data-`
-prefix with the `d:` prefix in the attribute names.
+prefix with the `v:` prefix in the attribute names.
 
 The template engine also recognizes attribute names with the prefix `mullet:`
 as commands even when there is no namespace declaration for that prefix.
@@ -38,6 +38,8 @@ when this happens.
 
 
 ## Commands
+
+These commands render data provided by the application.
 
 
 ### Set attribute
@@ -229,22 +231,3 @@ Set the text content of the element to the message looked up using the key
 _key_.  The text replaces any existing children of the element.
 
     <h1 data-text-message="greeting">Hello</h1>
-
-
-### Java localization
-
-Unless changed through the Java API, a template resolves messages from a
-resource bundle named by removing the extension from the template file name.
-For example, if a template file name is `index.html`, the default resource
-bundle name is `index`. You would typically put a `index.properties` file in
-the same directory as the `index.html` file so the JDK ResourceBundle
-implementation can find it.
-
-
-### Ruby localization
-
-Messages are resolved using [I18n](https://github.com/svenfuchs/i18n).  If
-you're using I18n outside Rails, you need to tell it where to find the
-translation files.
-
-    I18n.load_path += Dir.glob(File.join(app.root, 'locale', '*.{rb,yml}'))

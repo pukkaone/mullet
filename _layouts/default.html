@@ -19,13 +19,6 @@
     .topbar {
       position: static;
     }
-    .topbar .fill {
-      background-color: #FBB829;
-      background-image: none;
-    }
-    .topbar .brand {
-      color: black;
-    }
     .hero-unit {
       background-color: #FEEFB3;
     }
@@ -47,16 +40,6 @@
     .sidebar {
       margin-top: 20px;
     }
-
-    /* Page header tweaks */
-/*
-    .page-header {
-      background-color: #f4f4f4;
-      padding: 20px 20px 10px;
-      margin: -20px -20px 20px;
-    }
-*/
-
     code {
       background-color: transparent;
       padding: 0;
@@ -66,6 +49,15 @@
     }
     h1 small, li {
       color: #404040;
+    }
+    h3, h4, h5, h6 {
+      line-height: 1;
+      margin-bottom: 1em;
+      margin-top: 1em;
+    }
+    p, pre {
+      margin-bottom: 1em;
+      margin-top: 1em;
     }
   </style>
 
@@ -77,10 +69,18 @@
 
   <script type="text/javascript">
     $(function() {
-      $('pre').each(function() {
-        $(this).hasClass('no-syntax') || $(this).addClass('prettyprint');
+      var haveCode = false;
+
+      $("pre > code").parent().each(function() {
+        if (!$(this).hasClass("prettyprint")) {
+          $(this).addClass("prettyprint");
+          haveCode = true;
+        }
       });
-      prettyPrint();
+      
+      if (haveCode) {
+        prettyPrint();
+      }
     });
   </script>
 

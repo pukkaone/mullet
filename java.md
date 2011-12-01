@@ -60,6 +60,12 @@ The `body` variable typically contains HTML markup, so the layout must use the
 when rendering the variable.
 
 
+### Localization
+
+Messages from `*-message` commands are fetched from the Spring application
+context message source.
+
+
 ## Java API
 
 A `TemplateLoader` loads templates from classpath resources.
@@ -80,3 +86,13 @@ Render the template:
     template.execute(data, writer)
 
     // writer contains the rendered output.
+
+
+### Localization
+
+Unless changed through the Java API, a template resolves messages from a
+resource bundle named by removing the extension from the template file name.
+For example, if a template file name is `index.html`, the default resource
+bundle name is `index`. You would typically put a `index.properties` file in
+the same directory as the `index.html` file so the JDK ResourceBundle
+implementation can find it.
