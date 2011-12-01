@@ -62,8 +62,8 @@ when rendering the variable.
 
 ### Localization
 
-Messages from `*-message` commands are fetched from the Spring application
-context message source.
+Messages are resolved from the Spring application context
+[MessageSource](http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/beans.html#context-functionality-messagesource).
 
 
 ## Java API
@@ -96,3 +96,10 @@ For example, if a template file name is `index.html`, the default resource
 bundle name is `index`. You would typically put a `index.properties` file in
 the same directory as the `index.html` file so the JDK ResourceBundle
 implementation can find it.
+
+To force a template to use a specific resource bundle, call the overloaded
+`execute` method which accepts a resource bundle parameter:
+
+    // Given messages is a resource bundle.
+    template.execute(data, messages, writer)
+    
