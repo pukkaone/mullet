@@ -26,6 +26,7 @@ package com.github.pukkaone.mullet.spring;
 
 import com.github.pukkaone.mullet.TemplateException;
 import com.github.pukkaone.mullet.html.Layout;
+import com.github.pukkaone.mullet.html.Template;
 import com.github.pukkaone.mullet.html.TemplateLoader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class TemplateViewResolver extends AbstractTemplateViewResolver
     private String layoutName;
 
     public TemplateViewResolver() {
-        setViewClass(requiredViewClass());
+        setViewClass(TemplateView.class);
 
         // TODO: Maybe the content type should be derived from the template file
         // encoding.
@@ -91,12 +92,19 @@ public class TemplateViewResolver extends AbstractTemplateViewResolver
         this.layoutName = layoutName;
     }
 
-    /**
-     * Sets the view type of this resolver to {@link TemplateView}.
-     */
-    @Override
-    protected Class<?> requiredViewClass() {
-       return TemplateView.class;
+    private Template getTemplate(String url) {
+        Template template;
+        try {
+            template = templateLoader.load(url);
+        } catch (FileNotFoundException e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Template not found for URL: " + url);
+            }
+            template = null;
+        } catch (IOException e) {
+            throw new TemplateException("load", e);
+        }
+        return template;
     }
 
     private Layout getLayout() {
@@ -119,8 +127,8 @@ public class TemplateViewResolver extends AbstractTemplateViewResolver
     @Override
     protected AbstractUrlBasedView buildView(String viewName) throws Exception {
         TemplateView view = (TemplateView) super.buildView(viewName);
-        view.setTemplateLoader(templateLoader);
         view.setMessages(messages);
+        view.setTemplate(getTemplate(view.getUrl()));
         view.setLayout(getLayout());
         return view;
     }

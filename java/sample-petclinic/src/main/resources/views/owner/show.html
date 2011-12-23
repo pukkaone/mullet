@@ -71,29 +71,11 @@
       </table>
       <table class="table-buttons">
         <tr>
-          <td>
-            <spring:url value="{ownerId}/pets/{petId}/edit" var="petUrl">
-              <spring:param name="ownerId" value="${owner.id}"/>
-              <spring:param name="petId" value="${pet.id}"/>
-            </spring:url>
-            <a href="${fn:escapeXml(petUrl)}">Edit Pet</a>
-          </td>
+          <td><a data-href="editUrl">Edit Pet</a></td>
           <td></td>
-          <td>
-            <spring:url value="{ownerId}/pets/{petId}/visits/new" var="visitUrl">
-              <spring:param name="ownerId" value="${owner.id}"/>
-              <spring:param name="petId" value="${pet.id}"/>
-            </spring:url>
-            <a href="${fn:escapeXml(visitUrl)}">Add Visit</a>
-          </td>
+          <td><a data-href="addVisitUrl">Add Visit</a></td>
           <td></td>
-          <td>
-            <spring:url value="{ownerId}/pets/{petId}/visits.atom" var="feedUrl">
-              <spring:param name="ownerId" value="${owner.id}"/>
-              <spring:param name="petId" value="${pet.id}"/>
-            </spring:url>
-            <a href="${fn:escapeXml(feedUrl)}" rel="alternate" type="application/atom+xml">Atom Feed</a>
-          </td>
+          <td><a data-href="feedUrl" rel="alternate" type="application/atom+xml">Atom Feed</a></td>
         </tr>
       </table>
     </div>

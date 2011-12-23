@@ -2,7 +2,7 @@
 
   * Extremely simple variable syntax is incapable of expressing logic in the
     templates.
-  * The templates are clean HTML which your HTML authoring tool and browser can
+  * Templates are clean HTML which your HTML authoring tool and browser can
     display correctly.  You can use the templates as a static HTML prototype
     for your user interface.
 

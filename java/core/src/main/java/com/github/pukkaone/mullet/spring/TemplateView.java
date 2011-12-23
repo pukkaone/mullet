@@ -26,8 +26,6 @@ package com.github.pukkaone.mullet.spring;
 
 import com.github.pukkaone.mullet.html.Layout;
 import com.github.pukkaone.mullet.html.Template;
-import com.github.pukkaone.mullet.html.TemplateLoader;
-import java.io.FileNotFoundException;
 import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
@@ -41,16 +39,16 @@ import org.springframework.web.servlet.view.AbstractTemplateView;
  */
 public class TemplateView extends AbstractTemplateView {
 
-    private TemplateLoader templateLoader;
     private ResourceBundle messages;
+    private Template template;
     private Layout layout;
-
-    public void setTemplateLoader(TemplateLoader templateLoader) {
-        this.templateLoader = templateLoader;
-    }
 
     public void setMessages(ResourceBundle messages) {
         this.messages = messages;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 
     public void setLayout(Layout layout) {
@@ -59,17 +57,7 @@ public class TemplateView extends AbstractTemplateView {
 
     @Override
     public boolean checkResource(Locale locale) throws Exception {
-        try {
-            // Check that we can get the template, even if we might subsequently
-            // get it again.
-            templateLoader.load(getUrl());
-        } catch (FileNotFoundException e) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Template not found for URL: " + getUrl());
-            }
-            return false;
-        }
-        return true;
+        return template != null;
     }
 
     @Override
@@ -79,7 +67,6 @@ public class TemplateView extends AbstractTemplateView {
             HttpServletResponse response)
         throws Exception
     {
-        Template template = templateLoader.load(getUrl());
         if (layout == null) {
             // When there's no layout, render the page directly to the response.
             template.execute(model, messages, response.getWriter());

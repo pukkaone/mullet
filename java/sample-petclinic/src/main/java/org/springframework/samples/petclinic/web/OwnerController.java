@@ -10,8 +10,6 @@ import org.springframework.samples.petclinic.validation.OwnerValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,13 +45,8 @@ public class OwnerController {
 	private void setUrls(Owner owner) {
 	    String entityUrl = "owner/" + owner.getId();
         owner.setShowUrl(entityUrl);
-        owner.setEditUrl(owner.isNew() ? "owner/new" : entityUrl + "/edit");
+        owner.setEditUrl(entityUrl + "/edit");
 	}
-
-    @InitBinder
-    public void setAllowedFields(WebDataBinder dataBinder) {
-        dataBinder.setDisallowedFields("id");
-    }
 
     /**
      * Shows owner search form.
@@ -145,8 +138,26 @@ public class OwnerController {
         return "owner/edit";
     }
 
-    private String submit(
-            Owner owner,
+    /**
+	 * Shows edit form.
+	 */
+	@RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.GET)
+    public String showEditForm(
+            @PathVariable("ownerId") int ownerId,
+            Model model)
+	{
+        Owner owner = clinic.loadOwner(ownerId);
+        setUrls(owner);
+        model.addAttribute(owner);
+        return "owner/edit";
+    }
+
+    /**
+     * Saves form data.
+     */
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String save(
+            @ModelAttribute("owner") Owner owner,
             BindingResult bindingResult,
             Model model,
             SessionStatus sessionStatus)
@@ -163,52 +174,5 @@ public class OwnerController {
             sessionStatus.setComplete();
             return "redirect:/owner/" + owner.getId();
         }
-    }
-
-    /**
-     * Saves form data.
-     *
-     * @param owner
-     * @param bindingResult
-     * @param sessionStatus
-     * @return view name
-     */
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String add(
-            @ModelAttribute("owner") Owner owner,
-            BindingResult bindingResult,
-            Model model,
-            SessionStatus sessionStatus)
-    {
-        return submit(owner, bindingResult, model, sessionStatus);
-    }
-
-    /**
-	 * Shows edit form.
-	 */
-	@RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.GET)
-    public String showEditForm(@PathVariable("ownerId") int ownerId, Model model) {
-        Owner owner = clinic.loadOwner(ownerId);
-        setUrls(owner);
-        model.addAttribute(owner);
-        return "owner/edit";
-    }
-
-    /**
-     * Saves form data.
-     *
-     * @param owner
-     * @param bindingResult
-     * @param sessionStatus
-     * @return view name
-     */
-    @RequestMapping(value = "/{ownerId}/edit", method = RequestMethod.POST)
-    public String save(
-            @ModelAttribute("owner") Owner owner,
-            BindingResult bindingResult,
-            Model model,
-            SessionStatus sessionStatus)
-    {
-        return submit(owner, bindingResult, model, sessionStatus);
     }
 }
