@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NestedModelTest {
+public class NestedScopeTest {
 
     private static final String A_NAME = "a";
     private static final String A_VALUE_PARENT = "a-parent";
@@ -38,7 +38,7 @@ public class NestedModelTest {
     private static final String B_NAME = "b";
     private static final String B_VALUE_PARENT = "b-parent";
 
-    private DefaultNestedModel model;
+    private DefaultNestedScope model;
 
     @Before
     @SuppressWarnings("unused")
@@ -52,7 +52,7 @@ public class NestedModelTest {
             String a = A_VALUE_CHILD;
         };
 
-        model = new DefaultNestedModel(parent, child);
+        model = new DefaultNestedScope(parent, child);
     }
 
     @Test
@@ -67,6 +67,6 @@ public class NestedModelTest {
 
     @Test
     public void should_return_not_found() throws Exception {
-        assertEquals(Model.NOT_FOUND, model.getVariableValue("c"));
+        assertEquals(Scope.NOT_FOUND, model.getVariableValue("c"));
     }
 }

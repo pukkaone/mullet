@@ -48,7 +48,7 @@ import org.junit.runners.Suite;
     IfTest.class,
     IncludeTest.class,
     LayoutTest.class,
-    NestedModelTest.class,
+    NestedScopeTest.class,
     NoCommandTest.class,
     RemoveTest.class,
     TextTest.class,

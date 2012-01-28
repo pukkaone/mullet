@@ -22,24 +22,47 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package com.github.pukkaone.mullet.html;
+package com.github.pukkaone.mullet;
 
-import com.github.pukkaone.mullet.RenderContext;
+import java.util.LinkedList;
 
 /**
- * Operation to set attribute value from model.
+ * Composite scope that combines scopes in nested scopes. Tries each scope in
+ * sequence until a value is successfully resolved.
  */
-class ModelAttributeCommand extends AttributeCommand {
+public class DefaultNestedScope implements NestedScope {
 
-    private String variableName;
+    // nested scopes in inner to outer order
+    private LinkedList<Scope> scopes = new LinkedList<Scope>();
 
-    ModelAttributeCommand(String attributeName, String variableName) {
-        super(attributeName);
-        this.variableName = variableName.intern();
+    /**
+     * Constructor
+     *
+     * @param dataObjects
+     *            scopes in outer to inner order
+     */
+    public DefaultNestedScope(Object... dataObjects) {
+        for (Object data : dataObjects) {
+            pushScope(data);
+        }
     }
 
-    @Override
-    protected Object getValue(RenderContext renderContext) {
-        return renderContext.getVariableValue(variableName);
+    public Object getVariableValue(String key) {
+        for (Scope scope : scopes) {
+            Object value = scope.getVariableValue(key);
+            if (value != NOT_FOUND) {
+                return value;
+            }
+        }
+        return NOT_FOUND;
+    }
+
+    public void pushScope(Object data) {
+        scopes.addFirst(
+                (data instanceof Scope) ? (Scope) data : new DefaultScope(data));
+    }
+
+    public void popScope() {
+        scopes.removeFirst();
     }
 }

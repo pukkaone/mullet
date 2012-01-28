@@ -25,20 +25,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.github.pukkaone.mullet;
 
 /**
- * Interface for resolving variable names to values in nested scopes. 
+ * Interface for resolving variable names to values.
  */
-public interface NestedModel extends Model {
-    
+public interface Scope {
+
+    /** special value indicating variable name was not found */
+    static final Object NOT_FOUND = new Object();
+
     /**
-     * Adds a nested scope to search in subsequent lookups.
-     * 
-     * @param data
-     *            data object
+     * Resolves variable name to value.
+     *
+     * @param name
+     *            Variable name to find. Must be an {@link String#intern
+     *            interned String} to allow comparisions using the {@code ==}
+     *            operator.
+     * @return value
      */
-    void pushScope(Object data);
-    
-    /**
-     * Removes innermost nested scope.
-     */
-    void popScope();
+    Object getVariableValue(String name);
 }

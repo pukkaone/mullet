@@ -1,5 +1,5 @@
 require 'mullet/html/command_element_renderer'
-require 'mullet/model'
+require 'mullet/scope'
 
 module Mullet; module HTML
 
@@ -19,7 +19,7 @@ module Mullet; module HTML
 
     def should_render_element(render_context)
       value = render_context.get_variable_value(@variable_name)
-      if value == Model::NOT_FOUND || value == nil
+      if value == Scope::NOT_FOUND || value == nil
         return false
       end
 

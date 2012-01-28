@@ -31,7 +31,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Default model implementation which resolves variable names to values by
+ * Default scope implementation which resolves variable names to values by
  * reading from a data object. Given a variable name <var>key</var>, the
  * following mechanisms are tried in this order:
  * <ul>
@@ -49,7 +49,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * If the value acquired from the previous steps is an object implementing
  * {@link Callable}, then the return value from invoking it will be used.
  */
-public class DefaultModel implements Model {
+public class DefaultScope implements Scope {
 
     protected static final String THIS_NAME = "this";
 
@@ -105,7 +105,7 @@ public class DefaultModel implements Model {
 
     private Object data;
 
-    public DefaultModel(Object data) {
+    public DefaultScope(Object data) {
         this.data = data;
     }
 

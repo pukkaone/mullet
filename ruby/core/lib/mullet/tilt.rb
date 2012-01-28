@@ -27,7 +27,7 @@ module Mullet; module Tilt
       end
 
       output = ''
-      @template.execute(DefaultNestedModel.new(scope, locals), output)
+      @template.execute(DefaultNestedScope.new(scope, locals), output)
       return output
     end
 

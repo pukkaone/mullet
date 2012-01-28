@@ -24,7 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.html;
 
-import com.github.pukkaone.mullet.DefaultNestedModel;
+import com.github.pukkaone.mullet.DefaultNestedScope;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -94,7 +94,7 @@ public abstract class TemplateTests {
     protected void setVariable(String variableName, Object value) {
         if (modelMap == null) {
             modelMap = new HashMap<String, Object>();
-            data = new DefaultNestedModel(modelMap);
+            data = new DefaultNestedScope(modelMap);
         }
         
         modelMap.put(variableName, value);

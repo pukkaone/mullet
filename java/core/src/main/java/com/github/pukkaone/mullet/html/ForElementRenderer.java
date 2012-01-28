@@ -24,7 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.html;
 
-import com.github.pukkaone.mullet.Model;
+import com.github.pukkaone.mullet.Scope;
 import com.github.pukkaone.mullet.RenderContext;
 import java.lang.reflect.Array;
 import java.util.Iterator;
@@ -52,7 +52,7 @@ class ForElementRenderer extends CommandElementRenderer {
     @Override
     public void render(RenderContext renderContext) {
         Object value = renderContext.getVariableValue(variableName);
-        if (value == Model.NOT_FOUND || value == null) {
+        if (value == Scope.NOT_FOUND || value == null) {
             return;
         }
 

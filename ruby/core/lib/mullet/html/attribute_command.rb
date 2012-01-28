@@ -1,4 +1,4 @@
-require 'mullet/model'
+require 'mullet/scope'
 
 module Mullet; module HTML
 
@@ -23,7 +23,7 @@ module Mullet; module HTML
     #           attributes to update
     def execute(render_context, attributes)
       value = get_value(render_context)
-      if value == Model::NOT_FOUND || value == nil
+      if value == Scope::NOT_FOUND || value == nil
         # Value not found.  Do not render the attribute.
         attributes.delete(@attribute_name)
       else

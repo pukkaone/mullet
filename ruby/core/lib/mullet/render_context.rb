@@ -1,5 +1,5 @@
 require 'cgi'
-require 'mullet/default_nested_model'
+require 'mullet/default_nested_scope'
 
 module Mullet
 
@@ -20,8 +20,8 @@ module Mullet
     # @param [#<<] output
     #           where to write rendered output
     def initialize(data, missing_value_strategy, nil_value_strategy, output)
-      @model = data.is_a?(DefaultNestedModel) ?
-          data : DefaultNestedModel.new(data)
+      @scope = data.is_a?(DefaultNestedScope) ?
+          data : DefaultNestedScope.new(data)
       @on_missing = missing_value_strategy
       @on_nil = nil_value_strategy
       @output = output
@@ -43,7 +43,7 @@ module Mullet
     #           variable name
     # @return value
     def get_variable_value(name)
-      return @model.get_variable_value(name)
+      return @scope.get_variable_value(name)
     end
 
     # Adds a nested scope to search in subsequent lookups.
@@ -51,23 +51,23 @@ module Mullet
     # @param data
     #           data object
     def push_scope(data)
-      @model.push_scope(data)
+      @scope.push_scope(data)
     end
 
     # Removes innermost nested scope.
     def pop_scope()
-      @model.pop_scope()
+      @scope.pop_scope()
     end
 
-    # Gets model value that is intended for display in the rendered output.
+    # Gets scope value that is intended for display in the rendered output.
     # Applies configured strategies for handling missing and nil values.
     #
     # @param [Symbol] key
     #           variable name
     # @return value
     def get_display_value(key)
-      value = @model.get_variable_value(key)
-      if value == Model::NOT_FOUND
+      value = @scope.get_variable_value(key)
+      if value == Scope::NOT_FOUND
         value = @on_missing.call(key)
       end
       if value == nil

@@ -1,8 +1,8 @@
-require 'mullet/model'
+require 'mullet/scope'
 
 module Mullet
 
-  # Default model implementation which resolves variable names to values by
+  # Default scope implementation which resolves variable names to values by
   # reading from a data object. Given a variable name _key_, the following
   # mechanisms are tried in this order:
   #
@@ -15,8 +15,8 @@ module Mullet
   #     variable value.
   #
   # If the value is a Proc, then use the value returned from calling it.
-  class DefaultModel
-    include Model
+  class DefaultScope
+    include Scope
 
     def initialize(data)
       @data = data

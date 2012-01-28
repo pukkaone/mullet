@@ -1,6 +1,6 @@
-require 'mullet/default_model'
-require 'mullet/default_nested_model'
-require 'mullet/model'
+require 'mullet/default_scope'
+require 'mullet/default_nested_scope'
+require 'mullet/scope'
 require 'mullet/template_error'
 require 'mullet/version'
 

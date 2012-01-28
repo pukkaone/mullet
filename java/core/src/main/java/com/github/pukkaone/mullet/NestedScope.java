@@ -24,45 +24,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet;
 
-import java.util.LinkedList;
-
 /**
- * Composite model that combines models in nested scopes. Tries each model in
- * sequence until a value is successfully resolved.
+ * Interface for resolving variable names to values in nested scopes. 
  */
-public class DefaultNestedModel implements NestedModel {
-
-    // nested scopes in inner to outer order
-    private LinkedList<Model> scopes = new LinkedList<Model>();
-
+public interface NestedScope extends Scope {
+    
     /**
-     * Constructor
-     *
-     * @param dataObjects
-     *            scopes in outer to inner order
+     * Adds a nested scope to search in subsequent lookups.
+     * 
+     * @param data
+     *            data object
      */
-    public DefaultNestedModel(Object... dataObjects) {
-        for (Object data : dataObjects) {
-            pushScope(data);
-        }
-    }
-
-    public Object getVariableValue(String key) {
-        for (Model scope : scopes) {
-            Object value = scope.getVariableValue(key);
-            if (value != NOT_FOUND) {
-                return value;
-            }
-        }
-        return NOT_FOUND;
-    }
-
-    public void pushScope(Object data) {
-        scopes.addFirst(
-                (data instanceof Model) ? (Model) data : new DefaultModel(data));
-    }
-
-    public void popScope() {
-        scopes.removeFirst();
-    }
+    void pushScope(Object data);
+    
+    /**
+     * Removes innermost nested scope.
+     */
+    void popScope();
 }

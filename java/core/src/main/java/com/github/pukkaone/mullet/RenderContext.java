@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  */
 public class RenderContext {
 
-    private NestedModel model;
+    private NestedScope scope;
     private ResourceBundle messages;
     private FailedValueStrategy missingValueStrategy;
     private FailedValueStrategy nullValueStrategy;
@@ -48,9 +48,9 @@ public class RenderContext {
             FailedValueStrategy nullValueStrategy,
             Writer writer)
     {
-        this.model = (data instanceof NestedModel)
-                ? (NestedModel) data
-                : new DefaultNestedModel(data);
+        this.scope = (data instanceof NestedScope)
+                ? (NestedScope) data
+                : new DefaultNestedScope(data);
         this.messages = messages;
         this.missingValueStrategy = missingValueStrategy;
         this.nullValueStrategy = nullValueStrategy;
@@ -84,7 +84,7 @@ public class RenderContext {
      * @return value
      */
     public Object getVariableValue(String key) {
-        return model.getVariableValue(key);
+        return scope.getVariableValue(key);
     }
 
     /**
@@ -94,14 +94,14 @@ public class RenderContext {
      *            data object
      */
     public void pushScope(Object data) {
-        model.pushScope(data);
+        scope.pushScope(data);
     }
 
     /**
      * Removes innermost nested scope.
      */
     public void popScope() {
-        model.popScope();
+        scope.popScope();
     }
 
     /**
@@ -113,8 +113,8 @@ public class RenderContext {
      * @return value
      */
     public Object getDisplayValue(String variableName) {
-        Object value = model.getVariableValue(variableName);
-        if (value == Model.NOT_FOUND) {
+        Object value = scope.getVariableValue(variableName);
+        if (value == Scope.NOT_FOUND) {
             value = missingValueStrategy.getValue(variableName);
         }
         if (value == null) {

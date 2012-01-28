@@ -22,24 +22,24 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package com.github.pukkaone.mullet;
+package com.github.pukkaone.mullet.html;
+
+import com.github.pukkaone.mullet.RenderContext;
 
 /**
- * Interface for resolving variable names to values.
+ * Operation to set attribute to value resolved from a scope.
  */
-public interface Model {
+class ScopeAttributeCommand extends AttributeCommand {
 
-    /** special value indicating variable name was not found */
-    static final Object NOT_FOUND = new Object();
+    private String variableName;
 
-    /**
-     * Resolves variable name to value.
-     *
-     * @param name
-     *            Variable name to find. Must be an {@link String#intern
-     *            interned String} to allow comparisions using the {@code ==}
-     *            operator.
-     * @return value
-     */
-    Object getVariableValue(String name);
+    ScopeAttributeCommand(String attributeName, String variableName) {
+        super(attributeName);
+        this.variableName = variableName.intern();
+    }
+
+    @Override
+    protected Object getValue(RenderContext renderContext) {
+        return renderContext.getVariableValue(variableName);
+    }
 }

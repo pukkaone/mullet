@@ -3,7 +3,7 @@ require 'mullet/template_error'
 require 'mullet/html/command'
 require 'mullet/html/message'
 require 'mullet/html/message_attribute_command'
-require 'mullet/html/model_attribute_command'
+require 'mullet/html/scope_attribute_command'
 
 module Mullet; module HTML
 
@@ -43,7 +43,7 @@ module Mullet; module HTML
 
     def add_attribute_command(attribute_name, variable_name)
       @attribute_commands <<
-          ModelAttributeCommand.new(attribute_name, variable_name)
+          ScopeAttributeCommand.new(attribute_name, variable_name)
     end
 
     def add_attribute_commands(attribute_variable_pairs)

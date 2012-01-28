@@ -2,8 +2,8 @@ require 'mullet/html/attribute_command'
 
 module Mullet; module HTML
 
-  # Operation to set attribute value from model.
-  class ModelAttributeCommand
+  # Operation to set attribute to value resolved from a scope.
+  class ScopeAttributeCommand
     include AttributeCommand
 
     # Constructor

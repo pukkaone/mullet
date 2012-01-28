@@ -1,4 +1,4 @@
-require 'mullet/default_nested_model'
+require 'mullet/default_nested_scope'
 require 'mullet/html/template_loader'
 
 module Mullet; module HTML
@@ -31,12 +31,12 @@ module Mullet; module HTML
     end
 
     def set_variable(variable_name, value)
-      if @model_map == nil
-        @model_map = Hash.new()
-        @data = DefaultNestedModel.new(@model_map)
+      if @scope_map == nil
+        @scope_map = Hash.new()
+        @data = DefaultNestedScope.new(@scope_map)
       end
 
-      @model_map.store(variable_name, value)
+      @scope_map.store(variable_name, value)
     end
 
     def self.strip_new_lines(input)

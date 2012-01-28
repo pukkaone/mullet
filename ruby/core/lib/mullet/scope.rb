@@ -1,8 +1,8 @@
 module Mullet
 
-  # A model responds to the method `get_variable_value` taking a variable name
+  # A scope responds to the method `get_variable_value` taking a variable name
   # argument and returning the variable value.  
-  module Model
+  module Scope
 
     # special value indicating variable name was not found
     NOT_FOUND = Object.new()

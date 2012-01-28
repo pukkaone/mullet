@@ -1,11 +1,11 @@
-require 'mullet/default_model'
+require 'mullet/default_scope'
 
 module Mullet
 
-  # Composite model that combines models in nested scopes. Tries each model in
+  # Composite scope that combines scopes in nested scopes. Tries each scope in
   # sequence until a value is successfully resolved.
-  class DefaultNestedModel
-    include Model
+  class DefaultNestedScope
+    include Scope
 
     # Constructor
     # 
@@ -38,7 +38,7 @@ module Mullet
     #           data object
     def push_scope(data)
       @scopes.push(
-          data.respond_to?(:get_variable_value) ? data : DefaultModel.new(data))
+          data.respond_to?(:get_variable_value) ? data : DefaultScope.new(data))
     end
 
     # Removes innermost nested scope.

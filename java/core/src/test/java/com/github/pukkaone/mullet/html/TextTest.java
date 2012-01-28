@@ -26,7 +26,7 @@ package com.github.pukkaone.mullet.html;
 
 import static org.junit.Assert.assertEquals;
 
-import com.github.pukkaone.mullet.DefaultNestedModel;
+import com.github.pukkaone.mullet.DefaultNestedScope;
 import java.util.concurrent.Callable;
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class TextTest extends TemplateTests {
     
     @Test
     public void should_set_text_to_callable_value() throws Exception {
-        data = new DefaultNestedModel(new Object() {
+        data = new DefaultNestedScope(new Object() {
             @SuppressWarnings("unused")
             Callable<String> greeting = new Callable<String>() {
                 public String call() throws Exception {

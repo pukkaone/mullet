@@ -1,5 +1,5 @@
 require 'mullet/html/command_element_renderer'
-require 'mullet/model'
+require 'mullet/scope'
 
 module Mullet; module HTML
 
@@ -19,7 +19,7 @@ module Mullet; module HTML
 
     alias :super_render :render
 
-    def render_nested_model(data, render_context)
+    def render_nested_scope(data, render_context)
       render_context.push_scope(data)
       super_render(render_context)
       render_context.pop_scope()
@@ -27,7 +27,7 @@ module Mullet; module HTML
 
     def render(render_context)
       value = render_context.get_variable_value(@variable_name)
-      if value == Model::NOT_FOUND || value == nil || value == false
+      if value == Scope::NOT_FOUND || value == nil || value == false
         return
       end
 
@@ -36,11 +36,11 @@ module Mullet; module HTML
       end
 
       if value.respond_to?(:each)
-        value.each {|item| render_nested_model(item, render_context) }
+        value.each {|item| render_nested_scope(item, render_context) }
         return
       end
 
-      render_nested_model(value, render_context)
+      render_nested_scope(value, render_context)
     end
   end
 

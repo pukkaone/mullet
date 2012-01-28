@@ -70,7 +70,7 @@ class ElementRenderer extends Container implements Renderer {
             String attributeName, String variableName)
     {
         attributeCommands.add(
-                new ModelAttributeCommand(attributeName, variableName));
+                new ScopeAttributeCommand(attributeName, variableName));
     }
 
     private void addAttributeCommands(String attributeAndVariablePairs) {

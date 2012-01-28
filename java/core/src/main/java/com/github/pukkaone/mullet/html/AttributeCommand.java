@@ -24,7 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.html;
 
-import com.github.pukkaone.mullet.Model;
+import com.github.pukkaone.mullet.Scope;
 import com.github.pukkaone.mullet.RenderContext;
 
 /**
@@ -58,7 +58,7 @@ abstract class AttributeCommand {
      */
     void execute(RenderContext renderContext, Attributes attributes) {
         Object value = getValue(renderContext);
-        if (value == Model.NOT_FOUND || value == null) {
+        if (value == Scope.NOT_FOUND || value == null) {
             // Value not found.  Do not render the attribute.
             attributes.remove(attributeName);
         } else {
