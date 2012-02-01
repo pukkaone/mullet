@@ -6,7 +6,7 @@ title: Java Guide
 ## Installation
 
 Download the [compiled JAR file](https://github.com/pukkaone/mullet/downloads)
-and add it to your application's classpath.
+and add it to your application's class path.
 
 
 ## Spring MVC integration
@@ -18,8 +18,8 @@ templates.
 ### View resolver
 
 A `TemplateViewResolver` resolves a view name to a template by looking for a
-classpath resource file containing the template.  It appends the `suffix`
-property to the name, then looks for the name in the classpath resource folder
+class path resource file containing the template.  It appends the `suffix`
+property to the name, then looks for the name in the class path resource folder
 specified by the `templateLoaderPath` property.
 
     <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
@@ -68,7 +68,7 @@ Messages are resolved from the Spring application context
 
 ## Java API
 
-A `TemplateLoader` loads templates from classpath resources.
+A `TemplateLoader` loads templates from class path resources.
 
     // Given templatePath is the name of a folder containing template files.
     loader = new TemplateLoader(templatePath)
@@ -102,4 +102,3 @@ To force a template to use a specific resource bundle, call the overloaded
 
     // Given messages is a resource bundle.
     template.execute(data, messages, writer)
-    
