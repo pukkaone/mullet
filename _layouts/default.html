@@ -7,57 +7,25 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="//twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
   <!-- Override Bootstrap CSS -->
   <style type="text/css">
-    html, body {
-      background-color: #DDD;
-    }
-    body {
+    body, p {
       font-family: "Lucida Grande", "Lucida Sans Unicode", Calibri, sans-serif;
-    }
-    .topbar {
-      position: static;
     }
     .hero-unit {
       background-color: #FEEFB3;
     }
-    .content {
-      background-color: #fff;
-      /* negative indent the amount of the padding to maintain the grid system
-      margin: 0 -20px; */
-      padding: 20px;
-      -webkit-border-radius: 0 0 6px 6px;
-         -moz-border-radius: 0 0 6px 6px;
-              border-radius: 0 0 6px 6px;
-      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-         -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-              box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    }
-    .content .span12 {
-      width: 660px;
-    }
-    .sidebar {
-      margin-top: 20px;
+    h1 small {
+      color: #333;
     }
     code {
       background-color: transparent;
+      border-style: none;
       padding: 0;
     }
     code, pre {
       font-family: Menlo, Consolas, monospace;
-    }
-    h1 small, li {
-      color: #404040;
-    }
-    h3, h4, h5, h6 {
-      line-height: 1;
-      margin-bottom: 1em;
-      margin-top: 1em;
-    }
-    p, pre {
-      margin-bottom: 1em;
-      margin-top: 1em;
     }
   </style>
 
@@ -65,7 +33,7 @@
   <link rel="stylesheet" href="css/prettify.css" type="text/css">
 
   <script type="text/javascript" src="js/prettify.js"></script>
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
   <script type="text/javascript">
     $(function() {
@@ -98,8 +66,8 @@
   </script>
 </head>
 <body>
-  <div class="topbar">
-    <div class="fill">
+  <div class="navbar">
+    <div class="navbar-inner">
       <div class="container">
         <a class="brand" href="/mullet/">Mullet</a>
       </div>
@@ -108,12 +76,12 @@
 
   <div class="container">
     <div class="row">
-      <div class="span12">
+      <div class="span9">
         <div class="content">
           {{ content }}
         </div>
       </div>
-      <div class="span4">
+      <div class="span3">
         <div class="sidebar">
           <div class="well">
             <h5>Documentation</h5>
