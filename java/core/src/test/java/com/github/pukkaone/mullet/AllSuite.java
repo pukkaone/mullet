@@ -43,6 +43,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     AttributeTest.class,
+    DefaultScopeTest.class,
     EscapeXmlTest.class,
     ForTest.class,
     IfTest.class,

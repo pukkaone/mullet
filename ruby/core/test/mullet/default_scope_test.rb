@@ -1,14 +1,14 @@
 require 'minitest/autorun'
 require 'mullet/default_scope'
 
-class ScopeTest < MiniTest::Unit::TestCase
+class DefaultScopeTest < MiniTest::Unit::TestCase
   VARIABLE_NAME = :first_name
   VARIABLE_VALUE = 'Joe'
 
   def test_return_this_object()
     data = VARIABLE_VALUE
     scope = Mullet::DefaultScope.new(data)
-    assert_equal VARIABLE_VALUE, scope.get_variable_value(:this)
+    assert_equal VARIABLE_VALUE, scope.get_variable_value(:'.')
   end
 
   def test_return_value_from_hash()

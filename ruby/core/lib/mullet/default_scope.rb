@@ -6,7 +6,7 @@ module Mullet
   # reading from a data object. Given a variable name _key_, the following
   # mechanisms are tried in this order:
   #
-  #   * If the variable name is `this`, then return the object.
+  #   * If the variable name is `.`, then return the object.
   #   * If the object is a `Hash`, then use _key_ as the key to retrieve the
   #     value from the hash.
   #   * If the object has a method named _key_ taking no parameters, then use
@@ -23,7 +23,7 @@ module Mullet
     end
 
     def fetch_impl(name)
-      if name == :this
+      if name == :'.'
         return @data
       end
 

@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * reading from a data object. Given a variable name <var>key</var>, the
  * following mechanisms are tried in this order:
  * <ul>
- * <li>If the variable name is {@code this}, then return the object.
+ * <li>If the variable name is {@code "."}, then return the object.
  * <li>If the object is a {@link Map}, then call {@link Map#get} to get the
  * value using the string <var>key</var> as the key.
  * <li>If the object has a method named <var>key</var> with non-void return
@@ -51,7 +51,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultScope implements Scope {
 
-    protected static final String THIS_NAME = "this";
+    protected static final String CURRENT_OBJECT_NAME = ".";
 
     /**
      * (data class, variable name) combination used to find variable fetchers
@@ -110,7 +110,7 @@ public class DefaultScope implements Scope {
     }
 
     protected static VariableFetcher createFetcher(Key key) {
-        if (THIS_NAME == key.name) {
+        if (CURRENT_OBJECT_NAME == key.name) {
             return THIS_FETCHER;
         }
 

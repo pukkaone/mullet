@@ -7,7 +7,7 @@ module Mullet; module HTML
   # loaded templates.
   #
   # By default, templates render an empty string when a variable is not found
-  # or its value is null. Call the `on_missing` and `on_nil` methods to
+  # or its value is nil. Call the `on_missing` and `on_nil` methods to
   # configure how templates loaded by this loader should handle missing and nil
   # values respectively.
   class TemplateLoader
