@@ -87,7 +87,7 @@ named _variable_.
   * If the value is an object, then render the element exactly once.
 
 In each iteration, the current item is set as the current context for variable
-lookups.  The special variable name `this` references the current item.
+lookups.  The special variable name `.` references the current item.
 
     <ul>
       <li data-for="repos">
