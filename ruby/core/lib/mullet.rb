@@ -3,6 +3,7 @@ require 'mullet/default_nested_scope'
 require 'mullet/scope'
 require 'mullet/template_error'
 require 'mullet/version'
+require 'mullet/view'
 
 require 'mullet/html/layout'
 require 'mullet/html/template'

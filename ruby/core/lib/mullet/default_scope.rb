@@ -7,12 +7,12 @@ module Mullet
   # mechanisms are tried in this order:
   #
   #   * If the variable name is `.`, then return the object.
-  #   * If the object is a `Hash`, then use _key_ as the key to retrieve the
-  #     value from the hash.
   #   * If the object has a method named _key_ taking no parameters, then use
   #     the value returned from calling the method.
   #   * If the object has an instance variable named @_key_, then use the
   #     variable value.
+  #   * If the object is a `Hash`, then use _key_ as the key to retrieve the
+  #     value from the hash.
   #
   # If the value is a Proc, then use the value returned from calling it.
   class DefaultScope
@@ -27,12 +27,6 @@ module Mullet
         return @data
       end
 
-      # Is the variable name a key in a Hash?
-      if @data.respond_to?(:fetch)
-        # Call the block if the key is not found.
-        return @data.fetch(name) {|k| @data.fetch(k.to_s(), NOT_FOUND) }
-      end
-
       # Does the variable name match a method name in the object?
       if @data.respond_to?(name)
         method = @data.method(name)
@@ -45,6 +39,12 @@ module Mullet
       variable = :"@#{name}"
       if @data.instance_variable_defined?(variable)
         return @data.instance_variable_get(variable)
+      end
+
+      # Is the variable name a key in a Hash?
+      if @data.respond_to?(:fetch)
+        # If the key was not found, then try to find it as a String.
+        return @data.fetch(name) {|k| @data.fetch(k.to_s(), NOT_FOUND) }
       end
 
       return NOT_FOUND
