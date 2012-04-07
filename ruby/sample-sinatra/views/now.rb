@@ -6,7 +6,7 @@ module Views
   class Now < Mullet::View
 
     def full_name()
-      return "#{fetch(:first_name)} #{fetch(:last_name)}"
+      return "#{first_name} #{last_name}"
     end
 
     def now()

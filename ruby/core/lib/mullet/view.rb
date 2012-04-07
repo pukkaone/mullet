@@ -17,12 +17,21 @@ module Mullet
     end
 
     # Resolves variable name to value from the model.
-    # 
+    #
     # @param [Symbol] name
     #           variable name
     # @return variable value
     def fetch(name)
       return @model.get_variable_value(name)
+    end
+
+    # Allow model values to be queried as if they were attributes.
+    def method_missing(name, *args)
+      value = fetch(name)
+      if value == Scope::NOT_FOUND
+        value = super.method_missing(name, *args)
+      end
+      return value
     end
   end
 
