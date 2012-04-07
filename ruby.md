@@ -46,15 +46,15 @@ format suitable for rendering in the template.  The view class must extend the
     module Views
       class Index < Mullet::View
         def full_name()
-          return "#{fetch(:first_name)} #{fetch(:last_name)}"
+          return "#{first_name} #{last_name}"
         end
       end
     end
 
 In addition to the application data, the template can read the variable named
 `full_name` and the value comes from calling the method with the same name in
-the view class.  The `fetch` method reads the named variable value from the
-application data.
+the view class.  Application data values can be queried as if they were
+attributes of the view class.
 
 If the view class is not found, then the engine will render the application
 data in the template directly.
