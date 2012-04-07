@@ -2,7 +2,7 @@ require 'mullet/sinatra/engine'
 require 'sinatra/base'
 
 module Mullet
- 
+
   # Sinatra extension for rendering views with Mullet.
   #
   # Example:
@@ -35,8 +35,24 @@ module Mullet
     module Helpers
       @@engine = Mullet::Sinatra::Engine.new()
 
+      # Renders output for a view
+      #
+      # @param [Symbol] view_name
+      #         name of view to render
+      # @param [Hash] options
+      #         name to value hash of options:
+      #         :layout
+      #                 If value is `false`, no layout is used, otherwise the
+      #                 value is the layout name to use.
+      #         :locals
+      #                 name to value hash of local variables to make available
+      #                 to the view
+      # @param [Hash] locals
+      #         name to value hash of local variables to make available to the
+      #         view
+      # @return [String] rendered output
       def mullet(view_name, options={}, locals={})
-        # The options hash may contain a key :locals with the value being a 
+        # The options hash may contain a key :locals with the value being a
         # hash mapping variable names to values.
         locals.merge!(options.delete(:locals) || {})
 
@@ -84,7 +100,7 @@ module Mullet
           layout.execute(view, layout_output)
           output = layout_output
         end
-        
+
         return output
       end
     end
