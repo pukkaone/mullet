@@ -8,16 +8,16 @@ module Mullet
     include Scope
 
     # Constructor
-    # 
+    #
     # @param data_objects
     #           scopes in outer to inner order
     def initialize(*data_objects)
       @scopes = []
-      push_scope(*data_objects)
+      data_objects.each {|data| push_scope(data) }
     end
 
     # Resolves variable name to value.
-    # 
+    #
     # @param [Symbol] name
     #           variable name
     # @return variable value
@@ -32,15 +32,13 @@ module Mullet
       return NOT_FOUND
     end
 
-    # Adds new innermost nested scopes.
+    # Adds new innermost nested scope.
     #
-    # @param data_objects
-    #           scopes in outer to inner order
-    def push_scope(*data_objects)
-      data_objects.each do |data|
-        @scopes.push(
-            data.respond_to?(:get_variable_value) ? data : DefaultScope.new(data))
-      end
+    # @param data
+    #           data object
+    def push_scope(data)
+      @scopes.push(
+          data.respond_to?(:get_variable_value) ? data : DefaultScope.new(data))
     end
 
     # Removes innermost nested scope.
