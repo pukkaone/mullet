@@ -101,7 +101,7 @@
     <property name="order" value="2"/>
     <property name="templatePackage" value="org.springframework.samples.petclinic.web.view"/>
     <property name="suffix" value=".html"/>
-    <property name="layout" value="layout"/>
+    <property name="layout" value="Layout"/>
   </bean>
 
 	<!--
