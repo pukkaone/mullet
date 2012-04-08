@@ -36,18 +36,6 @@ public class OwnerController {
     @Autowired
     private MessageSource messageSource;
 
-	/**
-     * Sets URLs in owner so the view can render them.
-     *
-     * @param owner
-     *            owner to update
-     */
-	private void setUrls(Owner owner) {
-	    String entityUrl = "owner/" + owner.getId();
-        owner.setShowUrl(entityUrl);
-        owner.setEditUrl(entityUrl + "/edit");
-	}
-
     /**
      * Shows owner search form.
      *
@@ -84,18 +72,14 @@ public class OwnerController {
 
         // find owners by last name
         Collection<Owner> owners = this.clinic.findOwners(owner.getLastName());
-        for (Owner curOwner : owners) {
-            setUrls(curOwner);
-        }
-
         if (owners.size() < 1) {
             // no owners found
             bindingResult.rejectValue("lastName", "notFound", "not found");
             viewName = "owner/search";
         } else if (owners.size() > 1) {
             // multiple owners found
-            model.addAttribute("selections", owners);
-            viewName = "owner/list";
+            model.addAttribute("owners", owners);
+            viewName = "owner/SearchResults";
         } else {
             // 1 owner found
             owner = owners.iterator().next();
@@ -119,10 +103,7 @@ public class OwnerController {
 	@RequestMapping(value = "/{ownerId}", method = RequestMethod.GET)
 	public String show(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = clinic.loadOwner(ownerId);
-		setUrls(owner);
 		model.addAttribute(owner);
-
-		model.addAttribute("addPetUrl", "owner/" + ownerId + "/pet/new");
 
 		return "owner/show";
 	}
@@ -133,7 +114,6 @@ public class OwnerController {
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String showAddForm(Model model) {
         Owner owner = new Owner();
-        setUrls(owner);
         model.addAttribute(owner);
         return "owner/edit";
     }
@@ -147,7 +127,6 @@ public class OwnerController {
             Model model)
 	{
         Owner owner = clinic.loadOwner(ownerId);
-        setUrls(owner);
         model.addAttribute(owner);
         return "owner/edit";
     }

@@ -2,12 +2,12 @@ require 'mullet/default_nested_scope'
 
 module Mullet
 
-  # Adapts model data for rendering in a template.  Applications will typically
-  # define subclasses with attributes that will be referenced by name from the
-  # templates.
+  # Decorates model with additional variables that can be rendered in a
+  # template.  Applications will typically define subclasses with attributes
+  # that will be referenced by name from the templates.
   class View
 
-    # Sets model to adapt.  Applications do not have to call this method
+    # Sets model to decorate.  Applications do not have to call this method
     # directly.  The template engine will call this method implicitly.
     #
     # @param data_objects

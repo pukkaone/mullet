@@ -10,8 +10,6 @@ package org.springframework.samples.petclinic;
 public class BaseEntity {
 
 	private Integer id;
-    private String editUrl;
-	private String showUrl;
 
     public Integer getId() {
         return id;
@@ -24,20 +22,4 @@ public class BaseEntity {
 	public boolean isNew() {
 		return (this.id == null);
 	}
-
-    public String getEditUrl() {
-        return editUrl;
-    }
-
-    public void setEditUrl(String editUrl) {
-        this.editUrl = editUrl;
-    }
-
-    public String getShowUrl() {
-        return showUrl;
-    }
-
-    public void setShowUrl(String url) {
-        this.showUrl = url;
-    }
 }

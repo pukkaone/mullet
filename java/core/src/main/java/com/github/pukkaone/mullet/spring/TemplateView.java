@@ -24,6 +24,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.github.pukkaone.mullet.spring;
 
+import com.github.pukkaone.mullet.DefaultNestedScope;
+import com.github.pukkaone.mullet.ModelDecorator;
 import com.github.pukkaone.mullet.html.Layout;
 import com.github.pukkaone.mullet.html.Template;
 import java.io.StringWriter;
@@ -32,6 +34,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.servlet.view.AbstractTemplateView;
 
 /**
@@ -39,9 +42,14 @@ import org.springframework.web.servlet.view.AbstractTemplateView;
  */
 public class TemplateView extends AbstractTemplateView {
 
+    private Class<?> modelDecoratorClass;
     private ResourceBundle messages;
     private Template template;
     private Layout layout;
+
+    public void setModelDecoratorClass(Class<?> modelDecoratorClass) {
+        this.modelDecoratorClass = modelDecoratorClass;
+    }
 
     public void setMessages(ResourceBundle messages) {
         this.messages = messages;
@@ -67,15 +75,23 @@ public class TemplateView extends AbstractTemplateView {
             HttpServletResponse response)
         throws Exception
     {
+        DefaultNestedScope decoratedModel = new DefaultNestedScope(model);
+        if (modelDecoratorClass != null) {
+            ModelDecorator decorator =
+                    (ModelDecorator) BeanUtils.instantiateClass(modelDecoratorClass);
+            decorator.setModel(model);
+            decoratedModel.pushScope(decorator);
+        }
+
         if (layout == null) {
             // When there's no layout, render the page directly to the response.
-            template.execute(model, messages, response.getWriter());
+            template.execute(decoratedModel, messages, response.getWriter());
             return;
         }
 
         // Render template then extract data from rendered page.
         StringWriter pageHtml = new StringWriter();
-        template.execute(model, messages, pageHtml);
+        template.execute(decoratedModel, messages, pageHtml);
 
         // Render page data in a layout.
         layout.execute(

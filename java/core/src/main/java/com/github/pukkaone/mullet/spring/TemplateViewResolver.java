@@ -39,15 +39,15 @@ import org.springframework.web.servlet.view.AbstractTemplateViewResolver;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
- * Resolves view name to a view that renders a page from a template. If a layout
+ * Resolves view name to a model decorator and a template. If a layout
  * is configured (the default is no layout), then passes the page to a layout.
  * <p>
- * The simplest way to use this class is to set the {@code templateLoaderPath}
+ * The simplest way to use this class is to set the {@code templatePackage}
  * and {@code suffix} properties:
  *
  * <pre>
  * &lt;bean class="com.github.pukkaone.mullet.spring.TemplateLayoutViewResolver"&gt;
- *   &lt;property name="templateLoaderPath" value="/views"/&gt;
+ *   &lt;property name="templatePackage" value="com.example.view"/&gt;
  *   &lt;property name="suffix" value=".html"/&gt;
  * &lt;/bean&gt;
  * </pre>
@@ -55,6 +55,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 public class TemplateViewResolver extends AbstractTemplateViewResolver
     implements MessageSourceAware
 {
+    private String modelDecoratorPackage;
     private TemplateLoader templateLoader;
     private ResourceBundle messages;
     private String layoutName;
@@ -68,12 +69,19 @@ public class TemplateViewResolver extends AbstractTemplateViewResolver
     }
 
     /**
-     * Sets the class path folder where templates will be loaded.
+     * Sets the package from where model decorator classes and templates will be
+     * loaded.
      *
-     * @param templatePath
-     *            base template folder
+     * @param templatePackage
+     *            package name
      */
-    public void setTemplateLoaderPath(String templatePath) {
+    public void setTemplatePackage(String templatePackage) {
+        modelDecoratorPackage = templatePackage;
+        if (!modelDecoratorPackage.endsWith(".")) {
+            modelDecoratorPackage += '.';
+        }
+
+        String templatePath = templatePackage.replace('.', '/');
         templateLoader = new TemplateLoader(templatePath);
     }
 
@@ -90,6 +98,15 @@ public class TemplateViewResolver extends AbstractTemplateViewResolver
      */
     public void setLayout(String layoutName) {
         this.layoutName = layoutName;
+    }
+
+    private Class<?> getModelDecoratorClass(String viewName) {
+        String className = modelDecoratorPackage + viewName.replace('/', '.');
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 
     private Template getTemplate(String url) {
@@ -127,6 +144,7 @@ public class TemplateViewResolver extends AbstractTemplateViewResolver
     @Override
     protected AbstractUrlBasedView buildView(String viewName) throws Exception {
         TemplateView view = (TemplateView) super.buildView(viewName);
+        view.setModelDecoratorClass(getModelDecoratorClass(viewName));
         view.setMessages(messages);
         view.setTemplate(getTemplate(view.getUrl()));
         view.setLayout(getLayout());

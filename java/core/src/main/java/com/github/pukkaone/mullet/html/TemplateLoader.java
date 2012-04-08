@@ -69,7 +69,7 @@ public class TemplateLoader {
             templatePath = '/' + templatePath;
         }
         if (!templatePath.endsWith("/")) {
-            templatePath = templatePath + '/';
+            templatePath += '/';
         }
         this.templatePath = templatePath;
     }
