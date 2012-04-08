@@ -25,17 +25,6 @@ public class ClinicController {
     @Autowired
 	private Clinic clinic;
 
-	public ClinicController() {
-	}
-
-	/**
-	 * Custom handler for the welcome view.
-	 */
-	@RequestMapping("/")
-	public String welcomeHandler() {
-		return "welcome";
-	}
-
 	/**
 	 * Custom handler for displaying vets.
 	 *
