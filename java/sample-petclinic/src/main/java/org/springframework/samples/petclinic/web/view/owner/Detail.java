@@ -24,88 +24,29 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.springframework.samples.petclinic.web.view.owner;
 
+import com.github.pukkaone.mullet.ModelDecorator;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.samples.petclinic.Owner;
 import org.springframework.samples.petclinic.Pet;
 
 /**
- * Decorates Owner class with view specific logic.
+ * Decorates model for owner detail view.
  */
-public class OwnerDecorator extends Owner {
+public class Detail extends ModelDecorator {
 
-    private Owner delegate;
-    private String entityUrl;
-
-    public OwnerDecorator(Owner delegate) {
-        this.delegate = delegate;
-        this.entityUrl = "owner/" + getId();
+    public OwnerDecorator getOwner() {
+        Owner owner = (Owner) getObject("owner");
+        return new OwnerDecorator(owner);
     }
 
-    @Override
-    public Integer getId() {
-        return delegate.getId();
-    }
+    public List<PetDecorator> getPets() {
+        Owner owner = (Owner) getObject("owner");
 
-    @Override
-    public boolean isNew() {
-        return delegate.isNew();
-    }
-
-    @Override
-    public String getFirstName() {
-        return delegate.getFirstName();
-    }
-
-    @Override
-    public String getLastName() {
-        return delegate.getLastName();
-    }
-
-    @Override
-    public String getAddress() {
-        return delegate.getAddress();
-    }
-
-    @Override
-    public String getCity() {
-        return delegate.getCity();
-    }
-
-    @Override
-    public String getTelephone() {
-        return delegate.getTelephone();
-    }
-
-    @Override
-    public List<Pet> getPets() {
-        return delegate.getPets();
-    }
-
-    /**
-     * Gets URL which renders details of the entity.
-     *
-     * @return URL
-     */
-    public String getDetailUrl() {
-        return entityUrl;
-    }
-
-    /**
-     * Gets URL which renders form to edit the entity.
-     *
-     * @return URL
-     */
-    public String getEditUrl() {
-        return entityUrl + "/edit";
-    }
-
-    /**
-     * Gets URL which renders form to add a pet.
-     *
-     * @return URL
-     */
-    public String getAddPetUrl() {
-        return entityUrl + "/pet/new";
-
+        List<PetDecorator> pets = new ArrayList<PetDecorator>();
+        for (Pet pet : owner.getPets()) {
+            pets.add(new PetDecorator(pet));
+        }
+        return pets;
     }
 }

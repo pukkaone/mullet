@@ -38,8 +38,8 @@ public class SearchResults extends ModelDecorator {
     @SuppressWarnings("unchecked")
     public List<OwnerDecorator> getOwners() {
         List<OwnerDecorator> owners = new ArrayList<OwnerDecorator>();
-        for (Owner delegate : (Collection<Owner>) getObject("owners")) {
-            owners.add(new OwnerDecorator(delegate));
+        for (Owner owner : (Collection<Owner>) getObject("owners")) {
+            owners.add(new OwnerDecorator(owner));
         }
         return owners;
     }

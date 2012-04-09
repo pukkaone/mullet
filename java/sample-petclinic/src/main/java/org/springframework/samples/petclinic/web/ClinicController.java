@@ -5,10 +5,7 @@ import org.springframework.samples.petclinic.Clinic;
 import org.springframework.samples.petclinic.Vets;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Annotation-driven <em>MultiActionController</em> that handles all non-form
@@ -41,18 +38,4 @@ public class ClinicController {
 		vets.getVetList().addAll(this.clinic.getVets());
 		return new ModelMap(vets);
 	}
-
-	/**
-	 * Custom handler for displaying an list of visits.
-	 *
-	 * @param petId the ID of the pet whose visits to display
-	 * @return a ModelMap with the model attributes for the view
-	 */
-	@RequestMapping(value="/owners/*/pets/{petId}/visits", method=RequestMethod.GET)
-	public ModelAndView visitsHandler(@PathVariable int petId) {
-		ModelAndView mav = new ModelAndView("visits");
-		mav.addObject("visits", this.clinic.loadPet(petId).getVisits());
-		return mav;
-	}
-
 }

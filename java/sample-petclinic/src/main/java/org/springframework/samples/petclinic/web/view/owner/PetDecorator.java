@@ -24,21 +24,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.springframework.samples.petclinic.web.view.owner;
 
+import java.util.Date;
 import java.util.List;
-import org.springframework.samples.petclinic.Owner;
 import org.springframework.samples.petclinic.Pet;
+import org.springframework.samples.petclinic.PetType;
+import org.springframework.samples.petclinic.Visit;
 
 /**
- * Decorates Owner class with view specific logic.
+ * Decorates Pet class with view specific logic.
  */
-public class OwnerDecorator extends Owner {
+public class PetDecorator extends Pet {
 
-    private Owner delegate;
+    private Pet delegate;
     private String entityUrl;
 
-    public OwnerDecorator(Owner delegate) {
+    public PetDecorator(Pet delegate) {
         this.delegate = delegate;
-        this.entityUrl = "owner/" + getId();
+        this.entityUrl = "pet/" + getId();
     }
 
     @Override
@@ -52,33 +54,23 @@ public class OwnerDecorator extends Owner {
     }
 
     @Override
-    public String getFirstName() {
-        return delegate.getFirstName();
+    public String getName() {
+        return delegate.getName();
     }
 
     @Override
-    public String getLastName() {
-        return delegate.getLastName();
+    public Date getBirthDate() {
+        return delegate.getBirthDate();
     }
 
     @Override
-    public String getAddress() {
-        return delegate.getAddress();
+    public PetType getType() {
+        return delegate.getType();
     }
 
     @Override
-    public String getCity() {
-        return delegate.getCity();
-    }
-
-    @Override
-    public String getTelephone() {
-        return delegate.getTelephone();
-    }
-
-    @Override
-    public List<Pet> getPets() {
-        return delegate.getPets();
+    public List<Visit> getVisits() {
+        return delegate.getVisits();
     }
 
     /**
@@ -100,12 +92,22 @@ public class OwnerDecorator extends Owner {
     }
 
     /**
-     * Gets URL which renders form to add a pet.
+     * Gets URL which renders form to add a visit.
      *
      * @return URL
      */
-    public String getAddPetUrl() {
-        return entityUrl + "/pet/new";
+    public String getAddVisitUrl() {
+        return entityUrl + "/visit/new";
+
+    }
+
+    /**
+     * Gets URL which renders visit feed.
+     *
+     * @return URL
+     */
+    public String getVisitFeedUrl() {
+        return entityUrl + "/visits.atom";
 
     }
 }

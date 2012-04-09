@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 /**
  * Handles owner actions.
@@ -27,7 +25,6 @@ import org.springframework.web.bind.support.SessionStatus;
  */
 @Controller
 @RequestMapping("/owner")
-@SessionAttributes(types = Owner.class)
 public class OwnerController {
 
     @Autowired
@@ -105,7 +102,7 @@ public class OwnerController {
 		Owner owner = clinic.loadOwner(ownerId);
 		model.addAttribute(owner);
 
-		return "owner/show";
+		return "owner/Detail";
 	}
 
     /**
@@ -115,7 +112,7 @@ public class OwnerController {
     public String showAddForm(Model model) {
         Owner owner = new Owner();
         model.addAttribute(owner);
-        return "owner/edit";
+        return "owner/EditForm";
     }
 
     /**
@@ -128,7 +125,7 @@ public class OwnerController {
 	{
         Owner owner = clinic.loadOwner(ownerId);
         model.addAttribute(owner);
-        return "owner/edit";
+        return "owner/EditForm";
     }
 
     /**
@@ -138,8 +135,7 @@ public class OwnerController {
     public String save(
             @ModelAttribute("owner") Owner owner,
             BindingResult bindingResult,
-            Model model,
-            SessionStatus sessionStatus)
+            Model model)
     {
         new OwnerValidator().validate(owner, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -147,10 +143,9 @@ public class OwnerController {
                     "allErrors",
                     BindingResultUtils.getErrorMessages(
                             bindingResult, messageSource));
-            return "owner/edit";
+            return "owner/EditForm";
         } else {
             clinic.storeOwner(owner);
-            sessionStatus.setComplete();
             return "redirect:/owner/" + owner.getId();
         }
     }
