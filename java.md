@@ -17,13 +17,20 @@ templates.
 
 ### View resolver
 
-A `TemplateViewResolver` resolves a view name to a template by looking for a
-class path resource file containing the template.  It appends the `suffix`
-property to the name, then looks for the name in the class path resource folder
-specified by the `templateLoaderPath` property.
+A view consists of a Java model decorator class and a template.  A model
+decorator extends the model passed to the template by adding variables and
+implementing logic for setting those variables.
+
+A `TemplateViewResolver` resolves a view name to a model decorator class and a
+template.  It finds the model decorator class by looking for a class with the
+same name as the view name in the Java package specified by the `viewPackage`
+property.  It finds the template by appending the suffix specified by the
+`suffix` property to the view name and looking for a file with that name in the
+same specified Java package.  If the model decorator class is not found, then
+the view will render the model data to template directly.
 
     <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
-      <property name="templateLoaderPath" value="/views"/>
+      <property name="viewPackage" value="com.example.view"/>
       <property name="suffix" value=".html"/>
     </bean>
 
@@ -36,28 +43,28 @@ elements.  For more complicated page composition needs,
 [SiteMesh](https://github.com/sitemesh/sitemesh2) might be a more appropriate
 solution.
 
-To enable a layout, configure the `layout` property.  The `layout` property is
-the view name to resolve to the layout template.
+To enable a layout, configure the `layout` property to the name of the view to
+use as the layout.  Like any other view, the layout view consists of a model
+decorator class and a template.
 
     <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
-      <property name="templateLoaderPath" value="/views"/>
+      <property name="viewPackage" value="com.example.view"/>
       <property name="suffix" value=".html"/>
-      <property name="layout" value="layout"/>
+      <property name="layout" value="Layout"/>
     </bean>
 
-The view renders the page from a template, then processes the output through
-the layout template.  The following variables are available to the layout
-template:
+The output from the page view is passed to the layout view in the following
+variables:
 
 `contextPathURL`: request context path
 
-`title`: content of the `title` element from the original template output
+`title`: content of the `title` element from the original page output
 
-`body`: content of the `body` element from the original template output
+`body`: content of the `body` element from the original page output
 
-The `body` variable typically contains HTML markup, so the layout must use the
-`data-escape-xml="false"` command to prevent markup characters being escaped
-when rendering the variable.
+The `body` variable typically contains HTML markup, so the layout template must
+use the `data-escape-xml="false"` command to prevent markup characters being
+escaped when rendering the variable.
 
 
 ### Localization
