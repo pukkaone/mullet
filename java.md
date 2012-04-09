@@ -9,17 +9,36 @@ Download the [compiled JAR file](https://github.com/pukkaone/mullet/downloads)
 and add it to your application's class path.
 
 
-## Spring MVC integration
+## Spring MVC Integration
 
 The core distribution includes a Spring view implemention that renders
 templates.
 
 
-### View resolver
+### View
 
-A view consists of a Java model decorator class and a template.  A model
-decorator extends the model passed to the template by adding variables and
-implementing logic for setting those variables.
+A view consists of a model decorator class and a template.  A model decorator
+extends the model passed to the template by adding variables and implementing
+logic for setting those variables.
+
+
+### Model Decorator Class
+
+Define a model decorator class by extending the `ModelDecorator` base class:
+
+    import com.github.pukkaone.mullet.ModelDecorator;
+
+    public class Home extends ModelDecorator {
+        public String getFullName() {
+            return getString("firstName") + " " + getString("lastName");
+        }
+    }
+
+The base class provides the convenience method `getString` to get a model
+value as a String.
+
+
+### View Resolver
 
 A `TemplateViewResolver` resolves a view name to a model decorator class and a
 template.  It finds the model decorator class by looking for a class with the
