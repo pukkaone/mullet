@@ -42,14 +42,14 @@ value as a String.
 
 A `TemplateViewResolver` resolves a view name to a model decorator class and a
 template.  It finds the model decorator class by looking for a class with the
-same name as the view name in the Java package specified by the `viewPackage`
-property.  It finds the template by appending the suffix specified by the
-`suffix` property to the view name and looking for a file with that name in the
-same specified Java package.  If the model decorator class is not found, then
-the view will render the model data to template directly.
+same name as the view name in the Java package specified by the
+`templatePackage` property.  It finds the template by appending the suffix
+specified by the `suffix` property to the view name and looking for a file with
+that name in the same specified Java package.  If the model decorator class is
+not found, then the view will render the model data to template directly.
 
     <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
-      <property name="viewPackage" value="com.example.view"/>
+      <property name="templatePackage" value="com.example.view"/>
       <property name="suffix" value=".html"/>
     </bean>
 
@@ -67,7 +67,7 @@ use as the layout.  Like any other view, the layout view consists of a model
 decorator class and a template.
 
     <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
-      <property name="viewPackage" value="com.example.view"/>
+      <property name="templatePackage" value="com.example.view"/>
       <property name="suffix" value=".html"/>
       <property name="layout" value="Layout"/>
     </bean>
