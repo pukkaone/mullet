@@ -43,10 +43,10 @@ public class OwnerController {
      *            enriched with empty form backing object
      * @return view name
      */
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/search_form", method = RequestMethod.GET)
     public String showSearchForm(Model model) {
         model.addAttribute(new Owner());
-        return "owner/search";
+        return "owner/SearchForm";
     }
 
     /**
@@ -57,7 +57,7 @@ public class OwnerController {
      * @param model
      * @return view name
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(
             @ModelAttribute("owner") Owner owner,
             BindingResult bindingResult,
@@ -75,7 +75,7 @@ public class OwnerController {
         if (owners.size() < 1) {
             // no owners found
             bindingResult.rejectValue("lastName", "notFound", "not found");
-            viewName = "owner/search";
+            viewName = "owner/SearchForm";
         } else if (owners.size() > 1) {
             // multiple owners found
             model.addAttribute("owners", owners);
