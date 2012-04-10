@@ -1,5 +1,16 @@
 package org.springframework.samples.petclinic;
 
+import org.springframework.petclinic.repository.util.EntityUtils;
+
+import org.springframework.petclinic.repository.Clinic;
+
+
+import org.springframework.petclinic.domain.Owner;
+import org.springframework.petclinic.domain.Pet;
+import org.springframework.petclinic.domain.PetType;
+import org.springframework.petclinic.domain.Vet;
+import org.springframework.petclinic.domain.Visit;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -8,7 +19,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 

@@ -21,7 +21,7 @@
 	<!--
 		- The controllers are autodetected POJOs labeled with the @Controller annotation.
 	-->
-	<context:component-scan base-package="org.springframework.samples.petclinic.web"/>
+	<context:component-scan base-package="org.springframework.petclinic.web"/>
 
   <!--
     - Shortcut creates DefaultAnnotationHandlerMapping and
@@ -37,9 +37,9 @@
 	<!--
 		- Configures binding for the entire application.
   -->
-	<bean class="org.springframework.samples.petclinic.util.RequestMappingHandlerAdapterConfigurer">
+	<bean class="org.springframework.petclinic.util.RequestMappingHandlerAdapterConfigurer">
 		<property name="webBindingInitializer">
-			<bean class="org.springframework.samples.petclinic.web.ClinicBindingInitializer"/>
+			<bean class="org.springframework.petclinic.web.ClinicBindingInitializer"/>
 		</property>
 	</bean>
 
@@ -64,7 +64,7 @@
 		- and uses the requested media type to pick a matching view. When the media type is 'text/html',
 		- it will delegate to the InternalResourceViewResolver's JstlView, otherwise to the
 		- BeanNameViewResolver. Note the use of the expression language to refer to the contentType
-		- property of the vets view bean, setting it to 'application/vnd.springsource.samples.petclinic+xml'.
+		- property of the vets view bean, setting it to 'application/vnd.springsource.petclinic+xml'.
 	-->
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="0"/>
@@ -88,7 +88,7 @@
 	-->
   <bean class="com.github.pukkaone.mullet.spring.TemplateViewResolver">
     <property name="order" value="2"/>
-    <property name="templatePackage" value="org.springframework.samples.petclinic.web.view"/>
+    <property name="templatePackage" value="org.springframework.petclinic.web.view"/>
     <property name="suffix" value=".html"/>
     <property name="layout" value="Layout"/>
   </bean>
@@ -96,15 +96,15 @@
 	<!--
 		- The AtomView rendering a Atom feed of the visits
 	 -->
-	<bean id="visits" class="org.springframework.samples.petclinic.web.VisitsAtomView"/>
+	<bean id="visits" class="org.springframework.petclinic.web.VisitsAtomView"/>
 
 	<bean id="vets" class="org.springframework.web.servlet.view.xml.MarshallingView">
-		<property name="contentType" value="application/vnd.springsource.samples.petclinic+xml"/>
+		<property name="contentType" value="application/vnd.springsource.petclinic+xml"/>
 		<property name="marshaller" ref="marshaller"/>
 	</bean>
 
 	<oxm:jaxb2-marshaller id="marshaller">
-		<oxm:class-to-be-bound name="org.springframework.samples.petclinic.Vets"/>
+		<oxm:class-to-be-bound name="org.springframework.petclinic.web.Vets"/>
 	</oxm:jaxb2-marshaller>
 
 	<!--

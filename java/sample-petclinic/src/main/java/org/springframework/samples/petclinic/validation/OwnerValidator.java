@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.validation;
 
-import org.springframework.samples.petclinic.Owner;
+import org.springframework.petclinic.domain.Owner;
+
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 

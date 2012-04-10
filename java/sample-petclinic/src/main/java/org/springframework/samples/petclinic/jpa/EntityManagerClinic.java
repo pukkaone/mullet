@@ -1,17 +1,19 @@
 package org.springframework.samples.petclinic.jpa;
 
+import org.springframework.petclinic.repository.Clinic;
+
+import org.springframework.petclinic.domain.Owner;
+import org.springframework.petclinic.domain.Pet;
+import org.springframework.petclinic.domain.PetType;
+import org.springframework.petclinic.domain.Vet;
+import org.springframework.petclinic.domain.Visit;
+
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.samples.petclinic.Clinic;
-import org.springframework.samples.petclinic.Owner;
-import org.springframework.samples.petclinic.Pet;
-import org.springframework.samples.petclinic.PetType;
-import org.springframework.samples.petclinic.Vet;
-import org.springframework.samples.petclinic.Visit;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataAccessException;

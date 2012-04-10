@@ -3,6 +3,9 @@ package org.springframework.samples.petclinic;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.springframework.petclinic.domain.Owner;
+import org.springframework.petclinic.domain.Pet;
+
 import org.junit.Test;
 
 /**

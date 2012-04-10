@@ -20,6 +20,20 @@
 	</properties>
 
 	<dependencies>
+    <!-- Petclinic -->
+		<dependency>
+			<groupId>org.springframework.samples</groupId>
+			<artifactId>org.springframework.petclinic.repository.jdbc</artifactId>
+			<version>2.1.0.RELEASE</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4J -->
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>com.springsource.org.apache.commons.logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
