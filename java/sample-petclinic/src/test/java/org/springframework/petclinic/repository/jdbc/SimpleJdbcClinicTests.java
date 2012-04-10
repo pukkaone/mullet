@@ -1,8 +1,9 @@
-package org.springframework.samples.petclinic.jdbc;
+package org.springframework.petclinic.repository.jdbc;
+
+import org.springframework.petclinic.repository.AbstractClinicTests;
 
 import org.springframework.petclinic.repository.jdbc.SimpleJdbcClinic;
 
-import org.springframework.samples.petclinic.AbstractClinicTests;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 

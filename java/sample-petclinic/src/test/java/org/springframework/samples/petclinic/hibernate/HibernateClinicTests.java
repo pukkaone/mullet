@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.hibernate;
 
-import org.springframework.samples.petclinic.AbstractClinicTests;
+import org.springframework.petclinic.repository.AbstractClinicTests;
+
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
