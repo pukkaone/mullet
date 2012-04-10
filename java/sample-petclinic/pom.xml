@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>org.springframework.samples</groupId>
 	<artifactId>org.springframework.samples.petclinic</artifactId>
 	<name>petclinic</name>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<properties>
-		<logback.version>0.9.15</logback.version>
-		<slf4j.version>1.5.6</slf4j.version>
-		<spring.version>3.0.6.RELEASE</spring.version>
-	</properties>
-	<dependencies>
 
+	<properties>
+		<logback.version>0.9.28</logback.version>
+		<slf4j.version>1.6.1</slf4j.version>
+		<spring.version>3.1.1.RELEASE</spring.version>
+	</properties>
+
+	<dependencies>
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.context</artifactId>
 			<version>${spring.version}</version>
 			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<!-- Exclude Commons Logging in favor of SLF4J -->
 				<exclusion>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>com.springsource.org.apache.commons.logging</artifactId>
@@ -130,7 +136,7 @@
 			<artifactId>com.springsource.org.hibernate.ejb</artifactId>
 			<version>3.4.0.GA</version>
 			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<!-- Exclude Commons Logging in favor of SLF4J -->
 				<exclusion>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>com.springsource.org.apache.commons.logging</artifactId>
@@ -142,7 +148,7 @@
 			<artifactId>com.springsource.org.hibernate.annotations</artifactId>
 			<version>3.4.0.GA</version>
 			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<!-- Exclude Commons Logging in favor of SLF4J -->
 				<exclusion>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>com.springsource.org.apache.commons.logging</artifactId>
@@ -155,7 +161,7 @@
 			<artifactId>com.springsource.org.apache.openjpa</artifactId>
 			<version>1.1.0</version>
 			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<!-- Exclude Commons Logging in favor of SLF4J -->
 				<exclusion>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>com.springsource.org.apache.commons.logging</artifactId>
@@ -203,7 +209,7 @@
 		<dependency>
 			<groupId>org.junit</groupId>
 			<artifactId>com.springsource.org.junit</artifactId>
-			<version>4.7.0</version>
+			<version>4.10.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -220,6 +226,7 @@
 		</dependency>
 
 	</dependencies>
+
 	<repositories>
 		<repository>
 			<id>local-repository</id>
@@ -232,44 +239,50 @@
       </snapshots>
 			<url>file://${project.basedir}/../core/target/repository</url>
 		</repository>
+
 		<repository>
 			<id>com.springsource.repository.bundles.release</id>
 			<name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/release</url>
 		</repository>
+
 		<repository>
 			<id>com.springsource.repository.bundles.external</id>
 			<name>SpringSource Enterprise Bundle Repository - External Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
+
 		<repository>
 			<id>com.springsource.repository.bundles.milestone</id>
 			<name>SpringSource Enterprise Bundle Repository - SpringSource Milestones</name>
 			<url>http://repository.springsource.com/maven/bundles/milestone</url>
 		</repository>
+
 		<repository>
 			<id>com.springsource.repository.bundles.snapshot</id>
 			<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
 		</repository>
 	</repositories>
+
 	<build>
-        <resources>
-            <resource>
-                <filtering>false</filtering>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <filtering>false</filtering>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-        </resources>
+    <resources>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -277,11 +290,12 @@
 				<version>2.3.2</version>
 				<configuration>
 					<verbose>true</verbose>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -292,6 +306,7 @@
 					</includes>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -300,6 +315,7 @@
 					<warName>petclinic</warName>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>

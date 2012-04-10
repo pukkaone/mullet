@@ -3,17 +3,17 @@ package org.springframework.samples.petclinic.util;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.support.WebBindingInitializer;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 /**
- * Configures the {@link AnnotationMethodHandlerAdapter} instance created by
+ * Configures the {@link RequestMappingHandlerAdapter} instance created by
  * {@code <mvc:annotation-driven/>}.
  */
-public class AnnotationMethodHandlerAdapterConfigurer
+public class RequestMappingHandlerAdapterConfigurer
     implements InitializingBean
 {
     @Autowired
-    private AnnotationMethodHandlerAdapter adapter;
+    private RequestMappingHandlerAdapter adapter;
 
     private WebBindingInitializer webBindingInitializer;
 
