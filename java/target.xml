@@ -174,7 +174,7 @@
 
     <property
         name="repo.jar.dir"
-        value="${repository.dir}/${ant.project.name}/${ant.project.name}/SNAPSHOT"/>
+        value="${repository.dir}/snapshots/com/github/pukkaone/mullet/${ant.project.name}/SNAPSHOT"/>
 
     <mkdir dir="${repo.jar.dir}"/>
 

@@ -5,181 +5,170 @@
     xsi:schemaLocation="
         http://maven.apache.org/POM/4.0.0
         http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.springframework.samples</groupId>
-	<artifactId>org.springframework.samples.petclinic</artifactId>
-	<name>petclinic</name>
-	<packaging>war</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+  <groupId>org.springframework.samples</groupId>
+  <artifactId>org.springframework.samples.petclinic</artifactId>
+  <name>petclinic</name>
+  <packaging>war</packaging>
+  <version>1.0.0-SNAPSHOT</version>
 
-	<properties>
-		<logback.version>0.9.28</logback.version>
-		<slf4j.version>1.6.1</slf4j.version>
-		<spring.version>3.1.1.RELEASE</spring.version>
-	</properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-	<dependencies>
+    <java.source.version>1.6</java.source.version>
+    <logback.version>0.9.28</logback.version>
+    <slf4j.version>1.6.1</slf4j.version>
+    <spring.version>3.1.1.RELEASE</spring.version>
+  </properties>
+
+  <dependencies>
     <!-- Petclinic -->
-		<dependency>
-			<groupId>org.springframework.samples</groupId>
-			<artifactId>org.springframework.petclinic.repository.jdbc</artifactId>
-			<version>2.1.0.RELEASE</version>
-			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4J -->
-				<exclusion>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+    <dependency>
+      <groupId>org.springframework.samples</groupId>
+      <artifactId>org.springframework.petclinic.repository.jdbc</artifactId>
+      <version>2.1.0.RELEASE</version>
+      <exclusions>
+        <!-- Exclude Commons Logging in favor of SLF4J -->
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.context</artifactId>
-			<version>${spring.version}</version>
-			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4J -->
-				<exclusion>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.oxm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.web.servlet</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.aspects</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<!-- AspectJ -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>com.springsource.org.aspectj.weaver</artifactId>
-			<version>1.6.8.RELEASE</version>
-		</dependency>
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.context</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <!-- Exclude Commons Logging in favor of SLF4J -->
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.oxm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.web.servlet</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <!-- AspectJ -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>com.springsource.org.aspectj.weaver</artifactId>
+      <version>1.6.8.RELEASE</version>
+    </dependency>
 
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>com.springsource.slf4j.api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>com.springsource.slf4j.api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>com.springsource.ch.qos.logback.core</artifactId>
       <version>${logback.version}</version>
-			<scope>runtime</scope>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>com.springsource.ch.qos.logback.classic</artifactId>
       <version>${logback.version}</version>
-			<scope>runtime</scope>
+      <scope>runtime</scope>
     </dependency>
 
-		<!-- DataSource -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>com.springsource.org.apache.commons.dbcp</artifactId>
-			<version>1.2.2.osgi</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>com.springsource.org.apache.commons.pool</artifactId>
-			<version>1.5.3</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>com.springsource.org.hsqldb</artifactId>
-			<version>1.8.0.9</version>
-			<scope>runtime</scope>
-		</dependency>
+    <!-- DataSource -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>com.springsource.org.apache.commons.dbcp</artifactId>
+      <version>1.2.2.osgi</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>com.springsource.org.apache.commons.pool</artifactId>
+      <version>1.5.3</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>com.springsource.org.hsqldb</artifactId>
+      <version>1.8.0.9</version>
+      <scope>runtime</scope>
+    </dependency>
 
-		<!-- Servlet -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>com.springsource.javax.servlet</artifactId>
-			<version>2.5.0</version>
-			<scope>provided</scope>
-		</dependency>
+    <!-- template engine -->
+    <dependency>
+      <groupId>com.github.pukkaone.mullet</groupId>
+      <artifactId>mullet-core</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
 
-		<!-- template engine -->
-		<dependency>
-			<groupId>mullet-core</groupId>
-			<artifactId>mullet-core</artifactId>
-			<version>SNAPSHOT</version>
-		</dependency>
+    <!-- Rome RSS -->
+    <dependency>
+      <groupId>com.sun.syndication</groupId>
+      <artifactId>com.springsource.com.sun.syndication</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>com.springsource.org.jdom</artifactId>
+      <version>1.1.0</version>
+      <scope>runtime</scope>
+    </dependency>
 
-		<!-- Rome RSS -->
-		<dependency>
-			<groupId>com.sun.syndication</groupId>
-			<artifactId>com.springsource.com.sun.syndication</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>com.springsource.org.jdom</artifactId>
-			<version>1.1.0</version>
-			<scope>runtime</scope>
-		</dependency>
-				
-		<!-- JAXB -->
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>com.springsource.javax.xml.bind</artifactId>
-			<version>2.1.7</version>
-			<scope>provided</scope>
-		</dependency>
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>org.junit</groupId>
+      <artifactId>com.springsource.org.junit</artifactId>
+      <version>4.10.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>org.springframework.test</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-		<!-- Test dependencies -->
-		<dependency>
-			<groupId>org.junit</groupId>
-			<artifactId>com.springsource.org.junit</artifactId>
-			<version>4.10.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>com.springsource.javax.transaction</artifactId>
-			<version>1.1.0</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>6.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-	</dependencies>
+  </dependencies>
 
-	<repositories>
-		<repository>
-			<id>local-repository</id>
+  <repositories>
+    <repository>
+      <id>local-snapshots</id>
+      <url>file://${project.basedir}/../core/target/repository/snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -187,98 +176,88 @@
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
       </snapshots>
-			<url>file://${project.basedir}/../core/target/repository</url>
-		</repository>
+    </repository>
 
-		<repository>
-			<id>com.springsource.repository.bundles.release</id>
-			<name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/release</url>
-		</repository>
+    <repository>
+      <id>com.springsource.repository.bundles.release</id>
+      <name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/release</url>
+    </repository>
 
-		<repository>
-			<id>com.springsource.repository.bundles.external</id>
-			<name>SpringSource Enterprise Bundle Repository - External Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/external</url>
-		</repository>
+    <repository>
+      <id>com.springsource.repository.bundles.external</id>
+      <name>SpringSource Enterprise Bundle Repository - External Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
 
-		<repository>
-			<id>com.springsource.repository.bundles.milestone</id>
-			<name>SpringSource Enterprise Bundle Repository - SpringSource Milestones</name>
-			<url>http://repository.springsource.com/maven/bundles/milestone</url>
-		</repository>
+    <repository>
+      <id>com.springsource.repository.bundles.milestone</id>
+      <name>SpringSource Enterprise Bundle Repository - SpringSource Milestones</name>
+      <url>http://repository.springsource.com/maven/bundles/milestone</url>
+    </repository>
 
-		<repository>
-			<id>com.springsource.repository.bundles.snapshot</id>
-			<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
-		</repository>
-	</repositories>
+    <repository>
+      <id>com.springsource.repository.bundles.snapshot</id>
+      <name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/snapshot</url>
+    </repository>
+  </repositories>
 
-	<build>
+  <build>
     <resources>
       <resource>
-        <filtering>false</filtering>
         <directory>src/main/resources</directory>
+        <filtering>false</filtering>
       </resource>
       <resource>
-        <filtering>false</filtering>
         <directory>src/main/java</directory>
-        <includes>
-          <include>**</include>
-        </includes>
+        <filtering>false</filtering>
         <excludes>
           <exclude>**/*.java</exclude>
         </excludes>
       </resource>
     </resources>
 
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<verbose>true</verbose>
-					<source>1.6</source>
-					<target>1.6</target>
-					<showWarnings>true</showWarnings>
-				</configuration>
-			</plugin>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>${java.source.version}</source>
+          <target>${java.source.version}</target>
+        </configuration>
+      </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.7.2</version>
-				<configuration>
-					<includes>
-						<include>**/*Tests.java</include>
-					</includes>
-				</configuration>
-			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12</version>
+      </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
-				<configuration>
-					<warName>petclinic</warName>
-				</configuration>
-			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <warName>petclinic</warName>
+        </configuration>
+      </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>install</id>
-						<phase>install</phase>
-						<goals>
-							<goal>sources</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>install</id>
+            <phase>install</phase>
+            <goals>
+              <goal>sources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

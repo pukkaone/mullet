@@ -28,8 +28,8 @@ renders that variable in the `base` element, and I changed the links specified
 by `spring:url` to plain relative URLs.
 
 
-## Add URL properties to model classes
+## Decorators for model classes
 
-I added the properties `editUrl` and `showUrl` to the Owner and Pet classes.
-The entity ID is encoded in these URLs, so templates read these properties to
-render links to actions on specific entity instances.
+I added classes to decorate the Owner and Pet classes with URL properties that
+templates will read to render links to actions performed on those specific
+entity instances.
