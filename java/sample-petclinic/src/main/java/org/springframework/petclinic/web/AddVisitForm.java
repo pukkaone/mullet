@@ -1,13 +1,14 @@
 
 package org.springframework.petclinic.web;
 
+import org.springframework.petclinic.validation.VisitValidator;
+
 import org.springframework.petclinic.repository.Clinic;
 
 import org.springframework.petclinic.domain.Pet;
 import org.springframework.petclinic.domain.Visit;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.validation.VisitValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

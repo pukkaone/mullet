@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.validation;
+package org.springframework.petclinic.validation;
 
 import org.springframework.petclinic.domain.Pet;
 

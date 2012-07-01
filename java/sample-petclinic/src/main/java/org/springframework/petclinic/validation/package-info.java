@@ -5,5 +5,5 @@
  * the Business Layer makes available to the Presentation Layer.
  *
  */
-package org.springframework.samples.petclinic.validation;
+package org.springframework.petclinic.validation;
 

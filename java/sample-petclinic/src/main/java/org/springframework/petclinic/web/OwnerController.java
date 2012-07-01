@@ -1,5 +1,7 @@
 package org.springframework.petclinic.web;
 
+import org.springframework.petclinic.validation.OwnerValidator;
+
 import org.springframework.petclinic.repository.Clinic;
 
 import org.springframework.petclinic.util.BindingResultUtils;
@@ -9,7 +11,6 @@ import org.springframework.petclinic.domain.Owner;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.samples.petclinic.validation.OwnerValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

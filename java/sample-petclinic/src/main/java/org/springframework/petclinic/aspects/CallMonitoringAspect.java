@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.aspects;
+package org.springframework.petclinic.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.springframework.samples</groupId>
-  <artifactId>petclinic</artifactId>
+  <artifactId>petclinic-web</artifactId>
   <packaging>war</packaging>
 
   <name>${project.artifactId}</name>
@@ -205,15 +205,15 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-      </resource>
-      <resource>
         <directory>src/main/java</directory>
         <filtering>false</filtering>
         <excludes>
           <exclude>**/*.java</exclude>
         </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
       </resource>
     </resources>
 

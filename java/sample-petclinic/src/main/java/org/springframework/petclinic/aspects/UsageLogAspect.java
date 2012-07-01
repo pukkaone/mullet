@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.aspects;
+package org.springframework.petclinic.aspects;
 
 import java.util.ArrayList;
 import java.util.Collections;
