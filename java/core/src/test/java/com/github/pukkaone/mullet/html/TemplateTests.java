@@ -47,12 +47,16 @@ import org.xml.sax.SAXException;
 public abstract class TemplateTests {
 
     protected static class Post {
+        private int id;
         private String subject;
         private Date date;
-        
-        public Post(String subject, String date) {
+        private String selected;
+
+        public Post(int id, String subject, String date, String selected) {
+            this.id = id;
             this.subject = subject;
-            
+            this.selected = selected;
+
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 this.date = dateFormat.parse(date);
@@ -60,7 +64,11 @@ public abstract class TemplateTests {
                 throw new RuntimeException("parse", e);
             }
         }
-        
+
+        public int getId() {
+            return id;
+        }
+
         public String getSubject() {
             return subject;
         }
@@ -68,13 +76,17 @@ public abstract class TemplateTests {
         public Date getDate() {
             return date;
         }
+
+        public String getSelected() {
+            return selected;
+        }
     }
 
     protected static final Post[] POSTS = new Post[] {
-        new Post("subject 1", "2011-12-01"),    
-        new Post("subject 2", "2011-12-02"),    
+        new Post(1, "subject 1", "2011-12-01", null),
+        new Post(2, "subject 2", "2011-12-02", "selected"),
     };
-    
+
     protected TemplateLoader loader;
     protected Object data;
     protected HashMap<String, Object> modelMap;
@@ -90,20 +102,20 @@ public abstract class TemplateTests {
         };
         writer = new StringWriter();
     }
-    
+
     protected void setVariable(String variableName, Object value) {
         if (modelMap == null) {
             modelMap = new HashMap<String, Object>();
             data = new DefaultNestedScope(modelMap);
         }
-        
+
         modelMap.put(variableName, value);
     }
-    
+
     protected static String stripNewlines(String input) {
         return input.replaceAll("\\n\\s*", "");
     }
-    
+
     protected String elementToString(String tagName)
         throws IOException, SAXException
     {
@@ -112,14 +124,14 @@ public abstract class TemplateTests {
                 XmlViolationPolicy.ALLOW);
         StringReader reader = new StringReader(inputHtml);
         Document document = parser.parse(new InputSource(reader));
-        
+
         StringWriter output = new StringWriter();
         HtmlSerializer serializer = new HtmlSerializer(output);
         Dom2Sax dom2sax = new Dom2Sax(serializer, serializer);
         dom2sax.parse(document.getElementsByTagName(tagName).item(0));
         return stripNewlines(output.toString());
     }
-    
+
     protected String body() throws IOException, SAXException {
         return elementToString("body");
     }

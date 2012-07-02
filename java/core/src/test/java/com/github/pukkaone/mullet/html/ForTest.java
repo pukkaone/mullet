@@ -38,21 +38,17 @@ import org.xml.sax.SAXException;
 public class ForTest extends TemplateTests {
 
     private static final String EMPTY_LIST_OUTPUT =
-            "<ul>" +
-            "</ul>";
+            "<select>" +
+            "</select>";
 
     private static final String NON_EMPTY_LIST_OUTPUT =
-            "<ul>" +
-              "<li title=\"subject 1\">" +
-                "<span>subject 1</span>" +
-              "</li>" +
-              "<li title=\"subject 2\">" +
-                "<span>subject 2</span>" +
-              "</li>" +
-            "</ul>";
+            "<select>" +
+              "<option value=\"1\">subject 1</option>" +
+              "<option selected=\"selected\" value=\"2\">subject 2</option>" +
+            "</select>";
 
-    private String ul() throws IOException, SAXException {
-        return elementToString("ul");
+    private String select() throws IOException, SAXException {
+        return elementToString("select");
     }
 
     @Test
@@ -62,7 +58,7 @@ public class ForTest extends TemplateTests {
         Template template = loader.load("for.html");
         template.execute(data, writer);
 
-        assertEquals(EMPTY_LIST_OUTPUT, ul());
+        assertEquals(EMPTY_LIST_OUTPUT, select());
     }
 
     @Test
@@ -72,7 +68,7 @@ public class ForTest extends TemplateTests {
         Template template = loader.load("for.html");
         template.execute(data, writer);
 
-        assertEquals(EMPTY_LIST_OUTPUT, ul());
+        assertEquals(EMPTY_LIST_OUTPUT, select());
     }
 
     @Test
@@ -82,7 +78,7 @@ public class ForTest extends TemplateTests {
         Template template = loader.load("for.html");
         template.execute(data, writer);
 
-        assertEquals(EMPTY_LIST_OUTPUT, ul());
+        assertEquals(EMPTY_LIST_OUTPUT, select());
     }
 
     @Test
@@ -92,7 +88,7 @@ public class ForTest extends TemplateTests {
         Template template = loader.load("for.html");
         template.execute(data, writer);
 
-        assertEquals(EMPTY_LIST_OUTPUT, ul());
+        assertEquals(EMPTY_LIST_OUTPUT, select());
     }
 
     @Test
@@ -100,7 +96,7 @@ public class ForTest extends TemplateTests {
         Template template = loader.load("for.html");
         template.execute(data, writer);
 
-        assertEquals(NON_EMPTY_LIST_OUTPUT, ul());
+        assertEquals(NON_EMPTY_LIST_OUTPUT, select());
     }
 
     @Test
@@ -110,7 +106,7 @@ public class ForTest extends TemplateTests {
         Template template = loader.load("for.html");
         template.execute(data, writer);
 
-        assertEquals(NON_EMPTY_LIST_OUTPUT, ul());
+        assertEquals(NON_EMPTY_LIST_OUTPUT, select());
     }
 
     @Test
@@ -121,12 +117,10 @@ public class ForTest extends TemplateTests {
         template.execute(data, writer);
 
         final String EXPECTED_OUTPUT =
-                "<ul>" +
-                  "<li title=\"subject 1\">" +
-                    "<span>subject 1</span>" +
-                  "</li>" +
-                "</ul>";
-        assertEquals(EXPECTED_OUTPUT, ul());
+                "<select>" +
+                  "<option value=\"1\">subject 1</option>" +
+                "</select>";
+        assertEquals(EXPECTED_OUTPUT, select());
     }
 
     @Test
@@ -145,7 +139,7 @@ public class ForTest extends TemplateTests {
                   "<li>green</li>" +
                   "<li>blue</li>" +
                 "</ul>";
-        assertEquals(EXPECTED_OUTPUT, ul());
+        assertEquals(EXPECTED_OUTPUT, elementToString("ul"));
     }
 
     @Test
@@ -179,6 +173,6 @@ public class ForTest extends TemplateTests {
               "<li title=\"subject 1\"></li>" +
               "<li title=\"subject 2\"></li>" +
             "</ul>";
-        assertEquals(EXPECTED_OUTPUT, ul());
+        assertEquals(EXPECTED_OUTPUT, elementToString("ul"));
     }
 }
