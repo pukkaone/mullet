@@ -24,10 +24,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.springframework.petclinic.web.view.owner;
 
+import java.util.List;
 import org.springframework.petclinic.domain.Owner;
 import org.springframework.petclinic.domain.Pet;
-
-import java.util.List;
 
 /**
  * Decorates Owner class with view specific logic.
@@ -106,7 +105,6 @@ public class OwnerDecorator extends Owner {
      * @return URL
      */
     public String getAddPetUrl() {
-        return entityUrl + "/pet/new";
-
+        return "pet/new?ownerId=" + getId();
     }
 }

@@ -1,50 +1,46 @@
 <body>
-  <form data-for="pet" data-action="saveUrl" method="POST">
+  <form data-for="pet" action="pet/save" method="POST">
     <input name="id" data-value="id" type="hidden">
     <h2><span data-if="new">New </span>Pet</h2>
 
-    <p data-for="owner">
+    <div data-for="owner">
       <b>Owner:</b> <span data-text="firstName"></span> <span data-text="lastName"></span>
-    </p>
+      <input name="ownerId" data-value="id" type="hidden">
+    </div>
 
-  <table>
-    <tr>
-      <th>
-        Name: <form:errors path="name" cssClass="errors"/>
-        <br/>
-        <form:input path="name" size="30" maxlength="30"/>
-      </th>
-    </tr>
-    <tr>
-      <th>
-        Birth Date: <form:errors path="birthDate" cssClass="errors"/>
-        <br/>
-        <form:input path="birthDate" size="10" maxlength="10"/> (yyyy-mm-dd)
-      </th>
-    </tr>
-    <tr>
-      <th>
-        Type: <form:errors path="type" cssClass="errors"/>
-        <br/>
-        <form:select path="type" items="${types}"/>
-      </th>
-    </tr>
-    <tr>
-      <td>
-        <c:choose>
-          <c:when test="${pet.new}">
-            <p class="submit"><input type="submit" value="Add Pet"/></p>
-          </c:when>
-          <c:otherwise>
-            <p class="submit"><input type="submit" value="Update Pet"/></p>
-          </c:otherwise>
-        </c:choose>
-      </td>
-    </tr>
-  </table>
-</form>
+    <table>
+      <tr>
+        <th>
+          Name: <span data-for="nameErrors" class="errors"></span>
+          <br>
+          <input name="name" data-value="name" size="30" maxlength="30">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Birth Date: <span data-for="birthDateErrors" class="errors"></span>
+          <br>
+          <input name="birthDate" data-value="birthDate" size="10" maxlength="10"> (yyyy-mm-dd)
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Type: <span data-for="typeErrors" class="errors"></span>
+          <br>
+          <select name="typeId">
+            <option data-for="types" data-attr="selected=selected" data-value="value" data-text="text"></option>
+          </select>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <p class="submit"><input type="submit" value="Save"/></p>
+        </td>
+      </tr>
+    </table>
+  </form>
 
-  <form data-unless="new"  method="DELETE">
+  <form data-unless="new" method="DELETE">
     <p class="submit"><input type="submit" value="Delete Pet"/></p>
   </form>
 
