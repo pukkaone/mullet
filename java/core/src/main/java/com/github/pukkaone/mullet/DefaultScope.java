@@ -54,7 +54,7 @@ public class DefaultScope implements Scope {
     protected static final String CURRENT_OBJECT_NAME = ".";
 
     /**
-     * (data class, variable name) combination used to find variable fetchers
+     * (data class, variable name) combination used to find value fetchers
      * from cache
      */
     protected static class Key {
@@ -74,21 +74,23 @@ public class DefaultScope implements Scope {
         @Override
         public boolean equals(Object other) {
             Key key = (Key) other;
+            // Comparing String references is fine here because the Strings
+            // came from the String.intern() method.
             return dataClass == key.dataClass && name == key.name;
         }
     }
 
-    protected static interface VariableFetcher {
+    protected static interface ValueFetcher {
         Object get(Object data, String name) throws Exception;
     }
 
-    protected static final VariableFetcher THIS_FETCHER = new VariableFetcher() {
+    protected static final ValueFetcher THIS_FETCHER = new ValueFetcher() {
         public Object get(Object data, String name) throws Exception {
             return data;
         }
     };
 
-    protected static final VariableFetcher MAP_FETCHER = new VariableFetcher() {
+    protected static final ValueFetcher MAP_FETCHER = new ValueFetcher() {
         public Object get(Object data, String name) throws Exception {
             Map<?,?> map = (Map<?,?>) data;
             Object value = map.get(name);
@@ -100,8 +102,8 @@ public class DefaultScope implements Scope {
         }
     };
 
-    protected static Map<Key, VariableFetcher> fetcherCache =
-            new ConcurrentHashMap<Key, VariableFetcher>();
+    protected static Map<Key, ValueFetcher> fetcherCache =
+            new ConcurrentHashMap<Key, ValueFetcher>();
 
     private Object data;
 
@@ -109,7 +111,7 @@ public class DefaultScope implements Scope {
         this.data = data;
     }
 
-    protected static VariableFetcher createFetcher(Key key) {
+    protected static ValueFetcher createFetcher(Key key) {
         if (CURRENT_OBJECT_NAME == key.name) {
             return THIS_FETCHER;
         }
@@ -120,7 +122,7 @@ public class DefaultScope implements Scope {
 
         final Method method = getMethod(key.dataClass, key.name);
         if (method != null) {
-            return new VariableFetcher() {
+            return new ValueFetcher() {
                 public Object get(Object data, String name) throws Exception {
                     return method.invoke(data);
                 }
@@ -129,7 +131,7 @@ public class DefaultScope implements Scope {
 
         final Field field = getField(key.dataClass, key.name);
         if (field != null) {
-            return new VariableFetcher() {
+            return new ValueFetcher() {
                 public Object get(Object data, String name) throws Exception {
                     return field.get(data);
                 }
@@ -149,7 +151,7 @@ public class DefaultScope implements Scope {
                 }
                 return method;
             }
-        } catch (Exception e) {
+        } catch (NoSuchMethodException e) {
             // fall through
         }
 
@@ -164,7 +166,7 @@ public class DefaultScope implements Scope {
                 }
                 return method;
             }
-        } catch (Exception e) {
+        } catch (NoSuchMethodException e) {
             // fall through
         }
 
@@ -183,7 +185,7 @@ public class DefaultScope implements Scope {
                 field.setAccessible(true);
             }
             return field;
-        } catch (Exception e) {
+        } catch (NoSuchFieldException e) {
             // fall through
         }
 
@@ -194,8 +196,8 @@ public class DefaultScope implements Scope {
         return null;
     }
 
-    protected VariableFetcher getFetcher(Key key) {
-        VariableFetcher fetcher = fetcherCache.get(key);
+    protected ValueFetcher getFetcher(Key key) {
+        ValueFetcher fetcher = fetcherCache.get(key);
         if (fetcher == null) {
             fetcher = createFetcher(key);
             if (fetcher != null) {
@@ -205,9 +207,9 @@ public class DefaultScope implements Scope {
         return fetcher;
     }
 
-    private Object getValueImpl(String name) {
+    private Object getValueInternal(String name) {
         Key key = new Key(data.getClass(), name);
-        VariableFetcher fetcher = getFetcher(key);
+        ValueFetcher fetcher = getFetcher(key);
         if (fetcher == null) {
             return NOT_FOUND;
         }
@@ -231,12 +233,12 @@ public class DefaultScope implements Scope {
             return fetcher.get(data, name);
         } catch (Exception e) {
             throw new TemplateException(
-                    "Failure fetching variable '" + name + "'", e);
+                    "Failed to get value of variable '" + name + "'", e);
         }
     }
 
     public Object getVariableValue(String name) {
-        Object value = getValueImpl(name);
+        Object value = getValueInternal(name);
         if (value instanceof Callable<?>) {
             try {
                 value = ((Callable<?>) value).call();

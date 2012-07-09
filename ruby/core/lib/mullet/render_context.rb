@@ -14,7 +14,7 @@ module Mullet
     # @param [Object] data
     #           provides data to render
     # @param [Proc] missing_value_strategy
-    #           executed on attempt to render a variable that was not found 
+    #           executed on attempt to render a variable that was not found
     # @param [Proc] nil_value_strategy
     #           executed on attempt to render nil value
     # @param [#<<] output
@@ -34,7 +34,7 @@ module Mullet
     #           input string
     # @return escaped string, or the input string if escaping is disabled.
     def escape_xml(input)
-      return @escape_xml_enabled ? CGI.escape_html(input) : input
+      return @escape_xml_enabled ? CGI.escape_html(input.to_s()) : input
     end
 
     # Resolves variable name to value.

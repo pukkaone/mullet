@@ -1,7 +1,7 @@
 module Mullet; module HTML
 
-  # Renders static markup and text. May end with an unclosed start tag under
-  # the assumption a subsequent static text fragment closes the tag.
+  # Renders static markup and text. May output an unclosed start tag under the
+  # assumption a subsequent static text renderer outputs the matching end tag.
   class StaticTextRenderer
 
     # Constructor

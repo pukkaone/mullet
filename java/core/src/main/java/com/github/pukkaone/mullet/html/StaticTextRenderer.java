@@ -28,23 +28,23 @@ import com.github.pukkaone.mullet.RenderContext;
 import com.github.pukkaone.mullet.Renderer;
 
 /**
- * Renders static markup and text. May end with an unclosed start tag under the
- * assumption a subsequent static text fragment closes the tag.
+ * Renders static markup and text. May output an unclosed start tag under the
+ * assumption a subsequent static text renderer outputs the matching end tag.
  */
 class StaticTextRenderer implements Renderer {
 
     private String text;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param text
      *            rendered tags and text
      */
     StaticTextRenderer(String text) {
         this.text = text;
     }
-    
+
     public void render(RenderContext renderContext) {
         renderContext.write(text);
     }

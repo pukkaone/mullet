@@ -7,25 +7,21 @@ module Mullet; module HTML
     include TemplateTests
 
     EMPTY_LIST_OUTPUT = TemplateTests.strip_new_lines(<<-EOF
-        <ul>
-        </ul>
+        <select>
+        </select>
         EOF
         )
 
     NON_EMPTY_LIST_OUTPUT = TemplateTests.strip_new_lines(<<-EOF
-        <ul>
-          <li title="subject 1">
-            <span>subject 1</span>
-          </li>
-          <li title="subject 2">
-            <span>subject 2</span>
-          </li>
-        </ul>
+        <select>
+          <option value="1">subject 1</option>
+          <option selected value="2">subject 2</option>
+        </select>
         EOF
         )
 
-    def ul()
-      return element_to_string('ul')
+    def select()
+      return element_to_string('select')
     end
 
     def test_missing_value_should_not_render_element()
@@ -34,7 +30,7 @@ module Mullet; module HTML
       template = @loader.load('for.html')
       template.execute(@data, @output)
 
-      assert_equal EMPTY_LIST_OUTPUT, ul() 
+      assert_equal EMPTY_LIST_OUTPUT, select()
     end
 
     def test_nil_value_should_not_render_element()
@@ -43,7 +39,7 @@ module Mullet; module HTML
       template = @loader.load('for.html')
       template.execute(@data, @output)
 
-      assert_equal EMPTY_LIST_OUTPUT, ul() 
+      assert_equal EMPTY_LIST_OUTPUT, select()
     end
 
     def test_empty_array_should_not_render_element()
@@ -52,14 +48,14 @@ module Mullet; module HTML
       template = @loader.load('for.html')
       template.execute(@data, @output)
 
-      assert_equal EMPTY_LIST_OUTPUT, ul() 
+      assert_equal EMPTY_LIST_OUTPUT, select()
     end
 
     def test_nonempty_array_should_render_elements()
       template = @loader.load('for.html')
       template.execute(@data, @output)
 
-      assert_equal NON_EMPTY_LIST_OUTPUT, ul() 
+      assert_equal NON_EMPTY_LIST_OUTPUT, select()
     end
 
     def test_object_should_render_element()
@@ -69,14 +65,12 @@ module Mullet; module HTML
       template.execute(@data, @output)
 
       expected_output = strip_new_lines(<<-EOF
-          <ul>
-            <li title="subject 1">
-              <span>subject 1</span>
-            </li>
-          </ul>
+          <select>
+            <option value="1">subject 1</option>
+          </select>
           EOF
           )
-      assert_equal expected_output, ul() 
+      assert_equal expected_output, select()
     end
 
     def test_this_should_render_current_item()
@@ -93,7 +87,7 @@ module Mullet; module HTML
           </ul>
           EOF
           )
-      assert_equal expected_output, ul() 
+      assert_equal expected_output, element_to_string('ul')
     end
 
     def test_for_remove_tag_should_remove_tag_and_render_content()
@@ -109,7 +103,7 @@ module Mullet; module HTML
           </table>
           EOF
           )
-      assert_equal expected_output, element_to_string('table') 
+      assert_equal expected_output, element_to_string('table')
     end
 
     def test_for_remove_content_should_render_tag_and_remove_content()
@@ -123,7 +117,7 @@ module Mullet; module HTML
           </ul>
           EOF
           )
-      assert_equal expected_output, ul() 
+      assert_equal expected_output, element_to_string('ul')
     end
   end
 

@@ -4,11 +4,13 @@ require 'mullet/html/template_loader'
 module Mullet; module HTML
 
   class Post
-    attr_accessor :subject, :date
+    attr_accessor :id, :subject, :date, :selected
 
-    def initialize(subject, date)
+    def initialize(id, subject, date, selected)
+      @id = id
       @subject = subject
       @date = date
+      @selected = selected
     end
   end
 
@@ -19,8 +21,8 @@ module Mullet; module HTML
     TEMPLATE_PATH = File.join(TEST_JAVA_DIR, 'com/github/pukkaone/mullet/html')
 
     POSTS = [
-      Post.new('subject 1', '2011-12-01'),
-      Post.new('subject 2', '2011-12-02')
+      Post.new(1, 'subject 1', '2011-12-01', nil),
+      Post.new(2, 'subject 2', '2011-12-02', 'selected')
     ]
 
     def setup()
