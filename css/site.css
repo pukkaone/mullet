@@ -1,0 +1,17 @@
+body {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Calibri, sans-serif;
+}
+.hero-unit {
+  background-color: #FEEFB3;
+}
+h1 small {
+  color: #333;
+}
+code {
+  background-color: transparent;
+  border-style: none;
+  padding: 0;
+}
+code, pre {
+  font-family: Menlo, Consolas, monospace;
+}

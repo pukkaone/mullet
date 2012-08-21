@@ -1,39 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='UTF-8'>
+  <meta charset="UTF-8">
   <title>{{ site.title }} - {{ page.title }}</title>
 
   <link rel="shortcut icon" href="/favicon.ico">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Override Bootstrap CSS -->
-  <style type="text/css">
-    body, p {
-      font-family: "Lucida Grande", "Lucida Sans Unicode", Calibri, sans-serif;
-    }
-    .hero-unit {
-      background-color: #FEEFB3;
-    }
-    h1 small {
-      color: #333;
-    }
-    code {
-      background-color: transparent;
-      border-style: none;
-      padding: 0;
-    }
-    code, pre {
-      font-family: Menlo, Consolas, monospace;
-    }
-  </style>
+  <link href="css/site.css" rel="stylesheet">
 
   <!-- syntax highlighting CSS -->
   <link rel="stylesheet" href="css/prettify.css" type="text/css">
 
   <script type="text/javascript" src="js/prettify.js"></script>
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
   <script type="text/javascript">
     $(function() {
@@ -45,7 +27,7 @@
           haveCode = true;
         }
       });
-      
+
       if (haveCode) {
         prettyPrint();
       }
