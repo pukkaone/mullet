@@ -1,8 +1,14 @@
+.navbar-static-top {
+  margin-bottom: 20px;
+}
 body {
   font-family: "Lucida Grande", "Lucida Sans Unicode", Calibri, sans-serif;
 }
 .hero-unit {
   background-color: #FEEFB3;
+}
+.page-header {
+  margin-top: 0;
 }
 h1 small {
   color: #333;
