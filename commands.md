@@ -11,7 +11,7 @@ In this reference, `[ ]` surrounds optional parameters, and
 
 You write commands in specific attributes added to HTML markup.  These
 attributes have names starting with the
-[data- prefix](http://www.w3.org/TR/html5/elements.html#embedding-custom-non-visible-data-with-the-data-attributes).
+[data- prefix](http://www.w3.org/TR/html5/global-attributes.html#custom-data-attribute).
 
 
 ### Namespace
