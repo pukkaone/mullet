@@ -57,7 +57,11 @@ only the variable as the parameter:
 
   * `data-action`
   * `data-alt`
+  * `data-checked`
+  * `data-disabled`
   * `data-href`
+  * `data-readonly`
+  * `data-selected`
   * `data-src`
   * `data-title`
   * `data-value`
