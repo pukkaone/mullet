@@ -25,6 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.github.pukkaone.mullet;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -68,7 +69,7 @@ public class DefaultScope implements Scope {
 
         @Override
         public int hashCode() {
-            return dataClass.hashCode() * 31 + name.hashCode();
+            return dataClass.hashCode() + name.hashCode();
         }
 
         @Override
@@ -81,17 +82,17 @@ public class DefaultScope implements Scope {
     }
 
     protected static interface ValueFetcher {
-        Object get(Object data, String name) throws Exception;
+        Object get(Object data, String name);
     }
 
     protected static final ValueFetcher THIS_FETCHER = new ValueFetcher() {
-        public Object get(Object data, String name) throws Exception {
+        public Object get(Object data, String name) {
             return data;
         }
     };
 
     protected static final ValueFetcher MAP_FETCHER = new ValueFetcher() {
-        public Object get(Object data, String name) throws Exception {
+        public Object get(Object data, String name) {
             Map<?,?> map = (Map<?,?>) data;
             Object value = map.get(name);
             if (value == null && !map.containsKey(name)) {
@@ -123,8 +124,14 @@ public class DefaultScope implements Scope {
         final Method method = getMethod(key.dataClass, key.name);
         if (method != null) {
             return new ValueFetcher() {
-                public Object get(Object data, String name) throws Exception {
-                    return method.invoke(data);
+                public Object get(Object data, String name) {
+                    try {
+                        return method.invoke(data);
+                    } catch (IllegalAccessException e) {
+                        throw new TemplateException("method.invoke", e);
+                    } catch (InvocationTargetException e) {
+                        throw new TemplateException("method.invoke", e);
+                    }
                 }
             };
         }
@@ -132,8 +139,12 @@ public class DefaultScope implements Scope {
         final Field field = getField(key.dataClass, key.name);
         if (field != null) {
             return new ValueFetcher() {
-                public Object get(Object data, String name) throws Exception {
-                    return field.get(data);
+                public Object get(Object data, String name) {
+                    try {
+                        return field.get(data);
+                    } catch (IllegalAccessException e) {
+                        throw new TemplateException("field.get", e);
+                    }
                 }
             };
         }

@@ -61,7 +61,7 @@ public abstract class TemplateTests {
             try {
                 this.date = dateFormat.parse(date);
             } catch (ParseException e) {
-                throw new RuntimeException("parse", e);
+                throw new IllegalArgumentException("parse", e);
             }
         }
 

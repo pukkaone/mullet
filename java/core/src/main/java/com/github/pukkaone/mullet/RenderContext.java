@@ -150,7 +150,7 @@ public class RenderContext {
         try {
             writer.append(str);
         } catch (IOException e) {
-            throw new RuntimeException("append", e);
+            throw new TemplateException("append", e);
         }
 
         return this;
