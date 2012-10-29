@@ -214,6 +214,34 @@ public class AttributeTest extends TemplateTests {
     }
 
     @Test
+    public void checked_command_should_set_checked_attribute() throws Exception {
+        setVariable("exampleChecked", "checked");
+
+        Template template = loader.load("checked.html");
+        template.execute(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>" +
+                  "<input checked=\"checked\">" +
+                "</body>";
+        assertEquals(EXPECTED_OUTPUT, body());
+    }
+
+    @Test
+    public void disabled_command_should_set_disabled_attribute() throws Exception {
+        setVariable("exampleDisabled", "disabled");
+
+        Template template = loader.load("disabled.html");
+        template.execute(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>" +
+                  "<input disabled=\"disabled\">" +
+                "</body>";
+        assertEquals(EXPECTED_OUTPUT, body());
+    }
+
+    @Test
     public void href_command_should_set_href_attribute() throws Exception {
         setVariable("greeting", "add");
 
@@ -223,6 +251,36 @@ public class AttributeTest extends TemplateTests {
         final String EXPECTED_OUTPUT =
                 "<body>" +
                   "<a href=\"add\"></a>" +
+                "</body>";
+        assertEquals(EXPECTED_OUTPUT, body());
+    }
+
+    @Test
+    public void readonly_command_should_set_readonly_attribute() throws Exception {
+        setVariable("exampleReadonly", "readonly");
+
+        Template template = loader.load("readonly.html");
+        template.execute(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>" +
+                  "<input readonly=\"readonly\">" +
+                "</body>";
+        assertEquals(EXPECTED_OUTPUT, body());
+    }
+
+    @Test
+    public void selected_command_should_set_selected_attribute() throws Exception {
+        setVariable("exampleSelected", "selected");
+
+        Template template = loader.load("selected.html");
+        template.execute(data, writer);
+
+        final String EXPECTED_OUTPUT =
+                "<body>" +
+                  "<select>" +
+                    "<option selected=\"selected\"></option>" +
+                  "</select>" +
                 "</body>";
         assertEquals(EXPECTED_OUTPUT, body());
     }

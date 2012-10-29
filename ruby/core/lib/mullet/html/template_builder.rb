@@ -25,12 +25,16 @@ module Mullet; module HTML
         ALT_MESSAGE,
         ATTR,
         ATTR_MESSAGE,
+        CHECKED,
+        DISABLED,
         ESCAPE_XML,
         FOR,
         HREF,
         IF,
         INCLUDE,
+        READONLY,
         REMOVE,
+        SELECTED,
         SRC,
         TEXT,
         TEXT_MESSAGE,
@@ -57,7 +61,7 @@ module Mullet; module HTML
 
       # stack of current containers to add renderers to
       @containers = []
-    
+
       @static_text = ''
       @template = nil
     end

@@ -37,12 +37,16 @@ interface Command {
     static final String ALT_MESSAGE = "alt-message";
     static final String ATTR = "attr";
     static final String ATTR_MESSAGE = "attr-message";
+    static final String CHECKED = "checked";
+    static final String DISABLED = "disabled";
     static final String ESCAPE_XML = "escape-xml";
     static final String FOR = "for";
     static final String HREF = "href";
     static final String IF = "if";
     static final String INCLUDE = "include";
+    static final String READONLY = "readonly";
     static final String REMOVE = "remove";
+    static final String SELECTED = "selected";
     static final String SRC = "src";
     static final String TEXT = "text";
     static final String TEXT_MESSAGE = "text-message";

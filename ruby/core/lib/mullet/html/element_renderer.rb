@@ -18,7 +18,11 @@ module Mullet; module HTML
     CONVENIENT_ATTRIBUTE_COMMANDS = [
         Command::ACTION,
         Command::ALT,
+        Command::CHECKED,
+        Command::DISABLED,
         Command::HREF,
+        Command::READONLY,
+        Command::SELECTED,
         Command::SRC,
         Command::TITLE,
         Command::VALUE ]
@@ -170,7 +174,7 @@ module Mullet; module HTML
 
       escape_xml_value = command_attributes.fetch(Command::ESCAPE_XML, nil)
       if escape_xml_value != nil
-        @escape_xml = escape_xml_value != 'false' 
+        @escape_xml = escape_xml_value != 'false'
       end
     end
 

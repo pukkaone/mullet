@@ -31,7 +31,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_default_prefix_attribute_command_should_set_attribute()
@@ -46,7 +46,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_set_attribute_when_attribute_does_not_exist()
@@ -61,7 +61,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_replace_existing_attribute()
@@ -76,7 +76,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_set_multiple_attributes()
@@ -92,7 +92,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_missing_value_should_remove_attribute()
@@ -107,7 +107,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_nil_value_should_remove_attribute()
@@ -123,7 +123,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_message_command_should_format_message_arguments()
@@ -136,7 +136,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_action_command_should_set_action_attribute()
@@ -152,7 +152,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_alt_command_should_set_alt_attribute()
@@ -167,7 +167,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_alt_message_command_should_set_alt_attribute()
@@ -180,7 +180,37 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
+    end
+
+    def test_checked_command_should_set_checked_attribute()
+      set_variable('exampleChecked', 'checked')
+
+      template = @loader.load('checked.html')
+      template.execute(@data, @output)
+
+      expected_output = strip_new_lines(<<-EOF
+          <body>
+            <input checked>
+          </body>
+          EOF
+          )
+      assert_equal expected_output, body()
+    end
+
+    def test_disabled_command_should_set_disabled_attribute()
+      set_variable('exampleDisabled', 'disabled')
+
+      template = @loader.load('disabled.html')
+      template.execute(@data, @output)
+
+      expected_output = strip_new_lines(<<-EOF
+          <body>
+            <input disabled>
+          </body>
+          EOF
+          )
+      assert_equal expected_output, body()
     end
 
     def test_href_command_should_set_href_attribute()
@@ -195,7 +225,39 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
+    end
+
+    def test_readonly_command_should_set_readonly_attribute()
+      set_variable('exampleReadonly', 'readonly')
+
+      template = @loader.load('readonly.html')
+      template.execute(@data, @output)
+
+      expected_output = strip_new_lines(<<-EOF
+          <body>
+            <input readonly>
+          </body>
+          EOF
+          )
+      assert_equal expected_output, body()
+    end
+
+    def test_selected_command_should_set_selected_attribute()
+      set_variable('exampleSelected', 'selected')
+
+      template = @loader.load('selected.html')
+      template.execute(@data, @output)
+
+      expected_output = strip_new_lines(<<-EOF
+          <body>
+            <select>
+              <option selected></option>
+            </select>
+          </body>
+          EOF
+          )
+      assert_equal expected_output, body()
     end
 
     def test_src_command_should_set_src_attribute()
@@ -210,7 +272,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_title_command_should_set_title_attribute()
@@ -225,7 +287,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_title_message_command_should_set_title_attribute()
@@ -238,7 +300,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_value_command_should_set_value_attribute()
@@ -253,7 +315,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
 
     def test_value_message_command_should_set_value_attribute()
@@ -266,7 +328,7 @@ EOF
           </body>
           EOF
           )
-      assert_equal expected_output, body() 
+      assert_equal expected_output, body()
     end
   end
 

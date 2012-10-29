@@ -41,6 +41,7 @@ import org.xml.sax.ext.DefaultHandler2;
  * Handles SAX events to build a template.
  */
 class TemplateBuilder extends DefaultHandler2 {
+
     private static final HashSet<String> COMMANDS =
             new HashSet<String>(Arrays.asList(
                     Command.ACTION,
@@ -48,12 +49,16 @@ class TemplateBuilder extends DefaultHandler2 {
                     Command.ALT_MESSAGE,
                     Command.ATTR,
                     Command.ATTR_MESSAGE,
+                    Command.CHECKED,
+                    Command.DISABLED,
                     Command.ESCAPE_XML,
                     Command.FOR,
                     Command.HREF,
                     Command.IF,
                     Command.INCLUDE,
+                    Command.READONLY,
                     Command.REMOVE,
+                    Command.SELECTED,
                     Command.SRC,
                     Command.TEXT,
                     Command.TEXT_MESSAGE,

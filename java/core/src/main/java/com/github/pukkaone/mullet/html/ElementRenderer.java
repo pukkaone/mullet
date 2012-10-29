@@ -47,7 +47,11 @@ class ElementRenderer extends Container implements Renderer {
             new String[] {
                 Command.ACTION,
                 Command.ALT,
+                Command.CHECKED,
+                Command.DISABLED,
                 Command.HREF,
+                Command.READONLY,
+                Command.SELECTED,
                 Command.SRC,
                 Command.TITLE,
                 Command.VALUE,
@@ -129,8 +133,9 @@ class ElementRenderer extends Container implements Renderer {
         }
     }
 
-    private void addAttributeMessageCommand(String attributeName,
-            String messageArguments) {
+    private void addAttributeMessageCommand(
+            String attributeName, String messageArguments)
+    {
         attributeCommands.add(
                 new MessageAttributeCommand(
                         attributeName, new Message(messageArguments)));
