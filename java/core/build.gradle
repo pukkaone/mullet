@@ -1,0 +1,88 @@
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'javax.servlet:servlet-api:2.5'
+    compile 'org.springframework:spring-webmvc:3.1.2.RELEASE'
+    testCompile 'junit:junit:4.10'
+    testCompile 'nu.validator.htmlparser:htmlparser:1.4'
+}
+
+sourceSets.test.resources.srcDir 'src/test/java'
+archivesBaseName = 'mullet-core'
+
+// Gets version from tag.
+def readVersion() {
+    def output = new ByteArrayOutputStream()
+    def result = exec {
+        commandLine = ['git', 'describe']
+        standardOutput = output
+        ignoreExitValue = true
+    }
+    def version = (result.getExitValue() == 0) ?
+            output.toString().trim() : 'UNKNOWN'
+    println "Version ${version}"
+    return version
+}
+
+// Gets build number by counting commits to tag named 'build'.
+def readBuildNumber() {
+    def output = new ByteArrayOutputStream()
+    def result = exec {
+        commandLine = ['git', 'describe', '--match', 'build']
+        standardOutput = output
+        ignoreExitValue = true
+    }
+    def buildNumber = (result.getExitValue() == 0) ?
+            output.toString().split('-')[1] : 'UNKNOWN'
+    println "Build number ${buildNumber}"
+    return buildNumber
+}
+
+def assignVersion() {
+    ext.version = readVersion()
+    ext.buildNumber = readBuildNumber()
+    project.version = "${ext.version}.${ext.buildNumber}".toString()
+}
+
+afterEvaluate { project ->
+    assignVersion()
+
+    jar {
+        manifest {
+            attributes('Implementation-Version': project.version)
+        }
+    }
+}
+
+jar.doLast {
+    copy {
+       from("${buildDir}/libs") {
+           rename archiveName, "${archivesBaseName}-SNAPSHOT.jar"
+       }
+       into("${buildDir}/libs")
+    }
+}
+
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
+eclipse.classpath.file {
+    whenMerged { classpath ->
+        classpath.entries.findAll {
+            it instanceof SourceFolder &&
+            it.path.startsWith('src/main/')
+        }*.output = 'build/classes/main'
+
+        classpath.entries.findAll {
+            it instanceof SourceFolder &&
+            it.path.startsWith('src/test/')
+        }*.output = 'build/classes/test'
+    }
+}

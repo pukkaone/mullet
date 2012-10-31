@@ -1,0 +1,64 @@
+apply plugin: 'eclipse'
+apply plugin: 'jetty'
+
+sourceCompatibility = 1.6
+ext {
+    logbackVersion = '0.9.28'
+    slf4jVersion = '1.6.1'
+    springVersion = '3.1.2.RELEASE'
+}
+
+repositories {
+    flatDir {
+        dirs "${projectDir}/../core/build/libs"
+    }
+    mavenLocal()
+    maven {
+        url 'http://repository.springsource.com/maven/bundles/release'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+    compile "ch.qos.logback:logback-core:${logbackVersion}"
+    compile 'com.github.pukkaone.mullet:mullet-core:SNAPSHOT'
+    compile 'com.kenai.nbpwr:com-sun-syndication-feed:1.0-201002241208'
+    compile 'commons-dbcp:commons-dbcp:1.4'
+    compile 'org.aspectj:aspectjweaver:1.7.1'
+    providedCompile 'org.jboss.spec:jboss-javaee-6.0:1.0.0.Final'
+    compile "org.springframework:spring-aspects:${springVersion}"
+    compile "org.springframework:spring-jdbc:${springVersion}"
+    compile "org.springframework:spring-orm:${springVersion}"
+    compile "org.springframework:spring-oxm:${springVersion}"
+    compile("org.springframework:spring-webmvc:${springVersion}") {
+        exclude module: 'commons-logging'
+    }
+    compile 'org.springframework.samples:org.springframework.petclinic.repository.jdbc:2.1.0.RELEASE'
+    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+
+    testCompile 'junit:junit:4.10'
+    testCompile "org.springframework:spring-test:${springVersion}"
+
+    runtime 'org.hibernate:hibernate-validator:4.3.0.Final'
+    runtime 'org.hsqldb:hsqldb:1.8.0.10'
+}
+
+sourceSets.main.resources.srcDir 'src/main/java'
+
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
+eclipse.classpath.file {
+    whenMerged { classpath ->
+        classpath.entries.findAll {
+            it instanceof SourceFolder &&
+            it.path.startsWith('src/main/')
+        }*.output = 'build/classes/main'
+
+        classpath.entries.findAll {
+            it instanceof SourceFolder &&
+            it.path.startsWith('src/test/')
+        }*.output = 'build/classes/test'
+    }
+}
