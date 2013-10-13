@@ -19,14 +19,16 @@ repositories {
     mavenCentral()
 }
 
+configurations.all {
+  resolutionStrategy.force 'xalan:xalan:2.7.1'
+}
+
 dependencies {
-    compile "ch.qos.logback:logback-classic:${logbackVersion}"
-    compile "ch.qos.logback:logback-core:${logbackVersion}"
     compile 'com.github.pukkaone.mullet:mullet-core:SNAPSHOT'
     compile 'com.kenai.nbpwr:com-sun-syndication-feed:1.0-201002241208'
     compile 'commons-dbcp:commons-dbcp:1.4'
     compile 'org.aspectj:aspectjweaver:1.7.1'
-    providedCompile 'org.jboss.spec:jboss-javaee-6.0:1.0.0.Final'
+    providedCompile 'org.jboss.spec:jboss-javaee-6.0:3.0.2.Final'
     compile "org.springframework:spring-aspects:${springVersion}"
     compile "org.springframework:spring-jdbc:${springVersion}"
     compile "org.springframework:spring-orm:${springVersion}"
@@ -35,17 +37,22 @@ dependencies {
         exclude module: 'commons-logging'
     }
     compile 'org.springframework.samples:org.springframework.petclinic.repository.jdbc:2.1.0.RELEASE'
-    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
 
     testCompile 'junit:junit:4.10'
     testCompile "org.springframework:spring-test:${springVersion}"
 
-    runtime 'org.hibernate:hibernate-validator:4.3.0.Final'
+    runtime "ch.qos.logback:logback-classic:${logbackVersion}"
+    runtime "ch.qos.logback:logback-core:${logbackVersion}"
     runtime 'org.hsqldb:hsqldb:1.8.0.10'
+    runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
 }
 
 sourceSets.main.resources.srcDir 'src/main/java'
+
+test {
+  include '**/*Test.class'
+}
 
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
