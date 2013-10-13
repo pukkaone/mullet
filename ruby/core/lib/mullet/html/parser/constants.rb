@@ -136,21 +136,6 @@ module Mullet; module HTML; module Parser
       h6
   ]
 
-  # XXX What about event-source and command?
-  VOID_ELEMENTS = %w[
-      base
-      link
-      meta
-      hr
-      br
-      img
-      embed
-      param
-      area
-      col
-      input
-  ]
-
   CDATA_ELEMENTS = %w[title textarea]
 
   RCDATA_ELEMENTS = %w[
