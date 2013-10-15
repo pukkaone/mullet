@@ -1,11 +1,15 @@
-.navbar-static-top {
-  margin-bottom: 20px;
-}
-body {
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Lucida Grande", "Lucida Sans Unicode", Calibri, sans-serif;
 }
-.hero-unit {
+.jumbotron {
   background-color: #FEEFB3;
+}
+.jumbotron h1 {
+  margin-top: 0;
+}
+.jumbotron li {
+  line-height: 1.5;
+  margin-top: 1em;
 }
 .page-header {
   margin-top: 0;
