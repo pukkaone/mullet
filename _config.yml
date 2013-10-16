@@ -3,5 +3,6 @@ markdown: redcarpet
 #
 # site configuration
 #
-url: http://pukkaone.github.com/mullet
+baseurl: /mullet
+url: http://pukkaone.github.io/mullet
 title: Mullet
